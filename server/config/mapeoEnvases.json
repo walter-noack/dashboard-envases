@@ -1,0 +1,76 @@
+{
+  "_comentario": "Mapeo de (grupoLineas + tipoEnvase) a nombre de envase en BD",
+  "_actualizado": "2025-01-19",
+
+  "reglasGenerales": {
+    "_comentario": "Reglas que aplican a cualquier grupo",
+    "GRANEL": null,
+    "BLOQUE (PAN)": "Grasa balde",
+    "CAJA 10 CARTRIDG": "Lub 1 L",
+    "CAJA 40 CARTRIDG": "Lub 1 L"
+  },
+
+  "porGrupo": {
+    "1. Lubricantes": {
+      "TAMBOR": "LUB Tambor",
+      "BALDE": "Lub Balde",
+      "CUÑETE": "LUB Cuñete",
+      "CONTENEDOR (BIN)": "LUB Bins",
+      "CAJA 12 UNIDADES": "Lub 1 L",
+      "CAJA 6 UNIDADES": "Lub 1 L",
+      "CAJA 4 UNIDADES": "Lub 4 L",
+      "CAJA 3 UNIDADES": "Lub 4 L",
+      "CAJA 24 UNIDADES": "Lub 1/2 L",
+      "CAJA": "Grasa 2,5 kg"
+    },
+
+    "2. Aguas y Cuidado": {
+      "TAMBOR": "Agua Tambor",
+      "CONTENEDOR (BIN)": "Agua Bins",
+      "CAJA 12 UNIDADES": "Agua 1 L",
+      "PACK 4 UNIDADES": "Agua 5 L",
+      "PACK 12 UNIDADES": null
+    },
+
+    "3. Refrigerantes": {
+      "BALDE": "Anticongelante balde",
+      "TAMBOR": "Anticongelante Tambor",
+      "CONTENEDOR (BIN)": "Anticongelante Bins",
+      "CAJA 12 UNIDADES": "Anticongelante 1 L",
+      "CAJA 4 UNIDADES": "Anticongelante 4 L"
+    },
+
+    "5. Procesos": {
+      "TAMBOR": "LUB Tambor",
+      "BALDE": "Lub Balde",
+      "CONTENEDOR (BIN)": "LUB Bins"
+    },
+
+    "7. Ancillaries": {
+      "BALDE": "Lub Balde",
+      "TAMBOR": "LUB Tambor",
+      "CAJA 24 UNIDADES": "Lub 355 cc",
+      "CAJA 12 UNIDADES": "Lub 1 L"
+    },
+
+    "9. Biodegradables": {
+      "TAMBOR": "LUB Tambor",
+      "BALDE": "Lub Balde",
+      "CAJA 4 UNIDADES": "Lub 4 L",
+      "PACK 4 UNIDADES": "Lub 4 L"
+    },
+
+    "[NULL]": {
+      "TAMBOR": "LUB Tambor",
+      "CUÑETE": "LUB Cuñete",
+      "BALDE": "Lub Balde"
+    }
+  },
+
+  "excepcionesPorNombre": {
+    "_comentario": "Productos específicos que no deben mapearse (por nombre parcial)",
+    "2. Aguas y Cuidado": {
+      "excluir": ["CERA", "SILICONA"]
+    }
+  }
+}
