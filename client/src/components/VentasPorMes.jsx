@@ -61,7 +61,19 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
 
     return (
         <div style={styles.container}>
-            <h3 style={styles.title}>📋 Ventas Detalladas por Mes con Residuos</h3>
+            <style>
+                {`
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    @keyframes shimmer {
+                        0% { background-position: -200% 0; }
+                        100% { background-position: 200% 0; }
+                    }
+                `}
+            </style>
+            <h3 style={styles.title}>Ventas Detalladas por Mes con Residuos</h3>
 
             <div style={styles.filters}>
                 <div style={styles.filterGroup}>
@@ -95,12 +107,32 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
                 </div>
             </div>
 
-            {loading && <div style={styles.loading}>⏳ Cargando ventas y calculando residuos...</div>}
-            {error && <div style={styles.error}>{error}</div>}
+            <div style={styles.contentArea}>
+                {loading && (
+                    <div style={styles.loadingContainer}>
+                        <div style={styles.skeletonSummary}>
+                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
+                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
+                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
+                        </div>
+                        <div style={styles.loadingMessage}>
+                            <div style={styles.spinner}></div>
+                            <span>Cargando ventas y calculando residuos...</span>
+                        </div>
+                        <div style={styles.skeletonTable}>
+                            {[...Array(8)].map((_, i) => (
+                                <div key={i} style={styles.skeletonRow}>
+                                    <div style={styles.shimmer}></div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                {error && <div style={styles.error}>{error}</div>}
 
-            {!loading && !error && productos.length === 0 && (
-                <div style={styles.empty}>📭 No hay ventas registradas para este mes</div>
-            )}
+                {!loading && !error && productos.length === 0 && (
+                    <div style={styles.empty}>No hay ventas registradas para este mes</div>
+                )}
 
             {!loading && !error && productos.length > 0 && totales && (
                 <>
@@ -175,6 +207,7 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
                     </div>
                 </>
             )}
+            </div>
         </div>
     );
 };
@@ -185,8 +218,10 @@ const styles = {
         backgroundColor: 'white',
         borderRadius: '8px',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        marginBottom: '20px',
-        minHeight: '800px'
+        marginBottom: '20px'
+    },
+    contentArea: {
+        minHeight: '700px'
     },
     title: {
         marginTop: 0,
@@ -227,7 +262,9 @@ const styles = {
         padding: '10px',
         fontSize: '14px',
         border: '1px solid #ccc',
-        borderRadius: '4px'
+        borderRadius: '4px',
+        backgroundColor: 'white',
+        color: '#333'
     },
     summary: {
         display: 'grid',
@@ -267,10 +304,60 @@ const styles = {
         marginTop: '8px',
         lineHeight: '1.4'
     },
-    loading: {
-        padding: '40px',
-        textAlign: 'center',
-        color: '#666'
+    loadingContainer: {
+        minHeight: '700px'
+    },
+    skeletonSummary: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '15px',
+        marginBottom: '20px'
+    },
+    skeletonCard: {
+        height: '100px',
+        backgroundColor: '#f0f0f0',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        position: 'relative'
+    },
+    loadingMessage: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '12px',
+        padding: '20px',
+        color: '#666',
+        fontSize: '16px'
+    },
+    spinner: {
+        width: '24px',
+        height: '24px',
+        border: '3px solid #e0e0e0',
+        borderTop: '3px solid #4CAF50',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+    },
+    skeletonTable: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px'
+    },
+    skeletonRow: {
+        height: '45px',
+        backgroundColor: '#f5f5f5',
+        borderRadius: '4px',
+        overflow: 'hidden',
+        position: 'relative'
+    },
+    shimmer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+        backgroundSize: '200% 100%',
+        animation: 'shimmer 1.5s infinite'
     },
     error: {
         padding: '20px',
@@ -280,9 +367,13 @@ const styles = {
         border: '1px solid #f5c6cb'
     },
     empty: {
-        padding: '40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '600px',
         textAlign: 'center',
-        color: '#999'
+        color: '#999',
+        fontSize: '16px'
     },
     tableContainer: {
         overflowX: 'auto',

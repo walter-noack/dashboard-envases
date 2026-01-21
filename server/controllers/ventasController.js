@@ -311,3 +311,59 @@ exports.getResumenResiduosPorClasificacion = async (req, res) => {
     });
   }
 };
+
+// Limpiar ventas por período (año y mes)
+exports.limpiarPorPeriodo = async (req, res) => {
+  try {
+    const { año, mes } = req.body;
+
+    if (!año) {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requiere el parámetro año'
+      });
+    }
+
+    const filtro = { año: parseInt(año) };
+    if (mes) {
+      filtro.mes = parseInt(mes);
+    }
+
+    const resultado = await Venta.deleteMany(filtro);
+
+    res.json({
+      success: true,
+      message: mes
+        ? `Se eliminaron ${resultado.deletedCount} registros de ${mes}/${año}`
+        : `Se eliminaron ${resultado.deletedCount} registros del año ${año}`,
+      eliminados: resultado.deletedCount
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al limpiar datos',
+      error: error.message
+    });
+  }
+};
+
+// Limpiar todos los datos de ventas
+exports.limpiarTodo = async (req, res) => {
+  try {
+    const resultado = await Venta.deleteMany({});
+
+    res.json({
+      success: true,
+      message: `Se eliminaron todos los datos (${resultado.deletedCount} registros)`,
+      eliminados: resultado.deletedCount
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al limpiar todos los datos',
+      error: error.message
+    });
+  }
+};

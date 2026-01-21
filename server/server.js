@@ -13,6 +13,8 @@ const connectDB = require('./config/database');
 const ventasRoutes = require('./routes/ventas');
 const uploadRoutes = require('./routes/upload');
 const envasesRoutes = require('./routes/envases');
+const authRoutes = require('./routes/auth');
+const authMiddleware = require('./middleware/auth');
 
 const app = express();
 
@@ -33,10 +35,13 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rutas
-app.use('/api/ventas', ventasRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/envases', envasesRoutes);
+// Rutas públicas (sin autenticación)
+app.use('/api/auth', authRoutes);
+
+// Rutas protegidas (requieren autenticación)
+app.use('/api/ventas', authMiddleware, ventasRoutes);
+app.use('/api/upload', authMiddleware, uploadRoutes);
+app.use('/api/envases', authMiddleware, envasesRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {

@@ -35,17 +35,21 @@ export const getTopProductos = async (año = 2024, limite = 10) => {
 };
 
 // Subir archivo Excel
-export const uploadExcel = async (file) => {
+export const uploadExcel = async (file, onUploadProgress) => {
   try {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     const response = await api.post('/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
-      }
+      },
+      onUploadProgress: onUploadProgress ? (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        onUploadProgress(percentCompleted);
+      } : undefined
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error subiendo archivo:', error);
@@ -90,6 +94,31 @@ export const getResumenResiduosPorClasificacion = async (año = 2024, mes = 1) =
     return response.data;
   } catch (error) {
     console.error('Error obteniendo resumen por clasificación:', error);
+    throw error;
+  }
+};
+
+// Limpiar ventas por período (año y opcionalmente mes)
+export const limpiarPorPeriodo = async (año, mes = null) => {
+  try {
+    const body = { año };
+    if (mes) body.mes = mes;
+
+    const response = await api.delete('/ventas/limpiar-periodo', { data: body });
+    return response.data;
+  } catch (error) {
+    console.error('Error limpiando datos por período:', error);
+    throw error;
+  }
+};
+
+// Limpiar todos los datos de ventas
+export const limpiarTodo = async () => {
+  try {
+    const response = await api.delete('/ventas/limpiar-todo');
+    return response.data;
+  } catch (error) {
+    console.error('Error limpiando todos los datos:', error);
     throw error;
   }
 };

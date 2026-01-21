@@ -16,4 +16,10 @@ router.get('/con-residuos', ventasController.getVentasConResiduos);
 
 router.get('/residuos-clasificacion', ventasController.getResumenResiduosPorClasificacion);
 
+// DELETE /api/ventas/limpiar-periodo - Limpiar ventas por período
+router.delete('/limpiar-periodo', ventasController.limpiarPorPeriodo);
+
+// DELETE /api/ventas/limpiar-todo - Limpiar todas las ventas
+router.delete('/limpiar-todo', ventasController.limpiarTodo);
+
 module.exports = router;

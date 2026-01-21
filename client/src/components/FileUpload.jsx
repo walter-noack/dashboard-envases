@@ -4,6 +4,7 @@ import { uploadExcel } from '../services/ventasService';
 const FileUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [message, setMessage] = useState({ type: '', text: '' });
 
   const handleFileChange = (e) => {
@@ -21,10 +22,13 @@ const FileUpload = ({ onUploadSuccess }) => {
     }
 
     setUploading(true);
+    setUploadProgress(0);
     setMessage({ type: '', text: '' });
 
     try {
-      const result = await uploadExcel(file);
+      const result = await uploadExcel(file, (progress) => {
+        setUploadProgress(progress);
+      });
       setMessage({ 
         type: 'success', 
         text: `✅ ${result.data.registrosInsertados} registros cargados correctamente` 
@@ -78,6 +82,20 @@ const FileUpload = ({ onUploadSuccess }) => {
         >
           {uploading ? '⏳ Cargando...' : '📤 Subir Excel'}
         </button>
+
+        {uploading && (
+          <div style={styles.progressContainer}>
+            <div style={styles.progressBar}>
+              <div
+                style={{
+                  ...styles.progressFill,
+                  width: `${uploadProgress}%`
+                }}
+              />
+            </div>
+            <span style={styles.progressText}>{uploadProgress}%</span>
+          </div>
+        )}
       </div>
 
       {message.text && (
@@ -150,6 +168,31 @@ const styles = {
     backgroundColor: '#f8d7da',
     color: '#721c24',
     border: '1px solid #f5c6cb'
+  },
+  progressContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginTop: '10px'
+  },
+  progressBar: {
+    flex: 1,
+    height: '20px',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '10px',
+    overflow: 'hidden'
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4CAF50',
+    transition: 'width 0.3s ease',
+    borderRadius: '10px'
+  },
+  progressText: {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: '#333',
+    minWidth: '40px'
   }
 };
 
