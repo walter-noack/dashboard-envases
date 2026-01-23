@@ -1,423 +1,445 @@
 import { useState, useEffect } from 'react';
 import { getVentasConResiduos } from '../services/ventasService';
+import {
+  Calendar,
+  Search,
+  Package,
+  Recycle,
+  AlertTriangle,
+  Loader2,
+  ShoppingCart
+} from 'lucide-react';
 
-// Formato: punto para miles, coma para decimales
 const formatNumber = (num, decimals = 2) => {
-    if (num === null || num === undefined) return '-';
-    return num.toLocaleString('es-CL', {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-    });
+  if (num === null || num === undefined) return '-';
+  return num.toLocaleString('es-CL', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
 };
 
 const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
-    const [mesSeleccionado, setMesSeleccionado] = useState(1);
-    const [productos, setProductos] = useState([]);
-    const [totales, setTotales] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [busqueda, setBusqueda] = useState('');
+  const [mesSeleccionado, setMesSeleccionado] = useState(1);
+  const [productos, setProductos] = useState([]);
+  const [totales, setTotales] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [busqueda, setBusqueda] = useState('');
 
-    const meses = [
-        { num: 1, nombre: 'Enero' },
-        { num: 2, nombre: 'Febrero' },
-        { num: 3, nombre: 'Marzo' },
-        { num: 4, nombre: 'Abril' },
-        { num: 5, nombre: 'Mayo' },
-        { num: 6, nombre: 'Junio' },
-        { num: 7, nombre: 'Julio' },
-        { num: 8, nombre: 'Agosto' },
-        { num: 9, nombre: 'Septiembre' },
-        { num: 10, nombre: 'Octubre' },
-        { num: 11, nombre: 'Noviembre' },
-        { num: 12, nombre: 'Diciembre' }
-    ];
+  const meses = [
+    { num: 1, nombre: 'Enero' },
+    { num: 2, nombre: 'Febrero' },
+    { num: 3, nombre: 'Marzo' },
+    { num: 4, nombre: 'Abril' },
+    { num: 5, nombre: 'Mayo' },
+    { num: 6, nombre: 'Junio' },
+    { num: 7, nombre: 'Julio' },
+    { num: 8, nombre: 'Agosto' },
+    { num: 9, nombre: 'Septiembre' },
+    { num: 10, nombre: 'Octubre' },
+    { num: 11, nombre: 'Noviembre' },
+    { num: 12, nombre: 'Diciembre' }
+  ];
 
-    useEffect(() => {
-        fetchVentasConResiduos();
-    }, [año, mesSeleccionado, refreshTrigger]);
+  useEffect(() => {
+    fetchVentasConResiduos();
+  }, [año, mesSeleccionado, refreshTrigger]);
 
-    const fetchVentasConResiduos = async () => {
-        setLoading(true);
-        setError(null);
+  const fetchVentasConResiduos = async () => {
+    setLoading(true);
+    setError(null);
 
-        try {
-            const response = await getVentasConResiduos(año, mesSeleccionado);
-            setProductos(response.data);
-            setTotales(response.totales);
-        } catch (err) {
-            setError('Error cargando ventas del mes');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      const response = await getVentasConResiduos(año, mesSeleccionado);
+      setProductos(response.data);
+      setTotales(response.totales);
+    } catch (err) {
+      setError('Error cargando ventas del mes');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // Filtrar productos por búsqueda
-    const productosFiltrados = productos.filter(producto =>
-        producto.sku.toLowerCase().includes(busqueda.toLowerCase()) ||
-        producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
-    );
+  const productosFiltrados = productos.filter(producto =>
+    producto.sku.toLowerCase().includes(busqueda.toLowerCase()) ||
+    producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
-    return (
-        <div style={styles.container}>
-            <style>
-                {`
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                    @keyframes shimmer {
-                        0% { background-position: -200% 0; }
-                        100% { background-position: 200% 0; }
-                    }
-                `}
-            </style>
-            <h3 style={styles.title}>Ventas Detalladas por Mes con Residuos</h3>
+  return (
+    <div style={styles.container}>
+      <div style={styles.header}>
+        <h3 style={styles.title}>Ventas Detalladas por Mes</h3>
+        <p style={styles.description}>Productos con cálculo de residuos</p>
+      </div>
 
-            <div style={styles.filters}>
-                <div style={styles.filterGroup}>
-                    <label style={styles.label}>
-                        Mes:
-                        <select
-                            value={mesSeleccionado}
-                            onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
-                            style={styles.select}
-                        >
-                            {meses.map(mes => (
-                                <option key={mes.num} value={mes.num}>
-                                    {mes.nombre}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-                </div>
-
-                <div style={styles.filterGroup}>
-                    <label style={styles.label}>
-                        Buscar:
-                        <input
-                            type="text"
-                            placeholder="SKU o nombre del producto..."
-                            value={busqueda}
-                            onChange={(e) => setBusqueda(e.target.value)}
-                            style={styles.searchInput}
-                        />
-                    </label>
-                </div>
-            </div>
-
-            <div style={styles.contentArea}>
-                {loading && (
-                    <div style={styles.loadingContainer}>
-                        <div style={styles.skeletonSummary}>
-                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-                            <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-                        </div>
-                        <div style={styles.loadingMessage}>
-                            <div style={styles.spinner}></div>
-                            <span>Cargando ventas y calculando residuos...</span>
-                        </div>
-                        <div style={styles.skeletonTable}>
-                            {[...Array(8)].map((_, i) => (
-                                <div key={i} style={styles.skeletonRow}>
-                                    <div style={styles.shimmer}></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-                {error && <div style={styles.error}>{error}</div>}
-
-                {!loading && !error && productos.length === 0 && (
-                    <div style={styles.empty}>No hay ventas registradas para este mes</div>
-                )}
-
-            {!loading && !error && productos.length > 0 && totales && (
-                <>
-                    <div style={styles.summary}>
-                        <div style={styles.summaryCard}>
-                            <div style={styles.summaryLabel}>Productos</div>
-                            <div style={styles.summaryValue}>{formatNumber(totales.productos, 0)}</div>
-                        </div>
-                        <div style={{ ...styles.summaryCard, ...styles.summaryCardResiduos }}>
-                            <div style={styles.summaryLabel}>Residuos Totales</div>
-                            <div style={styles.summaryValue}>{formatNumber(totales.residuosTotales)} kg</div>
-                            <div style={styles.summaryDetail}>
-                                Plásticos: {formatNumber(totales.plasticos)} kg<br />
-                                Papel/Cartón: {formatNumber(totales.papelCarton)} kg<br />
-                                Metales: {formatNumber(totales.metales)} kg
-                            </div>
-                        </div>
-                        {totales.productosSinMapeo > 0 && (
-                            <div style={{ ...styles.summaryCard, ...styles.summaryCardWarning }}>
-                                <div style={styles.summaryLabel}>Sin Mapeo</div>
-                                <div style={styles.summaryValue}>{totales.productosSinMapeo}</div>
-                                <div style={styles.summaryDetail}>productos sin datos de residuos</div>
-                            </div>
-                        )}
-                    </div>
-
-                    <div style={styles.tableContainer}>
-                        <table style={styles.table}>
-                            <thead>
-                                <tr>
-                                    <th style={styles.th}>#</th>
-                                    <th style={styles.th}>SKU</th>
-                                    <th style={styles.th}>Producto</th>
-                                    <th style={styles.th}>Envase</th>
-                                    <th style={styles.th}>Volumen (L)</th>
-                                    <th style={styles.th}>Unidades</th>
-                                    <th style={styles.th}>Tipo Envase</th>
-                                    <th style={styles.th}>Residuos (kg)</th>
-                                    <th style={styles.th}>Plásticos (kg)</th>
-                                    <th style={styles.th}>Papel (kg)</th>
-                                    <th style={styles.th}>Metales (kg)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {productosFiltrados.map((producto, index) => (
-                                    <tr key={producto.sku} style={index % 2 === 0 ? styles.trEven : styles.trOdd}>
-                                        <td style={styles.td}>{index + 1}</td>
-                                        <td style={styles.td}>{producto.sku}</td>
-                                        <td style={styles.td}>{producto.nombre}</td>
-                                        <td style={styles.td}>{producto.envase}</td>
-                                        <td style={styles.td}>{formatNumber(producto.volumen)}</td>
-                                        <td style={styles.td}>{formatNumber(producto.unidades, 0)}</td>
-                                        <td style={styles.td}>
-                                            {producto.tipoEnvaseMapeado || <span style={styles.sinDatos}>Sin mapeo</span>}
-                                        </td>
-                                        <td style={producto.residuos ? styles.td : styles.tdSinDatos}>
-                                            {producto.residuos ? formatNumber(producto.residuos.totalKg) : '-'}
-                                        </td>
-                                        <td style={styles.td}>
-                                            {producto.residuos ? formatNumber(producto.residuos.plasticos) : '-'}
-                                        </td>
-                                        <td style={styles.td}>
-                                            {producto.residuos ? formatNumber(producto.residuos.papelCarton) : '-'}
-                                        </td>
-                                        <td style={styles.td}>
-                                            {producto.residuos ? formatNumber(producto.residuos.metales) : '-'}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </>
-            )}
-            </div>
+      <div style={styles.filters}>
+        <div style={styles.filterGroup}>
+          <label style={styles.filterLabel}>
+            <Calendar size={14} />
+            <span>Mes</span>
+          </label>
+          <select
+            value={mesSeleccionado}
+            onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
+            style={styles.select}
+          >
+            {meses.map(mes => (
+              <option key={mes.num} value={mes.num}>
+                {mes.nombre}
+              </option>
+            ))}
+          </select>
         </div>
-    );
+
+        <div style={styles.filterGroup}>
+          <label style={styles.filterLabel}>
+            <Search size={14} />
+            <span>Buscar</span>
+          </label>
+          <input
+            type="text"
+            placeholder="SKU o nombre del producto..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            style={styles.searchInput}
+          />
+        </div>
+      </div>
+
+      <div style={styles.content}>
+        {loading && (
+          <div style={styles.loadingState}>
+            <Loader2 size={24} style={styles.spinner} />
+            <span>Cargando ventas y calculando residuos...</span>
+          </div>
+        )}
+
+        {error && (
+          <div style={styles.errorState}>
+            <AlertTriangle size={20} />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {!loading && !error && productos.length === 0 && (
+          <div style={styles.emptyState}>
+            <ShoppingCart size={32} strokeWidth={1.5} />
+            <span>No hay ventas registradas para este mes</span>
+          </div>
+        )}
+
+        {!loading && !error && productos.length > 0 && totales && (
+          <>
+            <div style={styles.statsGrid}>
+              <div style={styles.statCard}>
+                <div style={styles.statIcon}>
+                  <Package size={20} />
+                </div>
+                <div style={styles.statContent}>
+                  <span style={styles.statLabel}>Productos</span>
+                  <span style={styles.statValue}>{formatNumber(totales.productos, 0)}</span>
+                </div>
+              </div>
+
+              <div style={{...styles.statCard, ...styles.statSuccess}}>
+                <div style={{...styles.statIcon, ...styles.statIconSuccess}}>
+                  <Recycle size={20} />
+                </div>
+                <div style={styles.statContent}>
+                  <span style={styles.statLabel}>Residuos Totales</span>
+                  <span style={styles.statValue}>{formatNumber(totales.residuosTotales)} kg</span>
+                  <span style={styles.statDetail}>
+                    Plásticos: {formatNumber(totales.plasticos)} kg | Papel: {formatNumber(totales.papelCarton)} kg | Metales: {formatNumber(totales.metales)} kg
+                  </span>
+                </div>
+              </div>
+
+              {totales.productosSinMapeo > 0 && (
+                <div style={{...styles.statCard, ...styles.statWarning}}>
+                  <div style={{...styles.statIcon, ...styles.statIconWarning}}>
+                    <AlertTriangle size={20} />
+                  </div>
+                  <div style={styles.statContent}>
+                    <span style={styles.statLabel}>Sin Mapeo</span>
+                    <span style={styles.statValue}>{totales.productosSinMapeo}</span>
+                    <span style={styles.statDetail}>productos sin datos de residuos</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={styles.tableSection}>
+              <div style={styles.tableWrapper}>
+                <table style={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={styles.th}>#</th>
+                      <th style={styles.th}>SKU</th>
+                      <th style={styles.th}>Producto</th>
+                      <th style={styles.th}>Envase</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Volumen (L)</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Unidades</th>
+                      <th style={styles.th}>Tipo Envase</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Residuos (kg)</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Plásticos</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Papel</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Metales</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productosFiltrados.map((producto, index) => (
+                      <tr key={producto.sku} style={styles.tr}>
+                        <td style={styles.td}>{index + 1}</td>
+                        <td style={styles.tdCode}>{producto.sku}</td>
+                        <td style={styles.td}>{producto.nombre}</td>
+                        <td style={styles.td}>{producto.envase}</td>
+                        <td style={styles.tdNumber}>{formatNumber(producto.volumen)}</td>
+                        <td style={styles.tdNumber}>{formatNumber(producto.unidades, 0)}</td>
+                        <td style={styles.td}>
+                          {producto.tipoEnvaseMapeado || (
+                            <span style={styles.sinMapeo}>Sin mapeo</span>
+                          )}
+                        </td>
+                        <td style={producto.residuos ? styles.tdNumber : styles.tdEmpty}>
+                          {producto.residuos ? formatNumber(producto.residuos.totalKg) : '-'}
+                        </td>
+                        <td style={styles.tdNumber}>
+                          {producto.residuos ? formatNumber(producto.residuos.plasticos) : '-'}
+                        </td>
+                        <td style={styles.tdNumber}>
+                          {producto.residuos ? formatNumber(producto.residuos.papelCarton) : '-'}
+                        </td>
+                        <td style={styles.tdNumber}>
+                          {producto.residuos ? formatNumber(producto.residuos.metales) : '-'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 const styles = {
-    container: {
-        padding: '20px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        marginBottom: '20px'
-    },
-    contentArea: {
-        minHeight: '700px'
-    },
-    title: {
-        marginTop: 0,
-        marginBottom: '20px',
-        color: '#333'
-    },
-    filters: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '15px',
-        marginBottom: '20px',
-        padding: '15px',
-        backgroundColor: '#f9f9f9',
-        borderRadius: '8px'
-    },
-    filterGroup: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    label: {
-        fontSize: '14px',
-        fontWeight: '500',
-        color: '#333',
-        marginBottom: '5px'
-    },
-    select: {
-        marginTop: '5px',
-        padding: '10px',
-        fontSize: '14px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        backgroundColor: 'white',
-        cursor: 'pointer',
-        color: '#333'
-    },
-    searchInput: {
-        marginTop: '5px',
-        padding: '10px',
-        fontSize: '14px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        backgroundColor: 'white',
-        color: '#333'
-    },
-    summary: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '15px',
-        marginBottom: '20px'
-    },
-    summaryCard: {
-        padding: '15px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-        textAlign: 'center',
-        border: '1px solid #e0e0e0'
-    },
-    summaryCardResiduos: {
-        backgroundColor: '#e8f5e9',
-        borderColor: '#4caf50'
-    },
-    summaryCardWarning: {
-        backgroundColor: '#fff3e0',
-        borderColor: '#ff9800'
-    },
-    summaryLabel: {
-        fontSize: '14px',
-        color: '#666',
-        marginBottom: '8px'
-    },
-    summaryValue: {
-        fontSize: '20px',
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: '5px'
-    },
-    summaryDetail: {
-        fontSize: '12px',
-        color: '#666',
-        marginTop: '8px',
-        lineHeight: '1.4'
-    },
-    loadingContainer: {
-        minHeight: '700px'
-    },
-    skeletonSummary: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '15px',
-        marginBottom: '20px'
-    },
-    skeletonCard: {
-        height: '100px',
-        backgroundColor: '#f0f0f0',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        position: 'relative'
-    },
-    loadingMessage: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '12px',
-        padding: '20px',
-        color: '#666',
-        fontSize: '16px'
-    },
-    spinner: {
-        width: '24px',
-        height: '24px',
-        border: '3px solid #e0e0e0',
-        borderTop: '3px solid #4CAF50',
-        borderRadius: '50%',
-        animation: 'spin 1s linear infinite'
-    },
-    skeletonTable: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    skeletonRow: {
-        height: '45px',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '4px',
-        overflow: 'hidden',
-        position: 'relative'
-    },
-    shimmer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-        backgroundSize: '200% 100%',
-        animation: 'shimmer 1.5s infinite'
-    },
-    error: {
-        padding: '20px',
-        backgroundColor: '#f8d7da',
-        color: '#721c24',
-        borderRadius: '4px',
-        border: '1px solid #f5c6cb'
-    },
-    empty: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '600px',
-        textAlign: 'center',
-        color: '#999',
-        fontSize: '16px'
-    },
-    tableContainer: {
-        overflowX: 'auto',
-        height: '600px',
-        overflowY: 'auto'
-    },
-    table: {
-        width: '100%',
-        borderCollapse: 'collapse',
-        fontSize: '14px'
-    },
-    th: {
-        padding: '12px',
-        textAlign: 'left',
-        backgroundColor: '#f4f4f4',
-        borderBottom: '2px solid #ddd',
-        fontWeight: 'bold',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
-        color: '#333'
-    },
-    td: {
-        padding: '10px 12px',
-        borderBottom: '1px solid #eee',
-        color: '#333'
-    },
-    tdSinDatos: {
-        padding: '10px 12px',
-        borderBottom: '1px solid #eee',
-        color: '#999',
-        fontStyle: 'italic'
-    },
-    sinDatos: {
-        color: '#ff9800',
-        fontStyle: 'italic',
-        fontSize: '12px'
-    },
-    trEven: {
-        backgroundColor: '#fafafa'
-    },
-    trOdd: {
-        backgroundColor: 'white'
-    }
+  container: {
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
+    border: '1px solid var(--color-border)'
+  },
+  header: {
+    padding: 'var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)'
+  },
+  title: {
+    margin: 0,
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  description: {
+    margin: 0,
+    marginTop: 'var(--spacing-xs)',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)'
+  },
+  filters: {
+    display: 'flex',
+    gap: 'var(--spacing-lg)',
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)',
+    backgroundColor: 'var(--color-bg)'
+  },
+  filterGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--spacing-sm)'
+  },
+  filterLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-xs)',
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
+  },
+  select: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)',
+    cursor: 'pointer',
+    outline: 'none',
+    minWidth: '140px'
+  },
+  searchInput: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)',
+    outline: 'none',
+    minWidth: '250px'
+  },
+  content: {
+    padding: 'var(--spacing-lg)',
+    minHeight: '500px'
+  },
+  loadingState: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-2xl)',
+    color: 'var(--color-text-secondary)'
+  },
+  spinner: {
+    animation: 'spin 1s linear infinite'
+  },
+  errorState: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-lg)',
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)',
+    borderRadius: 'var(--radius-md)'
+  },
+  emptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-2xl)',
+    color: 'var(--color-text-muted)'
+  },
+  statsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: 'var(--spacing-md)',
+    marginBottom: 'var(--spacing-lg)'
+  },
+  statCard: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-lg)',
+    backgroundColor: 'var(--color-accent-light)',
+    borderRadius: 'var(--radius-md)'
+  },
+  statSuccess: {
+    backgroundColor: 'var(--color-success-light)'
+  },
+  statWarning: {
+    backgroundColor: 'var(--color-warning-light)'
+  },
+  statIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-accent)',
+    color: 'white',
+    flexShrink: 0
+  },
+  statIconSuccess: {
+    backgroundColor: 'var(--color-success)'
+  },
+  statIconWarning: {
+    backgroundColor: 'var(--color-warning)'
+  },
+  statContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: 0
+  },
+  statLabel: {
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
+  },
+  statValue: {
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  statDetail: {
+    fontSize: 'var(--font-size-xs)',
+    color: 'var(--color-text-secondary)',
+    marginTop: 'var(--spacing-xs)'
+  },
+  tableSection: {
+    marginTop: 'var(--spacing-md)'
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+    maxHeight: '500px',
+    overflowY: 'auto',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-border-light)'
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontSize: 'var(--font-size-sm)'
+  },
+  th: {
+    padding: 'var(--spacing-md)',
+    textAlign: 'left',
+    backgroundColor: 'var(--color-bg)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    borderBottom: '1px solid var(--color-border-light)',
+    whiteSpace: 'nowrap',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1
+  },
+  tr: {
+    borderBottom: '1px solid var(--color-border-light)'
+  },
+  td: {
+    padding: 'var(--spacing-md)',
+    color: 'var(--color-text-primary)'
+  },
+  tdCode: {
+    padding: 'var(--spacing-md)',
+    fontWeight: '500',
+    color: 'var(--color-accent)'
+  },
+  tdNumber: {
+    padding: 'var(--spacing-md)',
+    textAlign: 'right',
+    fontVariantNumeric: 'tabular-nums',
+    color: 'var(--color-text-primary)'
+  },
+  tdEmpty: {
+    padding: 'var(--spacing-md)',
+    textAlign: 'right',
+    color: 'var(--color-text-muted)'
+  },
+  sinMapeo: {
+    fontSize: 'var(--font-size-xs)',
+    color: 'var(--color-warning)',
+    fontStyle: 'italic'
+  }
 };
 
 export default VentasPorMes;

@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { getResumenResiduosPorClasificacion } from '../services/ventasService';
+import {
+  Scale,
+  AlertTriangle,
+  ShieldCheck,
+  Package,
+  FileText,
+  Cog,
+  Calendar,
+  Loader2
+} from 'lucide-react';
 
-// Formato: punto para miles, coma para decimales
 const formatNumber = (num, decimals = 2) => {
   if (num === null || num === undefined) return '-';
   return num.toLocaleString('es-CL', {
@@ -16,9 +25,8 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
   const [totales, setTotales] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [unidad, setUnidad] = useState('kg'); // 'kg' o 'ton'
+  const [unidad, setUnidad] = useState('kg');
 
-  // Convertir valor según unidad seleccionada
   const convertirUnidad = (valorKg) => {
     if (valorKg === null || valorKg === undefined) return null;
     return unidad === 'ton' ? valorKg / 1000 : valorKg;
@@ -26,13 +34,10 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
 
   const getUnidadLabel = () => unidad === 'ton' ? 'ton' : 'kg';
 
-  // Generar tabla resumen cruzada (Material vs Domiciliario/Peligroso)
   const generarTablaResumen = () => {
     if (!clasificaciones || clasificaciones.length === 0) return null;
 
-    // Obtener materiales únicos (columnas)
     const materialesUnicos = [...new Set(clasificaciones.map(item => {
-      // Crear nombre corto para la columna
       const codigo = item.codigo ? `(${item.codigo})` : '';
       if (item.material.includes('Cartón')) return 'Cartón';
       if (item.material.includes('metal')) return 'Metales';
@@ -49,7 +54,6 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
       return item.material.substring(0, 15) + (codigo ? ` ${codigo}` : '');
     }))].sort();
 
-    // Crear mapa de material original a nombre corto
     const materialToShort = (item) => {
       const codigo = item.codigo ? `(${item.codigo})` : '';
       if (item.material.includes('Cartón')) return 'Cartón';
@@ -67,15 +71,13 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
       return item.material.substring(0, 15) + (codigo ? ` ${codigo}` : '');
     };
 
-    // Filas de la tabla
     const filas = [
-      { key: 'noDomNoPel', label: 'No Domiciliario No Pel', domiciliario: 'NO DOMICILIARIO', peligroso: false },
-      { key: 'noDomPel', label: 'No Domiciliario Pel', domiciliario: 'NO DOMICILIARIO', peligroso: true },
-      { key: 'domNoPel', label: 'Domiciliario No Pel', domiciliario: 'DOMICILIARIO', peligroso: false },
-      { key: 'domPel', label: 'Domiciliario Pel', domiciliario: 'DOMICILIARIO', peligroso: true }
+      { key: 'noDomNoPel', label: 'No Domiciliario / No Peligroso', domiciliario: 'NO DOMICILIARIO', peligroso: false },
+      { key: 'noDomPel', label: 'No Domiciliario / Peligroso', domiciliario: 'NO DOMICILIARIO', peligroso: true },
+      { key: 'domNoPel', label: 'Domiciliario / No Peligroso', domiciliario: 'DOMICILIARIO', peligroso: false },
+      { key: 'domPel', label: 'Domiciliario / Peligroso', domiciliario: 'DOMICILIARIO', peligroso: true }
     ];
 
-    // Calcular valores para cada celda
     const datos = {};
     filas.forEach(fila => {
       datos[fila.key] = {};
@@ -128,7 +130,7 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
   const fetchClasificacion = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await getResumenResiduosPorClasificacion(año, mesSeleccionado);
       setClasificaciones(response.data);
@@ -143,44 +145,40 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
 
   return (
     <div style={styles.container}>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-          @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-          }
-        `}
-      </style>
-      <h3 style={styles.title}>Clasificacion de Residuos (Empresa Recolectora)</h3>
-      
+      <div style={styles.header}>
+        <h3 style={styles.title}>Clasificación de Residuos</h3>
+        <p style={styles.description}>Resumen para empresa recolectora</p>
+      </div>
+
       <div style={styles.filters}>
         <div style={styles.filterGroup}>
-          <label style={styles.label}>
-            Mes:
-            <select
-              value={mesSeleccionado}
-              onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
-              style={styles.select}
-            >
-              {meses.map(mes => (
-                <option key={mes.num} value={mes.num}>
-                  {mes.nombre}
-                </option>
-              ))}
-            </select>
+          <label style={styles.filterLabel}>
+            <Calendar size={14} />
+            <span>Período</span>
           </label>
+          <select
+            value={mesSeleccionado}
+            onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
+            style={styles.select}
+          >
+            {meses.map(mes => (
+              <option key={mes.num} value={mes.num}>
+                {mes.nombre}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div style={styles.filterGroup}>
-          <label style={styles.label}>Unidad:</label>
-          <div style={styles.switchContainer}>
+          <label style={styles.filterLabel}>
+            <Scale size={14} />
+            <span>Unidad</span>
+          </label>
+          <div style={styles.toggleGroup}>
             <button
               style={{
-                ...styles.switchButton,
-                ...(unidad === 'kg' ? styles.switchButtonActive : {})
+                ...styles.toggleButton,
+                ...(unidad === 'kg' ? styles.toggleButtonActive : {})
               }}
               onClick={() => setUnidad('kg')}
             >
@@ -188,8 +186,8 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
             </button>
             <button
               style={{
-                ...styles.switchButton,
-                ...(unidad === 'ton' ? styles.switchButtonActive : {})
+                ...styles.toggleButton,
+                ...(unidad === 'ton' ? styles.toggleButtonActive : {})
               }}
               onClick={() => setUnidad('ton')}
             >
@@ -199,141 +197,156 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
         </div>
       </div>
 
-      <div style={styles.contentArea}>
+      <div style={styles.content}>
         {loading && (
-          <div style={styles.loadingContainer}>
-            <div style={styles.skeletonSummary}>
-              <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-              <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-              <div style={styles.skeletonCard}><div style={styles.shimmer}></div></div>
-            </div>
-            <div style={styles.loadingMessage}>
-              <div style={styles.spinner}></div>
-              <span>Cargando clasificacion de residuos...</span>
-            </div>
-            <div style={styles.skeletonTable}>
-              {[...Array(6)].map((_, i) => (
-                <div key={i} style={styles.skeletonRow}>
-                  <div style={styles.shimmer}></div>
-                </div>
-              ))}
-            </div>
+          <div style={styles.loadingState}>
+            <Loader2 size={24} style={styles.spinner} />
+            <span>Cargando datos...</span>
           </div>
         )}
-        {error && <div style={styles.error}>{error}</div>}
+
+        {error && (
+          <div style={styles.errorState}>
+            <AlertTriangle size={20} />
+            <span>{error}</span>
+          </div>
+        )}
 
         {!loading && !error && clasificaciones.length === 0 && (
-          <div style={styles.empty}>No hay datos de residuos para este mes</div>
+          <div style={styles.emptyState}>
+            <Package size={32} strokeWidth={1.5} />
+            <span>No hay datos de residuos para este período</span>
+          </div>
         )}
 
-      {!loading && !error && clasificaciones.length > 0 && totales && (
-        <>
-          <div style={styles.summary}>
-            <div style={{...styles.summaryCard, ...styles.cardTotal}}>
-              <div style={styles.summaryLabel}>Total Residuos</div>
-              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.pesoTotal))} {getUnidadLabel()}</div>
-            </div>
-            <div style={{...styles.summaryCard, ...styles.cardPeligroso}}>
-              <div style={styles.summaryLabel}>Peligrosos</div>
-              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.peligrosos))} {getUnidadLabel()}</div>
-            </div>
-            <div style={{...styles.summaryCard, ...styles.cardNoPeligroso}}>
-              <div style={styles.summaryLabel}>No Peligrosos</div>
-              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.noPeligrosos))} {getUnidadLabel()}</div>
-            </div>
-          </div>
+        {!loading && !error && clasificaciones.length > 0 && totales && (
+          <>
+            <div style={styles.statsGrid}>
+              <div style={styles.statCard}>
+                <div style={styles.statIcon}>
+                  <Scale size={20} />
+                </div>
+                <div style={styles.statContent}>
+                  <span style={styles.statLabel}>Total Residuos</span>
+                  <span style={styles.statValue}>{formatNumber(convertirUnidad(totales.pesoTotal))} {getUnidadLabel()}</span>
+                </div>
+              </div>
 
-          <div style={styles.categorias}>
-            <div style={styles.categoriaCard}>
-              <div style={styles.categoriaTitle}>♻️ Plásticos</div>
-              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.plasticos))} {getUnidadLabel()}</div>
-            </div>
-            <div style={styles.categoriaCard}>
-              <div style={styles.categoriaTitle}>📄 Papel y Cartón</div>
-              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.papelCarton))} {getUnidadLabel()}</div>
-            </div>
-            <div style={styles.categoriaCard}>
-              <div style={styles.categoriaTitle}>⚙️ Metales</div>
-              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.metales))} {getUnidadLabel()}</div>
-            </div>
-          </div>
+              <div style={{...styles.statCard, ...styles.statDanger}}>
+                <div style={{...styles.statIcon, ...styles.statIconDanger}}>
+                  <AlertTriangle size={20} />
+                </div>
+                <div style={styles.statContent}>
+                  <span style={styles.statLabel}>Peligrosos</span>
+                  <span style={styles.statValue}>{formatNumber(convertirUnidad(totales.peligrosos))} {getUnidadLabel()}</span>
+                </div>
+              </div>
 
-          <div style={styles.tableContainer}>
-            <table style={styles.table}>
-              <thead>
-                <tr>
-                  <th style={styles.th}>#</th>
-                  <th style={styles.th}>Código</th>
-                  <th style={styles.th}>Material</th>
-                  <th style={styles.th}>Categoría</th>
-                  <th style={styles.th}>Peso Total ({getUnidadLabel()})</th>
-                  <th style={styles.th}>Peligrosidad</th>
-                  <th style={styles.th}>Tipo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clasificaciones.map((item, index) => (
-                  <tr key={index} style={index % 2 === 0 ? styles.trEven : styles.trOdd}>
-                    <td style={styles.td}>{index + 1}</td>
-                    <td style={{...styles.td, ...styles.tdCodigo}}>
-                      {item.codigo ? `(${item.codigo})` : '-'}
-                    </td>
-                    <td style={styles.td}>{item.material}</td>
-                    <td style={styles.td}>{item.categoria}</td>
-                    <td style={{...styles.td, ...styles.tdPeso}}>
-                      {formatNumber(convertirUnidad(item.pesoTotal))}
-                    </td>
-                    <td style={styles.td}>
-                      <span style={item.peligroso ? styles.badgePeligroso : styles.badgeNoPeligroso}>
-                        {item.peligroso ? '⚠️ PELIGROSO' : '✅ NO PELIGROSO'}
-                      </span>
-                    </td>
-                    <td style={styles.td}>
-                      <span style={styles.badgeDomiciliario}>
-                        {item.domiciliario || 'N/A'}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              <div style={{...styles.statCard, ...styles.statSuccess}}>
+                <div style={{...styles.statIcon, ...styles.statIconSuccess}}>
+                  <ShieldCheck size={20} />
+                </div>
+                <div style={styles.statContent}>
+                  <span style={styles.statLabel}>No Peligrosos</span>
+                  <span style={styles.statValue}>{formatNumber(convertirUnidad(totales.noPeligrosos))} {getUnidadLabel()}</span>
+                </div>
+              </div>
+            </div>
 
-          {/* Tabla Resumen Cruzada */}
-          {tablaResumen && (
-            <div style={styles.resumenSection}>
-              <h4 style={styles.resumenTitle}>Tabla Resumen por Clasificación ({getUnidadLabel()})</h4>
-              <div style={styles.resumenTableContainer}>
-                <table style={styles.resumenTable}>
+            <div style={styles.categoriesGrid}>
+              <div style={styles.categoryCard}>
+                <Package size={18} style={styles.categoryIcon} />
+                <span style={styles.categoryLabel}>Plásticos</span>
+                <span style={styles.categoryValue}>{formatNumber(convertirUnidad(totales.plasticos))} {getUnidadLabel()}</span>
+              </div>
+              <div style={styles.categoryCard}>
+                <FileText size={18} style={styles.categoryIcon} />
+                <span style={styles.categoryLabel}>Papel y Cartón</span>
+                <span style={styles.categoryValue}>{formatNumber(convertirUnidad(totales.papelCarton))} {getUnidadLabel()}</span>
+              </div>
+              <div style={styles.categoryCard}>
+                <Cog size={18} style={styles.categoryIcon} />
+                <span style={styles.categoryLabel}>Metales</span>
+                <span style={styles.categoryValue}>{formatNumber(convertirUnidad(totales.metales))} {getUnidadLabel()}</span>
+              </div>
+            </div>
+
+            <div style={styles.tableSection}>
+              <h4 style={styles.tableTitle}>Detalle por Material</h4>
+              <div style={styles.tableWrapper}>
+                <table style={styles.table}>
                   <thead>
                     <tr>
-                      <th style={styles.resumenTh}>Material</th>
-                      {tablaResumen.materialesUnicos.map(mat => (
-                        <th key={mat} style={styles.resumenThMaterial}>{mat}</th>
-                      ))}
+                      <th style={styles.th}>Código</th>
+                      <th style={styles.th}>Material</th>
+                      <th style={styles.th}>Categoría</th>
+                      <th style={{...styles.th, textAlign: 'right'}}>Peso ({getUnidadLabel()})</th>
+                      <th style={styles.th}>Peligrosidad</th>
+                      <th style={styles.th}>Tipo</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {tablaResumen.filas.map((fila, index) => (
-                      <tr key={fila.key} style={index % 2 === 0 ? styles.resumenTrEven : styles.resumenTrOdd}>
-                        <td style={styles.resumenTdLabel}>{fila.label}</td>
-                        {tablaResumen.materialesUnicos.map(mat => {
-                          const valor = tablaResumen.datos[fila.key][mat];
-                          return (
-                            <td key={mat} style={styles.resumenTdValue}>
-                              {valor > 0 ? formatNumber(convertirUnidad(valor)) : '-'}
-                            </td>
-                          );
-                        })}
+                    {clasificaciones.map((item, index) => (
+                      <tr key={index} style={styles.tr}>
+                        <td style={styles.tdCode}>
+                          {item.codigo ? `(${item.codigo})` : '-'}
+                        </td>
+                        <td style={styles.td}>{item.material}</td>
+                        <td style={styles.td}>{item.categoria}</td>
+                        <td style={styles.tdNumber}>
+                          {formatNumber(convertirUnidad(item.pesoTotal))}
+                        </td>
+                        <td style={styles.td}>
+                          <span style={item.peligroso ? styles.badgeDanger : styles.badgeSuccess}>
+                            {item.peligroso ? 'Peligroso' : 'No peligroso'}
+                          </span>
+                        </td>
+                        <td style={styles.td}>
+                          <span style={styles.badgeNeutral}>
+                            {item.domiciliario || 'N/A'}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          )}
-        </>
-      )}
+
+            {tablaResumen && (
+              <div style={styles.tableSection}>
+                <h4 style={styles.tableTitle}>Tabla Resumen ({getUnidadLabel()})</h4>
+                <div style={styles.tableWrapper}>
+                  <table style={styles.resumenTable}>
+                    <thead>
+                      <tr>
+                        <th style={styles.resumenTh}>Clasificación</th>
+                        {tablaResumen.materialesUnicos.map(mat => (
+                          <th key={mat} style={styles.resumenThMaterial}>{mat}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tablaResumen.filas.map((fila) => (
+                        <tr key={fila.key} style={styles.tr}>
+                          <td style={styles.resumenTdLabel}>{fila.label}</td>
+                          {tablaResumen.materialesUnicos.map(mat => {
+                            const valor = tablaResumen.datos[fila.key][mat];
+                            return (
+                              <td key={mat} style={styles.resumenTdValue}>
+                                {valor > 0 ? formatNumber(convertirUnidad(valor)) : '-'}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
@@ -341,325 +354,304 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
 
 const styles = {
   container: {
-    padding: '20px',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    marginBottom: '20px'
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
+    border: '1px solid var(--color-border)'
   },
-  contentArea: {
-    minHeight: '500px'
+  header: {
+    padding: 'var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)'
   },
   title: {
-    marginTop: 0,
-    marginBottom: '20px',
-    color: '#333'
+    margin: 0,
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  description: {
+    margin: 0,
+    marginTop: 'var(--spacing-xs)',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)'
   },
   filters: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '15px',
-    marginBottom: '20px',
-    padding: '15px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px'
+    display: 'flex',
+    gap: 'var(--spacing-lg)',
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)',
+    backgroundColor: 'var(--color-bg)'
   },
   filterGroup: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    gap: 'var(--spacing-sm)'
   },
-  label: {
-    fontSize: '14px',
+  filterLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-xs)',
+    fontSize: 'var(--font-size-xs)',
     fontWeight: '500',
-    color: '#333',
-    marginBottom: '5px'
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
   },
   select: {
-    marginTop: '5px',
-    padding: '10px',
-    fontSize: '14px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    backgroundColor: 'white',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)',
     cursor: 'pointer',
-    color: '#333'
+    outline: 'none',
+    minWidth: '140px'
   },
-  summary: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '15px',
-    marginBottom: '20px'
+  toggleGroup: {
+    display: 'flex',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    overflow: 'hidden'
   },
-  summaryCard: {
-    padding: '20px',
-    borderRadius: '8px',
-    textAlign: 'center',
-    border: '2px solid'
+  toggleButton: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    border: 'none',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-secondary)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)'
   },
-  cardTotal: {
-    backgroundColor: '#e3f2fd',
-    borderColor: '#2196f3'
+  toggleButtonActive: {
+    backgroundColor: 'var(--color-accent)',
+    color: 'white'
   },
-  cardPeligroso: {
-    backgroundColor: '#ffebee',
-    borderColor: '#f44336'
+  content: {
+    padding: 'var(--spacing-lg)',
+    minHeight: '400px'
   },
-  cardNoPeligroso: {
-    backgroundColor: '#e8f5e9',
-    borderColor: '#4caf50'
-  },
-  summaryLabel: {
-    fontSize: '14px',
-    color: '#666',
-    marginBottom: '8px',
-    fontWeight: '500'
-  },
-  summaryValue: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#333'
-  },
-  categorias: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '15px',
-    marginBottom: '20px'
-  },
-  categoriaCard: {
-    padding: '15px',
-    backgroundColor: '#f5f5f5',
-    borderRadius: '8px',
-    textAlign: 'center',
-    border: '1px solid #ddd'
-  },
-  categoriaTitle: {
-    fontSize: '14px',
-    color: '#666',
-    marginBottom: '5px'
-  },
-  categoriaValue: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    color: '#333'
-  },
-  loadingContainer: {
-    minHeight: '500px'
-  },
-  skeletonSummary: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '15px',
-    marginBottom: '20px'
-  },
-  skeletonCard: {
-    height: '80px',
-    backgroundColor: '#f0f0f0',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    position: 'relative'
-  },
-  loadingMessage: {
+  loadingState: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '12px',
-    padding: '20px',
-    color: '#666',
-    fontSize: '16px'
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-2xl)',
+    color: 'var(--color-text-secondary)'
   },
   spinner: {
-    width: '24px',
-    height: '24px',
-    border: '3px solid #e0e0e0',
-    borderTop: '3px solid #2196f3',
-    borderRadius: '50%',
     animation: 'spin 1s linear infinite'
   },
-  skeletonTable: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px'
-  },
-  skeletonRow: {
-    height: '45px',
-    backgroundColor: '#f5f5f5',
-    borderRadius: '4px',
-    overflow: 'hidden',
-    position: 'relative'
-  },
-  shimmer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-    backgroundSize: '200% 100%',
-    animation: 'shimmer 1.5s infinite'
-  },
-  error: {
-    padding: '20px',
-    backgroundColor: '#f8d7da',
-    color: '#721c24',
-    borderRadius: '4px',
-    border: '1px solid #f5c6cb'
-  },
-  empty: {
+  errorState: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '400px',
-    textAlign: 'center',
-    color: '#999',
-    fontSize: '16px'
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-lg)',
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)',
+    borderRadius: 'var(--radius-md)'
   },
-  tableContainer: {
+  emptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-2xl)',
+    color: 'var(--color-text-muted)'
+  },
+  statsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: 'var(--spacing-md)',
+    marginBottom: 'var(--spacing-lg)'
+  },
+  statCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-lg)',
+    backgroundColor: 'var(--color-accent-light)',
+    borderRadius: 'var(--radius-md)'
+  },
+  statDanger: {
+    backgroundColor: 'var(--color-danger-light)'
+  },
+  statSuccess: {
+    backgroundColor: 'var(--color-success-light)'
+  },
+  statIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-accent)',
+    color: 'white'
+  },
+  statIconDanger: {
+    backgroundColor: 'var(--color-danger)'
+  },
+  statIconSuccess: {
+    backgroundColor: 'var(--color-success)'
+  },
+  statContent: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  statLabel: {
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
+  },
+  statValue: {
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  categoriesGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+    gap: 'var(--spacing-md)',
+    marginBottom: 'var(--spacing-lg)'
+  },
+  categoryCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-border-light)'
+  },
+  categoryIcon: {
+    color: 'var(--color-text-muted)'
+  },
+  categoryLabel: {
+    fontSize: 'var(--font-size-xs)',
+    color: 'var(--color-text-secondary)'
+  },
+  categoryValue: {
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  tableSection: {
+    marginTop: 'var(--spacing-lg)'
+  },
+  tableTitle: {
+    margin: 0,
+    marginBottom: 'var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  tableWrapper: {
     overflowX: 'auto',
-    maxHeight: '500px',
-    overflowY: 'auto'
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-border-light)'
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    fontSize: '14px'
+    fontSize: 'var(--font-size-sm)'
   },
   th: {
-    padding: '12px',
+    padding: 'var(--spacing-md)',
     textAlign: 'left',
-    backgroundColor: '#f4f4f4',
-    borderBottom: '2px solid #ddd',
-    fontWeight: 'bold',
-    position: 'sticky',
-    top: 0,
-    zIndex: 1,
-    color: '#333'
+    backgroundColor: 'var(--color-bg)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    borderBottom: '1px solid var(--color-border-light)',
+    whiteSpace: 'nowrap'
+  },
+  tr: {
+    borderBottom: '1px solid var(--color-border-light)'
   },
   td: {
-    padding: '10px 12px',
-    borderBottom: '1px solid #eee',
-    color: '#333'
+    padding: 'var(--spacing-md)',
+    color: 'var(--color-text-primary)'
   },
-  tdCodigo: {
-    fontWeight: 'bold',
-    color: '#2196f3',
-    fontSize: '16px'
+  tdCode: {
+    padding: 'var(--spacing-md)',
+    fontWeight: '600',
+    color: 'var(--color-accent)'
   },
-  tdPeso: {
-    fontWeight: 'bold'
-  },
-  trEven: {
-    backgroundColor: '#fafafa'
-  },
-  trOdd: {
-    backgroundColor: 'white'
-  },
-  badgePeligroso: {
-    padding: '4px 8px',
-    borderRadius: '4px',
-    backgroundColor: '#ffebee',
-    color: '#c62828',
-    fontSize: '12px',
-    fontWeight: 'bold'
-  },
-  badgeNoPeligroso: {
-    padding: '4px 8px',
-    borderRadius: '4px',
-    backgroundColor: '#e8f5e9',
-    color: '#2e7d32',
-    fontSize: '12px',
-    fontWeight: 'bold'
-  },
-  badgeDomiciliario: {
-    padding: '4px 8px',
-    borderRadius: '4px',
-    backgroundColor: '#f5f5f5',
-    color: '#666',
-    fontSize: '12px'
-  },
-  switchContainer: {
-    display: 'flex',
-    gap: '0',
-    marginTop: '5px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    overflow: 'hidden',
-    width: 'fit-content'
-  },
-  switchButton: {
-    padding: '10px 20px',
-    fontSize: '14px',
-    border: 'none',
-    backgroundColor: 'white',
-    cursor: 'pointer',
-    color: '#333',
+  tdNumber: {
+    padding: 'var(--spacing-md)',
+    textAlign: 'right',
     fontWeight: '500',
-    transition: 'all 0.2s ease'
+    fontVariantNumeric: 'tabular-nums',
+    color: 'var(--color-text-primary)'
   },
-  switchButtonActive: {
-    backgroundColor: '#2196f3',
-    color: 'white'
+  badgeDanger: {
+    display: 'inline-block',
+    padding: '2px 8px',
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-danger)',
+    backgroundColor: 'var(--color-danger-light)',
+    borderRadius: 'var(--radius-full)'
   },
-  resumenSection: {
-    marginTop: '30px',
-    paddingTop: '20px',
-    borderTop: '2px solid #e0e0e0'
+  badgeSuccess: {
+    display: 'inline-block',
+    padding: '2px 8px',
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-success)',
+    backgroundColor: 'var(--color-success-light)',
+    borderRadius: 'var(--radius-full)'
   },
-  resumenTitle: {
-    marginTop: 0,
-    marginBottom: '15px',
-    color: '#333',
-    fontSize: '16px'
-  },
-  resumenTableContainer: {
-    overflowX: 'auto'
+  badgeNeutral: {
+    display: 'inline-block',
+    padding: '2px 8px',
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-full)'
   },
   resumenTable: {
     width: '100%',
     borderCollapse: 'collapse',
-    fontSize: '13px',
-    border: '1px solid #ccc'
+    fontSize: 'var(--font-size-sm)'
   },
   resumenTh: {
-    padding: '10px 8px',
+    padding: 'var(--spacing-md)',
     textAlign: 'left',
-    backgroundColor: '#c8e6c9',
-    borderBottom: '2px solid #81c784',
-    borderRight: '1px solid #a5d6a7',
-    fontWeight: 'bold',
-    color: '#2e7d32',
-    minWidth: '140px'
+    backgroundColor: 'var(--color-bg)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    borderBottom: '1px solid var(--color-border-light)',
+    minWidth: '180px'
   },
   resumenThMaterial: {
-    padding: '10px 8px',
+    padding: 'var(--spacing-md)',
     textAlign: 'center',
-    backgroundColor: '#e8f5e9',
-    borderBottom: '2px solid #81c784',
-    borderRight: '1px solid #c8e6c9',
-    fontWeight: 'bold',
-    color: '#333',
-    minWidth: '100px',
-    whiteSpace: 'nowrap'
-  },
-  resumenTrEven: {
-    backgroundColor: '#fafafa'
-  },
-  resumenTrOdd: {
-    backgroundColor: 'white'
+    backgroundColor: 'var(--color-bg)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    borderBottom: '1px solid var(--color-border-light)',
+    whiteSpace: 'nowrap',
+    minWidth: '90px'
   },
   resumenTdLabel: {
-    padding: '8px',
+    padding: 'var(--spacing-md)',
     fontWeight: '500',
-    backgroundColor: '#c8e6c9',
-    borderRight: '1px solid #a5d6a7',
-    borderBottom: '1px solid #c8e6c9',
-    color: '#2e7d32'
+    color: 'var(--color-text-primary)',
+    backgroundColor: 'var(--color-bg)'
   },
   resumenTdValue: {
-    padding: '8px',
+    padding: 'var(--spacing-md)',
     textAlign: 'right',
-    borderRight: '1px solid #e0e0e0',
-    borderBottom: '1px solid #e0e0e0',
-    color: '#333'
+    fontVariantNumeric: 'tabular-nums',
+    color: 'var(--color-text-primary)'
   }
 };
 

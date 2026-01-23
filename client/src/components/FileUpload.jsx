@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { uploadExcel } from '../services/ventasService';
+import { Upload, FileSpreadsheet, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 const FileUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
@@ -29,23 +30,20 @@ const FileUpload = ({ onUploadSuccess }) => {
       const result = await uploadExcel(file, (progress) => {
         setUploadProgress(progress);
       });
-      setMessage({ 
-        type: 'success', 
-        text: `✅ ${result.data.registrosInsertados} registros cargados correctamente` 
+      setMessage({
+        type: 'success',
+        text: `${result.data.registrosInsertados} registros cargados correctamente`
       });
       setFile(null);
-      
-      // Limpiar input
       document.getElementById('file-input').value = '';
-      
-      // Notificar al componente padre
+
       if (onUploadSuccess) {
         onUploadSuccess(result);
       }
     } catch (error) {
-      setMessage({ 
-        type: 'error', 
-        text: `❌ Error: ${error.response?.data?.message || error.message}` 
+      setMessage({
+        type: 'error',
+        text: `Error: ${error.response?.data?.message || error.message}`
       });
     } finally {
       setUploading(false);
@@ -54,24 +52,27 @@ const FileUpload = ({ onUploadSuccess }) => {
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>📊 Cargar Datos de Ventas</h3>
-      
+      <div style={styles.header}>
+        <FileSpreadsheet size={20} style={styles.headerIcon} />
+        <h3 style={styles.title}>Cargar Datos de Ventas</h3>
+      </div>
+
       <div style={styles.uploadArea}>
-        <input
-          id="file-input"
-          type="file"
-          accept=".xlsx,.xls"
-          onChange={handleFileChange}
-          style={styles.input}
-          disabled={uploading}
-        />
-        
-        {file && (
-          <p style={styles.fileName}>
-            Archivo seleccionado: <strong>{file.name}</strong>
-          </p>
-        )}
-        
+        <label htmlFor="file-input" style={styles.dropZone}>
+          <Upload size={18} style={styles.dropIcon} />
+          <span style={styles.dropText}>
+            {file ? file.name : 'Seleccionar archivo Excel'}
+          </span>
+          <input
+            id="file-input"
+            type="file"
+            accept=".xlsx,.xls"
+            onChange={handleFileChange}
+            style={styles.inputHidden}
+            disabled={uploading}
+          />
+        </label>
+
         <button
           onClick={handleUpload}
           disabled={!file || uploading}
@@ -80,30 +81,45 @@ const FileUpload = ({ onUploadSuccess }) => {
             ...((!file || uploading) && styles.buttonDisabled)
           }}
         >
-          {uploading ? '⏳ Cargando...' : '📤 Subir Excel'}
+          {uploading ? (
+            <>
+              <Loader2 size={18} style={styles.spinner} />
+              <span>Cargando...</span>
+            </>
+          ) : (
+            <>
+              <Upload size={18} />
+              <span>Subir archivo</span>
+            </>
+          )}
         </button>
-
-        {uploading && (
-          <div style={styles.progressContainer}>
-            <div style={styles.progressBar}>
-              <div
-                style={{
-                  ...styles.progressFill,
-                  width: `${uploadProgress}%`
-                }}
-              />
-            </div>
-            <span style={styles.progressText}>{uploadProgress}%</span>
-          </div>
-        )}
       </div>
+
+      {uploading && (
+        <div style={styles.progressContainer}>
+          <div style={styles.progressBar}>
+            <div
+              style={{
+                ...styles.progressFill,
+                width: `${uploadProgress}%`
+              }}
+            />
+          </div>
+          <span style={styles.progressText}>{uploadProgress}%</span>
+        </div>
+      )}
 
       {message.text && (
         <div style={{
           ...styles.message,
           ...(message.type === 'error' ? styles.messageError : styles.messageSuccess)
         }}>
-          {message.text}
+          {message.type === 'error' ? (
+            <AlertCircle size={16} />
+          ) : (
+            <CheckCircle size={16} />
+          )}
+          <span>{message.text}</span>
         </div>
       )}
     </div>
@@ -112,87 +128,128 @@ const FileUpload = ({ onUploadSuccess }) => {
 
 const styles = {
   container: {
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    marginBottom: '20px'
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    border: '1px solid var(--color-border)',
+    overflow: 'hidden'
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)',
+    backgroundColor: 'var(--color-bg)'
+  },
+  headerIcon: {
+    color: 'var(--color-accent)'
   },
   title: {
-    marginTop: 0,
-    marginBottom: '15px',
-    color: '#333'
+    margin: 0,
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
   },
   uploadArea: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '10px'
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    minHeight: '60px'
   },
-  input: {
-    padding: '10px',
-    border: '2px dashed #ccc',
-    borderRadius: '4px',
-    cursor: 'pointer'
+  dropZone: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    border: '1px dashed var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)',
+    flex: 1
   },
-  fileName: {
-    margin: '5px 0',
-    color: '#666',
-    fontSize: '14px'
+  dropIcon: {
+    color: 'var(--color-text-muted)',
+    flexShrink: 0
+  },
+  dropText: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-primary)',
+    fontWeight: '500',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+  inputHidden: {
+    display: 'none'
   },
   button: {
-    padding: '12px 24px',
-    backgroundColor: '#4CAF50',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
     color: 'white',
+    backgroundColor: 'var(--color-accent)',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s'
+    transition: 'background-color var(--transition-fast)'
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: 'var(--color-border)',
     cursor: 'not-allowed'
   },
-  message: {
-    marginTop: '15px',
-    padding: '12px',
-    borderRadius: '4px',
-    fontSize: '14px'
-  },
-  messageSuccess: {
-    backgroundColor: '#d4edda',
-    color: '#155724',
-    border: '1px solid #c3e6cb'
-  },
-  messageError: {
-    backgroundColor: '#f8d7da',
-    color: '#721c24',
-    border: '1px solid #f5c6cb'
+  spinner: {
+    animation: 'spin 1s linear infinite'
   },
   progressContainer: {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px',
-    marginTop: '10px'
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    borderTop: '1px solid var(--color-border-light)'
   },
   progressBar: {
     flex: 1,
-    height: '20px',
-    backgroundColor: '#e0e0e0',
-    borderRadius: '10px',
+    height: '6px',
+    backgroundColor: 'var(--color-border-light)',
+    borderRadius: 'var(--radius-full)',
     overflow: 'hidden'
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'var(--color-accent)',
     transition: 'width 0.3s ease',
-    borderRadius: '10px'
+    borderRadius: 'var(--radius-full)'
   },
   progressText: {
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#333',
-    minWidth: '40px'
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    minWidth: '36px'
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    borderTop: '1px solid var(--color-border-light)',
+    fontSize: 'var(--font-size-sm)'
+  },
+  messageSuccess: {
+    backgroundColor: 'var(--color-success-light)',
+    color: 'var(--color-success)'
+  },
+  messageError: {
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)'
   }
 };
 

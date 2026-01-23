@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Recycle, Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
 
 const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -26,7 +27,6 @@ const Login = ({ onLoginSuccess }) => {
         throw new Error(data.message || 'Error al iniciar sesion');
       }
 
-      // Guardar token y datos de usuario
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -44,59 +44,71 @@ const Login = ({ onLoginSuccess }) => {
     <div style={styles.container}>
       <div style={styles.loginCard}>
         <div style={styles.logoSection}>
-          <h1 style={styles.logo}>Análisis de Residuos</h1>
+          <div style={styles.logoIcon}>
+            <Recycle size={32} strokeWidth={1.5} />
+          </div>
+          <h1 style={styles.logo}>Gestión de Residuos</h1>
+          <p style={styles.tagline}>Sistema de análisis de envases</p>
         </div>
 
         <form onSubmit={handleSubmit} style={styles.form}>
-          <h2 style={styles.title}>Iniciar Sesión</h2>
-
           {error && (
             <div style={styles.error}>
-              {error}
+              <AlertCircle size={16} />
+              <span>{error}</span>
             </div>
           )}
 
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="usuario@copec.cl"
-              style={styles.input}
-              required
-              disabled={loading}
-            />
+            <div style={styles.inputWrapper}>
+              <Mail size={18} style={styles.inputIcon} />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="usuario@copec.cl"
+                style={styles.input}
+                required
+                disabled={loading}
+              />
+            </div>
           </div>
 
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Contrasena</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingresa tu contrasena"
-              style={styles.input}
-              required
-              disabled={loading}
-            />
+            <label style={styles.label}>Contraseña</label>
+            <div style={styles.inputWrapper}>
+              <Lock size={18} style={styles.inputIcon} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Ingresa tu contraseña"
+                style={styles.input}
+                required
+                disabled={loading}
+              />
+            </div>
           </div>
 
           <button
             type="submit"
             style={{
               ...styles.button,
-              ...(loading && styles.buttonDisabled)
+              ...(loading ? styles.buttonDisabled : {})
             }}
             disabled={loading}
           >
-            {loading ? 'Ingresando...' : 'Ingresar'}
+            {loading ? (
+              <div style={styles.spinnerSmall}></div>
+            ) : (
+              <>
+                <LogIn size={18} />
+                <span>Ingresar</span>
+              </>
+            )}
           </button>
         </form>
-
-        <p style={styles.footer}>
-          Sistema de gestion de residuos de envases
-        </p>
       </div>
     </div>
   );
@@ -108,89 +120,121 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1a1a2e',
-    padding: '20px'
+    backgroundColor: 'var(--color-bg)',
+    padding: 'var(--spacing-lg)'
   },
   loginCard: {
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-    padding: '40px',
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-lg)',
+    padding: 'var(--spacing-2xl)',
     width: '100%',
-    maxWidth: '400px'
+    maxWidth: '400px',
+    animation: 'slideUp 0.3s ease'
   },
   logoSection: {
     textAlign: 'center',
-    marginBottom: '30px'
+    marginBottom: 'var(--spacing-xl)'
+  },
+  logoIcon: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '64px',
+    height: '64px',
+    borderRadius: 'var(--radius-lg)',
+    backgroundColor: 'var(--color-accent-light)',
+    color: 'var(--color-accent)',
+    marginBottom: 'var(--spacing-md)'
   },
   logo: {
     margin: 0,
-    fontSize: '26px',
-    fontWeight: '700',
-    color: '#2563eb',
-    letterSpacing: '-0.5px'
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)',
+    letterSpacing: '-0.025em'
+  },
+  tagline: {
+    margin: 0,
+    marginTop: 'var(--spacing-xs)',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)'
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px'
-  },
-  title: {
-    margin: 0,
-    fontSize: '24px',
-    color: '#333',
-    textAlign: 'center'
+    gap: 'var(--spacing-lg)'
   },
   error: {
-    padding: '12px',
-    backgroundColor: '#f8d7da',
-    color: '#721c24',
-    borderRadius: '6px',
-    fontSize: '14px',
-    textAlign: 'center',
-    border: '1px solid #f5c6cb'
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md)',
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)',
+    borderRadius: 'var(--radius-md)',
+    fontSize: 'var(--font-size-sm)'
   },
   inputGroup: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px'
+    gap: 'var(--spacing-sm)'
   },
   label: {
-    fontSize: '14px',
+    fontSize: 'var(--font-size-sm)',
     fontWeight: '500',
-    color: '#333'
+    color: 'var(--color-text-primary)'
+  },
+  inputWrapper: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  inputIcon: {
+    position: 'absolute',
+    left: 'var(--spacing-md)',
+    color: 'var(--color-text-muted)',
+    pointerEvents: 'none'
   },
   input: {
-    padding: '12px 16px',
-    fontSize: '16px',
-    border: '2px solid #e0e0e0',
-    borderRadius: '8px',
+    width: '100%',
+    padding: 'var(--spacing-md)',
+    paddingLeft: '44px',
+    fontSize: 'var(--font-size-base)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
     outline: 'none',
-    transition: 'border-color 0.2s',
-    backgroundColor: 'white',
-    color: '#333'
+    transition: 'border-color var(--transition-fast), box-shadow var(--transition-fast)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)'
   },
   button: {
-    padding: '14px',
-    fontSize: '16px',
-    fontWeight: '600',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md)',
+    fontSize: 'var(--font-size-base)',
+    fontWeight: '500',
     color: 'white',
-    backgroundColor: '#2563eb',
+    backgroundColor: 'var(--color-accent)',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    transition: 'background-color 0.2s',
-    marginTop: '10px'
+    transition: 'background-color var(--transition-fast)',
+    marginTop: 'var(--spacing-sm)'
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: 'var(--color-border)',
     cursor: 'not-allowed'
   },
-  footer: {
-    marginTop: '30px',
-    textAlign: 'center',
-    color: '#999',
-    fontSize: '12px'
+  spinnerSmall: {
+    width: '20px',
+    height: '20px',
+    border: '2px solid rgba(255,255,255,0.3)',
+    borderTop: '2px solid white',
+    borderRadius: '50%',
+    animation: 'spin 0.8s linear infinite'
   }
 };
 

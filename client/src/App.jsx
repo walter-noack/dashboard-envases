@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Dashboard from './pages/Dashboard';
 import Login from './components/Login';
+import { Loader2 } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -9,12 +10,10 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Verificar si hay un token guardado
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
 
     if (token && savedUser) {
-      // Verificar que el token sea válido
       verificarToken(token);
     } else {
       setLoading(false);
@@ -34,7 +33,6 @@ function App() {
         setUser(JSON.parse(savedUser));
         setIsAuthenticated(true);
       } else {
-        // Token inválido, limpiar storage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
       }
@@ -62,16 +60,8 @@ function App() {
   if (loading) {
     return (
       <div style={styles.loadingContainer}>
-        <div style={styles.spinner}></div>
-        <p>Cargando...</p>
-        <style>
-          {`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}
-        </style>
+        <Loader2 size={32} style={styles.spinner} />
+        <p style={styles.loadingText}>Cargando...</p>
       </div>
     );
   }
@@ -94,17 +84,17 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1a1a2e',
-    color: 'white'
+    backgroundColor: 'var(--color-bg)',
+    gap: 'var(--spacing-md)'
   },
   spinner: {
-    width: '40px',
-    height: '40px',
-    border: '4px solid #333',
-    borderTop: '4px solid #e63946',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite',
-    marginBottom: '20px'
+    color: 'var(--color-accent)',
+    animation: 'spin 1s linear infinite'
+  },
+  loadingText: {
+    margin: 0,
+    color: 'var(--color-text-secondary)',
+    fontSize: 'var(--font-size-sm)'
   }
 };
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { limpiarPorPeriodo, limpiarTodo } from '../services/ventasService';
+import { Trash2, Calendar, AlertTriangle, X, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 
 const LimpiarDatos = ({ onLimpiezaExitosa }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -74,32 +75,39 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
 
   const getMensajeConfirmacion = () => {
     if (tipoLimpieza === 'todo') {
-      return 'Esto eliminara TODOS los datos de ventas de la base de datos. Esta accion no se puede deshacer.';
+      return 'Esto eliminará TODOS los datos de ventas de la base de datos. Esta acción no se puede deshacer.';
     }
     if (mesSeleccionado) {
       const mesNombre = meses.find(m => m.num === parseInt(mesSeleccionado))?.nombre;
-      return `Esto eliminara todos los datos de ${mesNombre} ${añoSeleccionado}. Esta accion no se puede deshacer.`;
+      return `Esto eliminará todos los datos de ${mesNombre} ${añoSeleccionado}. Esta acción no se puede deshacer.`;
     }
-    return `Esto eliminara todos los datos del año ${añoSeleccionado}. Esta accion no se puede deshacer.`;
+    return `Esto eliminará todos los datos del año ${añoSeleccionado}. Esta acción no se puede deshacer.`;
   };
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>Limpiar Datos</h3>
+      <div style={styles.header}>
+        <Trash2 size={20} style={styles.headerIcon} />
+        <h3 style={styles.title}>Limpiar Datos</h3>
+      </div>
 
-      <div style={styles.buttonGroup}>
-        <button
-          onClick={() => abrirModal('periodo')}
-          style={styles.buttonPeriodo}
-        >
-          Limpiar por Periodo
-        </button>
-        <button
-          onClick={() => abrirModal('todo')}
-          style={styles.buttonTodo}
-        >
-          Limpiar Todo
-        </button>
+      <div style={styles.content}>
+        <div style={styles.buttonGroup}>
+          <button
+            onClick={() => abrirModal('periodo')}
+            style={styles.buttonPeriodo}
+          >
+            <Calendar size={16} />
+            <span>Por período</span>
+          </button>
+          <button
+            onClick={() => abrirModal('todo')}
+            style={styles.buttonTodo}
+          >
+            <Trash2 size={16} />
+            <span>Todo</span>
+          </button>
+        </div>
       </div>
 
       {mensaje.text && !mostrarModal && (
@@ -107,21 +115,31 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
           ...styles.mensaje,
           ...(mensaje.type === 'error' ? styles.mensajeError : styles.mensajeSuccess)
         }}>
-          {mensaje.text}
+          {mensaje.type === 'error' ? (
+            <AlertCircle size={16} />
+          ) : (
+            <CheckCircle size={16} />
+          )}
+          <span>{mensaje.text}</span>
         </div>
       )}
 
       {mostrarModal && (
         <div style={styles.modalOverlay}>
           <div style={styles.modal}>
-            <h4 style={styles.modalTitle}>
-              {tipoLimpieza === 'todo' ? 'Limpiar Todos los Datos' : 'Limpiar por Periodo'}
-            </h4>
+            <div style={styles.modalHeader}>
+              <h4 style={styles.modalTitle}>
+                {tipoLimpieza === 'todo' ? 'Eliminar todos los datos' : 'Eliminar por período'}
+              </h4>
+              <button onClick={cerrarModal} style={styles.closeButton} disabled={limpiando}>
+                <X size={20} />
+              </button>
+            </div>
 
             {tipoLimpieza === 'periodo' && (
               <div style={styles.selectGroup}>
-                <label style={styles.label}>
-                  Año:
+                <div style={styles.selectWrapper}>
+                  <label style={styles.label}>Año</label>
                   <select
                     value={añoSeleccionado}
                     onChange={(e) => setAñoSeleccionado(parseInt(e.target.value))}
@@ -130,10 +148,10 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
                     <option value={2024}>2024</option>
                     <option value={2025}>2025</option>
                   </select>
-                </label>
+                </div>
 
-                <label style={styles.label}>
-                  Mes:
+                <div style={styles.selectWrapper}>
+                  <label style={styles.label}>Mes</label>
                   <select
                     value={mesSeleccionado}
                     onChange={(e) => setMesSeleccionado(e.target.value)}
@@ -145,12 +163,12 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
                       </option>
                     ))}
                   </select>
-                </label>
+                </div>
               </div>
             )}
 
             <div style={styles.warning}>
-              <span style={styles.warningIcon}>!</span>
+              <AlertTriangle size={20} style={styles.warningIcon} />
               <p style={styles.warningText}>{getMensajeConfirmacion()}</p>
             </div>
 
@@ -167,7 +185,14 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
                 style={styles.buttonConfirmar}
                 disabled={limpiando}
               >
-                {limpiando ? 'Eliminando...' : 'Confirmar Eliminacion'}
+                {limpiando ? (
+                  <>
+                    <Loader2 size={16} style={styles.spinner} />
+                    <span>Eliminando...</span>
+                  </>
+                ) : (
+                  <span>Confirmar eliminación</span>
+                )}
               </button>
             </div>
           </div>
@@ -179,58 +204,88 @@ const LimpiarDatos = ({ onLimpiezaExitosa }) => {
 
 const styles = {
   container: {
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    border: '1px solid #e0e0e0'
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    border: '1px solid var(--color-border)',
+    overflow: 'hidden'
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)',
+    backgroundColor: 'var(--color-bg)'
+  },
+  headerIcon: {
+    color: 'var(--color-warning)'
   },
   title: {
-    marginTop: 0,
-    marginBottom: '15px',
-    color: '#333',
-    fontSize: '16px'
+    margin: 0,
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  content: {
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '60px'
   },
   buttonGroup: {
     display: 'flex',
-    gap: '10px',
-    flexWrap: 'wrap'
+    gap: 'var(--spacing-sm)',
+    width: '100%'
   },
   buttonPeriodo: {
-    padding: '10px 20px',
-    backgroundColor: '#ff9800',
-    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-xs)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    flex: 1,
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'var(--color-warning-light)',
+    color: 'var(--color-warning)',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: '500'
+    transition: 'all var(--transition-fast)'
   },
   buttonTodo: {
-    padding: '10px 20px',
-    backgroundColor: '#f44336',
-    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-xs)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    flex: 1,
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: '500'
+    transition: 'all var(--transition-fast)'
   },
   mensaje: {
-    marginTop: '15px',
-    padding: '12px',
-    borderRadius: '4px',
-    fontSize: '14px'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    borderTop: '1px solid var(--color-border-light)',
+    fontSize: 'var(--font-size-sm)'
   },
   mensajeSuccess: {
-    backgroundColor: '#d4edda',
-    color: '#155724',
-    border: '1px solid #c3e6cb'
+    backgroundColor: 'var(--color-success-light)',
+    color: 'var(--color-success)'
   },
   mensajeError: {
-    backgroundColor: '#f8d7da',
-    color: '#721c24',
-    border: '1px solid #f5c6cb'
+    backgroundColor: 'var(--color-danger-light)',
+    color: 'var(--color-danger)'
   },
   modalOverlay: {
     position: 'fixed',
@@ -238,98 +293,121 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000
+    zIndex: 1000,
+    animation: 'fadeIn 0.2s ease'
   },
   modal: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '24px',
-    maxWidth: '450px',
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    padding: 'var(--spacing-lg)',
+    maxWidth: '420px',
     width: '90%',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+    boxShadow: 'var(--shadow-lg)',
+    animation: 'slideUp 0.2s ease'
+  },
+  modalHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 'var(--spacing-lg)'
   },
   modalTitle: {
-    margin: '0 0 20px 0',
-    color: '#333',
-    fontSize: '18px'
+    margin: 0,
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  closeButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 'var(--spacing-xs)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    color: 'var(--color-text-muted)',
+    cursor: 'pointer'
   },
   selectGroup: {
     display: 'flex',
-    gap: '15px',
-    marginBottom: '20px'
+    gap: 'var(--spacing-md)',
+    marginBottom: 'var(--spacing-lg)'
   },
-  label: {
+  selectWrapper: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    gap: '5px',
-    fontSize: '14px',
+    gap: 'var(--spacing-sm)'
+  },
+  label: {
+    fontSize: 'var(--font-size-xs)',
     fontWeight: '500',
-    color: '#333'
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
   },
   select: {
-    padding: '8px 12px',
-    fontSize: '14px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    color: '#333',
-    cursor: 'pointer'
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)',
+    cursor: 'pointer',
+    outline: 'none'
   },
   warning: {
     display: 'flex',
-    alignItems: 'flex-start',
-    gap: '12px',
-    padding: '15px',
-    backgroundColor: '#fff3cd',
-    borderRadius: '4px',
-    border: '1px solid #ffc107',
-    marginBottom: '20px'
+    gap: 'var(--spacing-md)',
+    padding: 'var(--spacing-md)',
+    backgroundColor: 'var(--color-warning-light)',
+    borderRadius: 'var(--radius-md)',
+    marginBottom: 'var(--spacing-lg)'
   },
   warningIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '24px',
-    height: '24px',
-    backgroundColor: '#ffc107',
-    color: '#333',
-    borderRadius: '50%',
-    fontWeight: 'bold',
-    flexShrink: 0
+    flexShrink: 0,
+    color: 'var(--color-warning)'
   },
   warningText: {
     margin: 0,
-    color: '#856404',
-    fontSize: '14px',
-    lineHeight: '1.4'
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-primary)',
+    lineHeight: '1.5'
   },
   modalButtons: {
     display: 'flex',
-    gap: '10px',
+    gap: 'var(--spacing-sm)',
     justifyContent: 'flex-end'
   },
   buttonCancelar: {
-    padding: '10px 20px',
-    backgroundColor: '#6c757d',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px'
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+    color: 'var(--color-text-secondary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer'
   },
   buttonConfirmar: {
-    padding: '10px 20px',
-    backgroundColor: '#dc3545',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-xs)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'var(--color-danger)',
     color: 'white',
     border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: '500'
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer'
+  },
+  spinner: {
+    animation: 'spin 1s linear infinite'
   }
 };
 
