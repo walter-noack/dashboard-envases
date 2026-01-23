@@ -3,6 +3,7 @@ const path = require('path');
 
 // Cargar configuración de mapeo desde JSON
 let configMapeo = null;
+let mapeoSKU = null;
 
 function cargarConfiguracion() {
   if (configMapeo) return configMapeo;
@@ -13,26 +14,44 @@ function cargarConfiguracion() {
   return configMapeo;
 }
 
+function cargarMapeoSKU() {
+  if (mapeoSKU) return mapeoSKU;
+
+  const rutaMapeo = path.join(__dirname, '../config/mapeoSKU.json');
+  const contenido = fs.readFileSync(rutaMapeo, 'utf8');
+  mapeoSKU = JSON.parse(contenido);
+  return mapeoSKU;
+}
+
 // Recargar configuración (útil si se modifica el archivo)
 exports.recargarConfiguracion = () => {
   configMapeo = null;
-  return cargarConfiguracion();
+  mapeoSKU = null;
+  cargarConfiguracion();
+  cargarMapeoSKU();
 };
 
 // Mapear una venta a su tipo de envase correspondiente
 exports.mapearVentaAEnvase = (venta) => {
   const config = cargarConfiguracion();
+  const skuMap = cargarMapeoSKU();
 
+  const sku = String(venta.material || venta.Material || '').trim();
   const grupoLineas = venta.grupoLineas || venta.GrupoLineas || '';
   const envase = venta.envase || venta.Envase || '';
   const nombre = venta.materialNombre || venta.MaterialNombre || '';
 
-  // 1. Verificar reglas generales (aplican a todos los grupos)
+  // 1. PRIORIDAD: Buscar por SKU directo en mapeoSKU.json
+  if (sku && skuMap.mapeoSKU && skuMap.mapeoSKU[sku]) {
+    return skuMap.mapeoSKU[sku].categoria;
+  }
+
+  // 2. Verificar reglas generales (aplican a todos los grupos)
   if (config.reglasGenerales[envase] !== undefined) {
     return config.reglasGenerales[envase];
   }
 
-  // 2. Verificar excepciones por nombre (productos a excluir)
+  // 3. Verificar excepciones por nombre (productos a excluir)
   const excepciones = config.excepcionesPorNombre[grupoLineas];
   if (excepciones && excepciones.excluir) {
     const nombreUpper = nombre.toUpperCase();
@@ -43,13 +62,13 @@ exports.mapearVentaAEnvase = (venta) => {
     }
   }
 
-  // 3. Buscar en reglas por grupo
+  // 4. Buscar en reglas por grupo (fallback)
   const reglasGrupo = config.porGrupo[grupoLineas];
   if (reglasGrupo && reglasGrupo[envase] !== undefined) {
     return reglasGrupo[envase];
   }
 
-  // 4. Si el grupo es vacío o null, usar reglas de [NULL]
+  // 5. Si el grupo es vacío o null, usar reglas de [NULL]
   if (!grupoLineas || grupoLineas === '[NULL]') {
     const reglasNull = config.porGrupo['[NULL]'];
     if (reglasNull && reglasNull[envase] !== undefined) {

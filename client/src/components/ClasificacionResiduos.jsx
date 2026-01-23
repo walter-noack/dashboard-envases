@@ -11,13 +11,102 @@ const formatNumber = (num, decimals = 2) => {
 };
 
 const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
-  const [mesSeleccionado, setMesSeleccionado] = useState(1);
+  const [mesSeleccionado, setMesSeleccionado] = useState(0);
   const [clasificaciones, setClasificaciones] = useState([]);
   const [totales, setTotales] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [unidad, setUnidad] = useState('kg'); // 'kg' o 'ton'
+
+  // Convertir valor según unidad seleccionada
+  const convertirUnidad = (valorKg) => {
+    if (valorKg === null || valorKg === undefined) return null;
+    return unidad === 'ton' ? valorKg / 1000 : valorKg;
+  };
+
+  const getUnidadLabel = () => unidad === 'ton' ? 'ton' : 'kg';
+
+  // Generar tabla resumen cruzada (Material vs Domiciliario/Peligroso)
+  const generarTablaResumen = () => {
+    if (!clasificaciones || clasificaciones.length === 0) return null;
+
+    // Obtener materiales únicos (columnas)
+    const materialesUnicos = [...new Set(clasificaciones.map(item => {
+      // Crear nombre corto para la columna
+      const codigo = item.codigo ? `(${item.codigo})` : '';
+      if (item.material.includes('Cartón')) return 'Cartón';
+      if (item.material.includes('metal')) return 'Metales';
+      if (item.material.includes('PEAD') && item.material.includes('NO contienen')) return `PEAD no ${codigo}`;
+      if (item.material.includes('PEAD') && item.material.includes('contienen')) return `PEAD ${codigo}`;
+      if (item.material.includes('PEBD') && item.material.includes('NO contienen')) return `PEBD no ${codigo}`;
+      if (item.material.includes('PEBD') && item.material.includes('contienen')) return `PEBD ${codigo}`;
+      if (item.material.includes('PP') && item.material.includes('NO contienen')) return `PP no ${codigo}`;
+      if (item.material.includes('PP') && item.material.includes('contienen')) return `PP ${codigo}`;
+      if (item.material.includes('PS') && item.material.includes('NO contienen')) return `PS no ${codigo}`;
+      if (item.material.includes('PS') && item.material.includes('contienen')) return `PS ${codigo}`;
+      if (item.material.includes('PET')) return `PET ${codigo}`;
+      if (item.material.includes('Otros')) return `Otros ${codigo}`;
+      return item.material.substring(0, 15) + (codigo ? ` ${codigo}` : '');
+    }))].sort();
+
+    // Crear mapa de material original a nombre corto
+    const materialToShort = (item) => {
+      const codigo = item.codigo ? `(${item.codigo})` : '';
+      if (item.material.includes('Cartón')) return 'Cartón';
+      if (item.material.includes('metal')) return 'Metales';
+      if (item.material.includes('PEAD') && item.material.includes('NO contienen')) return `PEAD no ${codigo}`;
+      if (item.material.includes('PEAD') && item.material.includes('contienen')) return `PEAD ${codigo}`;
+      if (item.material.includes('PEBD') && item.material.includes('NO contienen')) return `PEBD no ${codigo}`;
+      if (item.material.includes('PEBD') && item.material.includes('contienen')) return `PEBD ${codigo}`;
+      if (item.material.includes('PP') && item.material.includes('NO contienen')) return `PP no ${codigo}`;
+      if (item.material.includes('PP') && item.material.includes('contienen')) return `PP ${codigo}`;
+      if (item.material.includes('PS') && item.material.includes('NO contienen')) return `PS no ${codigo}`;
+      if (item.material.includes('PS') && item.material.includes('contienen')) return `PS ${codigo}`;
+      if (item.material.includes('PET')) return `PET ${codigo}`;
+      if (item.material.includes('Otros')) return `Otros ${codigo}`;
+      return item.material.substring(0, 15) + (codigo ? ` ${codigo}` : '');
+    };
+
+    // Filas de la tabla
+    const filas = [
+      { key: 'noDomNoPel', label: 'No Domiciliario No Pel', domiciliario: 'NO DOMICILIARIO', peligroso: false },
+      { key: 'noDomPel', label: 'No Domiciliario Pel', domiciliario: 'NO DOMICILIARIO', peligroso: true },
+      { key: 'domNoPel', label: 'Domiciliario No Pel', domiciliario: 'DOMICILIARIO', peligroso: false },
+      { key: 'domPel', label: 'Domiciliario Pel', domiciliario: 'DOMICILIARIO', peligroso: true }
+    ];
+
+    // Calcular valores para cada celda
+    const datos = {};
+    filas.forEach(fila => {
+      datos[fila.key] = {};
+      materialesUnicos.forEach(mat => {
+        datos[fila.key][mat] = 0;
+      });
+    });
+
+    clasificaciones.forEach(item => {
+      const materialCorto = materialToShort(item);
+      const esDomiciliario = item.domiciliario === 'DOMICILIARIO';
+      const esPeligroso = item.peligroso;
+
+      let filaKey;
+      if (!esDomiciliario && !esPeligroso) filaKey = 'noDomNoPel';
+      else if (!esDomiciliario && esPeligroso) filaKey = 'noDomPel';
+      else if (esDomiciliario && !esPeligroso) filaKey = 'domNoPel';
+      else filaKey = 'domPel';
+
+      if (datos[filaKey] && datos[filaKey][materialCorto] !== undefined) {
+        datos[filaKey][materialCorto] += item.pesoTotal;
+      }
+    });
+
+    return { materialesUnicos, filas, datos };
+  };
+
+  const tablaResumen = generarTablaResumen();
 
   const meses = [
+    { num: 0, nombre: 'Total Año' },
     { num: 1, nombre: 'Enero' },
     { num: 2, nombre: 'Febrero' },
     { num: 3, nombre: 'Marzo' },
@@ -72,8 +161,8 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
         <div style={styles.filterGroup}>
           <label style={styles.label}>
             Mes:
-            <select 
-              value={mesSeleccionado} 
+            <select
+              value={mesSeleccionado}
               onChange={(e) => setMesSeleccionado(parseInt(e.target.value))}
               style={styles.select}
             >
@@ -84,6 +173,29 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
               ))}
             </select>
           </label>
+        </div>
+        <div style={styles.filterGroup}>
+          <label style={styles.label}>Unidad:</label>
+          <div style={styles.switchContainer}>
+            <button
+              style={{
+                ...styles.switchButton,
+                ...(unidad === 'kg' ? styles.switchButtonActive : {})
+              }}
+              onClick={() => setUnidad('kg')}
+            >
+              kg
+            </button>
+            <button
+              style={{
+                ...styles.switchButton,
+                ...(unidad === 'ton' ? styles.switchButtonActive : {})
+              }}
+              onClick={() => setUnidad('ton')}
+            >
+              ton
+            </button>
+          </div>
         </div>
       </div>
 
@@ -119,30 +231,30 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
           <div style={styles.summary}>
             <div style={{...styles.summaryCard, ...styles.cardTotal}}>
               <div style={styles.summaryLabel}>Total Residuos</div>
-              <div style={styles.summaryValue}>{formatNumber(totales.pesoTotal)} kg</div>
+              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.pesoTotal))} {getUnidadLabel()}</div>
             </div>
             <div style={{...styles.summaryCard, ...styles.cardPeligroso}}>
               <div style={styles.summaryLabel}>Peligrosos</div>
-              <div style={styles.summaryValue}>{formatNumber(totales.peligrosos)} kg</div>
+              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.peligrosos))} {getUnidadLabel()}</div>
             </div>
             <div style={{...styles.summaryCard, ...styles.cardNoPeligroso}}>
               <div style={styles.summaryLabel}>No Peligrosos</div>
-              <div style={styles.summaryValue}>{formatNumber(totales.noPeligrosos)} kg</div>
+              <div style={styles.summaryValue}>{formatNumber(convertirUnidad(totales.noPeligrosos))} {getUnidadLabel()}</div>
             </div>
           </div>
 
           <div style={styles.categorias}>
             <div style={styles.categoriaCard}>
               <div style={styles.categoriaTitle}>♻️ Plásticos</div>
-              <div style={styles.categoriaValue}>{formatNumber(totales.plasticos)} kg</div>
+              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.plasticos))} {getUnidadLabel()}</div>
             </div>
             <div style={styles.categoriaCard}>
               <div style={styles.categoriaTitle}>📄 Papel y Cartón</div>
-              <div style={styles.categoriaValue}>{formatNumber(totales.papelCarton)} kg</div>
+              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.papelCarton))} {getUnidadLabel()}</div>
             </div>
             <div style={styles.categoriaCard}>
               <div style={styles.categoriaTitle}>⚙️ Metales</div>
-              <div style={styles.categoriaValue}>{formatNumber(totales.metales)} kg</div>
+              <div style={styles.categoriaValue}>{formatNumber(convertirUnidad(totales.metales))} {getUnidadLabel()}</div>
             </div>
           </div>
 
@@ -154,7 +266,7 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
                   <th style={styles.th}>Código</th>
                   <th style={styles.th}>Material</th>
                   <th style={styles.th}>Categoría</th>
-                  <th style={styles.th}>Peso Total (kg)</th>
+                  <th style={styles.th}>Peso Total ({getUnidadLabel()})</th>
                   <th style={styles.th}>Peligrosidad</th>
                   <th style={styles.th}>Tipo</th>
                 </tr>
@@ -169,7 +281,7 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
                     <td style={styles.td}>{item.material}</td>
                     <td style={styles.td}>{item.categoria}</td>
                     <td style={{...styles.td, ...styles.tdPeso}}>
-                      {formatNumber(item.pesoTotal)}
+                      {formatNumber(convertirUnidad(item.pesoTotal))}
                     </td>
                     <td style={styles.td}>
                       <span style={item.peligroso ? styles.badgePeligroso : styles.badgeNoPeligroso}>
@@ -186,6 +298,40 @@ const ClasificacionResiduos = ({ año = 2024, refreshTrigger }) => {
               </tbody>
             </table>
           </div>
+
+          {/* Tabla Resumen Cruzada */}
+          {tablaResumen && (
+            <div style={styles.resumenSection}>
+              <h4 style={styles.resumenTitle}>Tabla Resumen por Clasificación ({getUnidadLabel()})</h4>
+              <div style={styles.resumenTableContainer}>
+                <table style={styles.resumenTable}>
+                  <thead>
+                    <tr>
+                      <th style={styles.resumenTh}>Material</th>
+                      {tablaResumen.materialesUnicos.map(mat => (
+                        <th key={mat} style={styles.resumenThMaterial}>{mat}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tablaResumen.filas.map((fila, index) => (
+                      <tr key={fila.key} style={index % 2 === 0 ? styles.resumenTrEven : styles.resumenTrOdd}>
+                        <td style={styles.resumenTdLabel}>{fila.label}</td>
+                        {tablaResumen.materialesUnicos.map(mat => {
+                          const valor = tablaResumen.datos[fila.key][mat];
+                          return (
+                            <td key={mat} style={styles.resumenTdValue}>
+                              {valor > 0 ? formatNumber(convertirUnidad(valor)) : '-'}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </>
       )}
       </div>
@@ -429,6 +575,91 @@ const styles = {
     backgroundColor: '#f5f5f5',
     color: '#666',
     fontSize: '12px'
+  },
+  switchContainer: {
+    display: 'flex',
+    gap: '0',
+    marginTop: '5px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    overflow: 'hidden',
+    width: 'fit-content'
+  },
+  switchButton: {
+    padding: '10px 20px',
+    fontSize: '14px',
+    border: 'none',
+    backgroundColor: 'white',
+    cursor: 'pointer',
+    color: '#333',
+    fontWeight: '500',
+    transition: 'all 0.2s ease'
+  },
+  switchButtonActive: {
+    backgroundColor: '#2196f3',
+    color: 'white'
+  },
+  resumenSection: {
+    marginTop: '30px',
+    paddingTop: '20px',
+    borderTop: '2px solid #e0e0e0'
+  },
+  resumenTitle: {
+    marginTop: 0,
+    marginBottom: '15px',
+    color: '#333',
+    fontSize: '16px'
+  },
+  resumenTableContainer: {
+    overflowX: 'auto'
+  },
+  resumenTable: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontSize: '13px',
+    border: '1px solid #ccc'
+  },
+  resumenTh: {
+    padding: '10px 8px',
+    textAlign: 'left',
+    backgroundColor: '#c8e6c9',
+    borderBottom: '2px solid #81c784',
+    borderRight: '1px solid #a5d6a7',
+    fontWeight: 'bold',
+    color: '#2e7d32',
+    minWidth: '140px'
+  },
+  resumenThMaterial: {
+    padding: '10px 8px',
+    textAlign: 'center',
+    backgroundColor: '#e8f5e9',
+    borderBottom: '2px solid #81c784',
+    borderRight: '1px solid #c8e6c9',
+    fontWeight: 'bold',
+    color: '#333',
+    minWidth: '100px',
+    whiteSpace: 'nowrap'
+  },
+  resumenTrEven: {
+    backgroundColor: '#fafafa'
+  },
+  resumenTrOdd: {
+    backgroundColor: 'white'
+  },
+  resumenTdLabel: {
+    padding: '8px',
+    fontWeight: '500',
+    backgroundColor: '#c8e6c9',
+    borderRight: '1px solid #a5d6a7',
+    borderBottom: '1px solid #c8e6c9',
+    color: '#2e7d32'
+  },
+  resumenTdValue: {
+    padding: '8px',
+    textAlign: 'right',
+    borderRight: '1px solid #e0e0e0',
+    borderBottom: '1px solid #e0e0e0',
+    color: '#333'
   }
 };
 

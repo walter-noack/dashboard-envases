@@ -211,19 +211,28 @@ exports.getResumenResiduosPorClasificacion = async (req, res) => {
   try {
     const { año, mes } = req.query;
 
-    if (!año || !mes) {
+    if (!año || mes === undefined) {
       return res.status(400).json({
         success: false,
         message: 'Se requieren parámetros año y mes'
       });
     }
 
-    const ventas = await Venta.find({
+    const mesInt = parseInt(mes);
+    const filtroVentas = {
       año: parseInt(año),
-      mes: parseInt(mes),
       grupoLineas: { $ne: '8. Bluemax' },
       envase: { $ne: 'GRANEL' }
-    });
+    };
+
+    // Si mes = 0, traer todo el año; si no, filtrar por mes específico
+    if (mesInt > 0) {
+      filtroVentas.mes = mesInt;
+    }
+
+    const ventas = await Venta.find(filtroVentas);
+
+    console.log(`[Clasificacion] año=${año}, mes=${mes}, mesInt=${mesInt}, ventas encontradas: ${ventas.length}`);
 
     const envases = await Envase.find();
     const envasesMap = {};

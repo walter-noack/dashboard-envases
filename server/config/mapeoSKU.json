@@ -1,0 +1,4912 @@
+{
+  "_comentario": "Mapeo directo de SKU a categoría de envase (nombres normalizados a BD)",
+  "_actualizado": "2026-01-22",
+  "_total_skus": 981,
+  "mapeoSKU": {
+    "100988": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100124": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102302": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100122": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106073": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100244": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105825": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104745": {
+      "categoria": "Agua 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104741": {
+      "categoria": "Agua 5 L",
+      "capacidad": "5 Litros",
+      "lk": 20.0
+    },
+    "100986": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103490": {
+      "categoria": "Agua 5 L",
+      "capacidad": "5 Litros",
+      "lk": 20.0
+    },
+    "100993": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104406": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100289": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100142": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105875": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105828": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105626": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100232": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100992": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100214": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100090": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101212": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "104200": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101130": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104740": {
+      "categoria": "Agua 5 L",
+      "capacidad": "5 Litros",
+      "lk": 20.0
+    },
+    "100245": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105125": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105124": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105191": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100287": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100088": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100235": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102490": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100334": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105745": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "103084": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105872": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105638": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104211": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106101": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103081": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100212": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100030": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104209": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100556": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100335": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "106075": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106134": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105632": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105510": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105027": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104905": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100985": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100284": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104812": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100246": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100008": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100247": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101134": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105740": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100260": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105232": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100990": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104744": {
+      "categoria": "Agua 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100077": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105742": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106332": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104364": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100984": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100146": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100238": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100332": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102522": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100078": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100702": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105028": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103242": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100002": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105631": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100749": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100983": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105743": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100681": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "104791": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102626": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105862": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105490": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105390": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101214": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100987": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100991": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103082": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100028": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100684": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103360": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100126": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100286": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "102492": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106071": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101100": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104581": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106336": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104517": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102540": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101650": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100280": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106324": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100225": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102627": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100056": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100029": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103608": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103244": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105190": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105036": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100659": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "103080": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100700": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100241": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100348": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102211": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105826": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101593": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104275": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104212": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104742": {
+      "categoria": "Agua 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101111": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100152": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104840": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101108": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105223": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105360": {
+      "categoria": "Agua Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "105873": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100645": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100832": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101132": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105200": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101168": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100016": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104112": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106050": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101137": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100564": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100350": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100282": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100392": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100389": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104340": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106362": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105871": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104503": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101632": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100324": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105629": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "101594": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104901": {
+      "categoria": "LUB Tambor",
+      "capacidad": "210 Litros",
+      "lk": 210.0
+    },
+    "101128": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100552": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103083": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100057": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104113": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100339": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105847": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105878": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105670": {
+      "categoria": "Anticongelante 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105752": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104203": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100007": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103640": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105640": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100023": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105639": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104290": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101104": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105971": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100210": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102921": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106320": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100051": {
+      "categoria": "Lub 355 cc",
+      "capacidad": "355 cc",
+      "lk": 8.52
+    },
+    "105455": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104341": {
+      "categoria": "LUB Tambor",
+      "capacidad": "198 Litros",
+      "lk": 198.0
+    },
+    "100120": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100382": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104743": {
+      "categoria": "Agua Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "100384": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100209": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100144": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100006": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "106361": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105041": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105890": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106260": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104325": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100340": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104281": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104505": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "100778": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100223": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103670": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "104730": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105037": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100234": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106082": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105621": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103606": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100390": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105874": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101109": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101120": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105660": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100333": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "105891": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101114": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100219": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105972": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1166 Kilos",
+      "lk": 1166.0
+    },
+    "100457": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100387": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101920": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105861": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105628": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100472": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100318": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105070": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100342": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102650": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104081": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105733": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100176": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102544": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104231": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106360": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104207": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100331": {
+      "categoria": "Lub 1 L",
+      "capacidad": "400 Gramos",
+      "lk": 4.0
+    },
+    "100553": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104227": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5/4 Galón",
+      "lk": 14.23
+    },
+    "105642": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105965": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103492": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105470": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "102625": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100066": {
+      "categoria": "Lub 1/2 L",
+      "capacidad": "0,5 Litro",
+      "lk": 12.0
+    },
+    "100396": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100799": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104270": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101112": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100341": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101941": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105876": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104441": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "100544": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105880": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100014": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101209": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100352": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106100": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103240": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103094": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105126": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106330": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101192": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100231": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101789": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100586": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103098": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100015": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105695": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102521": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105636": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "106194": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "106132": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103989": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102471": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106338": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104342": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104346": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100445": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100221": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100320": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "104102": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5/4 Galón",
+      "lk": 14.195
+    },
+    "104324": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100571": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105731": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101117": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100050": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100217": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "101962": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100347": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105101": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104471": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104861": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105641": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105221": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100240": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102332": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102411": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100840": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "100449": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105942": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105595": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102994": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100145": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105746": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100258": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105696": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105004": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105251": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106276": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105856": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101106": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "106264": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105747": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104330": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104343": {
+      "categoria": "LUB Tambor",
+      "capacidad": "196 Litros",
+      "lk": 196.0
+    },
+    "104282": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100509": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105627": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104277": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100705": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "106280": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101990": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102331": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105853": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106028": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104873": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100588": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100522": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104708": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100447": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104470": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "102165": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106041": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100380": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105855": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106112": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100097": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106030": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "106074": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105494": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100075": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105662": {
+      "categoria": "Anticongelante 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "106160": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1195.0
+    },
+    "100511": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100261": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102214": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100070": {
+      "categoria": "Lub 1/2 L",
+      "capacidad": "0,5 Litro",
+      "lk": 12.0
+    },
+    "102543": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100103": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100298": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100454": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100459": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100034": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100455": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100548": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100661": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100560": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105222": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104780": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100748": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100551": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104323": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100708": {
+      "categoria": "Grasa tambor",
+      "capacidad": "165 Kilos",
+      "lk": 165.0
+    },
+    "100252": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100833": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100104": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100065": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104571": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105851": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104314": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101140": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101940": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100989": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101110": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100274": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100484": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100513": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105870": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100772": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100322": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "101221": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "105236": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.356
+    },
+    "104911": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 200.0
+    },
+    "100727": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "105710": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100701": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "100237": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104222": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5/4 Galón",
+      "lk": 14.205
+    },
+    "100798": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100466": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104280": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100250": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100732": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "101084": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100000": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100697": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100279": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101133": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100461": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100412": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100584": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100483": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104328": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106292": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106118": {
+      "categoria": "Lub 1/2 L",
+      "capacidad": "0,5 Litro",
+      "lk": 12.0
+    },
+    "102161": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100129": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100665": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103511": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105857": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.678
+    },
+    "100383": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103400": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103735": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "100873": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100520": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100317": {
+      "categoria": "Grasa 1/2 kg",
+      "capacidad": "1/2 Kilo",
+      "lk": 12.0
+    },
+    "105350": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "100098": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100107": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106102": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100338": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105522": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100395": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100471": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106120": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100019": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100255": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101064": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "101218": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100728": {
+      "categoria": "Grasa tambor",
+      "capacidad": "163 Kilos",
+      "lk": 163.0
+    },
+    "105967": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104701": {
+      "categoria": "LUB Tambor",
+      "capacidad": "198 Litros",
+      "lk": 198.0
+    },
+    "103530": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106318": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "103014": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.678
+    },
+    "105751": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100467": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105848": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104383": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104120": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100453": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101129": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102541": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105401": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100731": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100424": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102981": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104664": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101796": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101213": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "101961": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103736": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "100514": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100451": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105354": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102410": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105400": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "105531": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5 Litros",
+      "lk": 20.0
+    },
+    "100452": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100293": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102963": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100351": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100724": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105764": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101790": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105443": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "106326": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104572": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101107": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100482": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "101099": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100654": {
+      "categoria": "LUB Tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "102232": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100456": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105620": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104850": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104811": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100243": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105560": {
+      "categoria": "Grasa 2,5 kg",
+      "capacidad": "2,5 Kilos",
+      "lk": 10.0
+    },
+    "105921": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105391": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100528": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102545": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102550": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103361": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103410": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102470": {
+      "categoria": "Flexibag",
+      "capacidad": "816 Litros",
+      "lk": 816.0
+    },
+    "104813": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "103086": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105393": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 200.0
+    },
+    "100737": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102143": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101103": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106193": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105002": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106084": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100794": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100349": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100526": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103095": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105748": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103864": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100207": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100776": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100734": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102343": {
+      "categoria": "LUB Tambor",
+      "capacidad": "209 Litros",
+      "lk": 209.0
+    },
+    "101427": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101317": {
+      "categoria": "Agua Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100059": {
+      "categoria": "Lub 1/2 L",
+      "capacidad": "0,5 Litro",
+      "lk": 12.0
+    },
+    "105694": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100706": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102231": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100364": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102370": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100411": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105645": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100774": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "103143": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106334": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100465": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100254": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100759": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "101113": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106117": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102227": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100779": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "106080": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100531": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102110": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "105963": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105561": {
+      "categoria": "Grasa 2,5 kg",
+      "capacidad": "2,5 Kilos",
+      "lk": 10.0
+    },
+    "105892": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100593": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104345": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100101": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105849": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104381": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.678
+    },
+    "105643": {
+      "categoria": "Anticongelante 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105720": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103461": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103085": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102300": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.356
+    },
+    "102081": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100780": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100643": {
+      "categoria": "Grasa balde",
+      "capacidad": "17 Kilos",
+      "lk": 17.0
+    },
+    "102960": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105410": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100768": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100026": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105321": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100547": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104347": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101794": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101880": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103739": {
+      "categoria": "Lub 1 L",
+      "capacidad": "39 Kilos",
+      "lk": 15.6
+    },
+    "100428": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105130": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "102531": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "102536": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100729": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100703": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "101139": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102966": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "103494": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100319": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "101119": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100458": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100386": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102530": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100751": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100775": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "104382": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5/4 Galón",
+      "lk": 14.205
+    },
+    "105032": {
+      "categoria": "Anticongelante Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100151": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104800": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105446": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101135": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "106170": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100323": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "102680": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105761": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102158": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103127": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "105854": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105471": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103211": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100450": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103096": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100740": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100420": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104013": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101136": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100578": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103738": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100398": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105005": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100796": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104974": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104711": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106199": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Kilos",
+      "lk": 200.0
+    },
+    "105844": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100704": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "100770": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104666": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106262": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104114": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105352": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 15.14
+    },
+    "102091": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100388": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105530": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103370": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100463": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100058": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106282": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102628": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "104041": {
+      "categoria": "Grasa balde",
+      "capacidad": "18 Kilos",
+      "lk": 18.0
+    },
+    "100769": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "105690": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101228": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100118": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105230": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104621": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103965": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100296": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100257": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100838": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103662": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101680": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100712": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "105637": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100381": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105843": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100476": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104654": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "100336": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100397": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105231": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104543": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103981": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100660": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100004": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100106": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100464": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100448": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105763": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100169": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100409": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104329": {
+      "categoria": "Anticongelante Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106136": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106270": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "103126": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "102532": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100363": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100695": {
+      "categoria": "Grasa balde",
+      "capacidad": "20 Kilos",
+      "lk": 20.0
+    },
+    "100117": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101524": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100356": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 22.712
+    },
+    "100264": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104570": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "103087": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105220": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105492": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105351": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100052": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105757": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104331": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100022": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102546": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100713": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105174": {
+      "categoria": "Lub 1 L",
+      "capacidad": "380 Gramos",
+      "lk": 3.54
+    },
+    "104601": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100379": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105646": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "106288": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102270": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 6.0
+    },
+    "100555": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106238": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101450": {
+      "categoria": "Grasa balde",
+      "capacidad": "18 Kilos",
+      "lk": 18.0
+    },
+    "100419": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101116": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105644": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102178": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104934": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "106159": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Kilos",
+      "lk": 200.0
+    },
+    "106370": {
+      "categoria": "LUB Tambor",
+      "capacidad": "176 Kilos",
+      "lk": 200.0
+    },
+    "103860": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 11.356
+    },
+    "100735": {
+      "categoria": "Grasa tambor",
+      "capacidad": "174 Kilos",
+      "lk": 174.0
+    },
+    "100758": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "106180": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 11.36
+    },
+    "100358": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100696": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100481": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100441": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105922": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "105964": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105023": {
+      "categoria": "LUB Tambor",
+      "capacidad": "235 Kilos",
+      "lk": 175.0
+    },
+    "103508": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101232": {
+      "categoria": "Grasa balde",
+      "capacidad": "18 Kilos",
+      "lk": 18.0
+    },
+    "102213": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105877": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100391": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101217": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102164": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105982": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.676
+    },
+    "102537": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100462": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100069": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101197": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106150": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100095": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103700": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103393": {
+      "categoria": "Grasa balde",
+      "capacidad": "17 Kilos",
+      "lk": 17.0
+    },
+    "100563": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106278": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100710": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100641": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "100216": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100426": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "101052": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101061": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101252": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105730": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104959": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106103": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100408": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102995": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100529": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102394": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100063": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101222": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "101230": {
+      "categoria": "Grasa tambor",
+      "capacidad": "180 Kilos",
+      "lk": 180.0
+    },
+    "104404": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105834": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102670": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100430": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100666": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104516": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100073": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104181": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104547": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100337": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100668": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106140": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106161": {
+      "categoria": "LUB Tambor",
+      "capacidad": "192 Kilos",
+      "lk": 208.0
+    },
+    "106162": {
+      "categoria": "LUB Tambor",
+      "capacidad": "203 Kilos",
+      "lk": 208.0
+    },
+    "100365": {
+      "categoria": "Lub 1 L",
+      "capacidad": "4 Libras",
+      "lk": 7.983
+    },
+    "100444": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100559": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103002": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105960": {
+      "categoria": "Lub 1 L",
+      "capacidad": "440 ml",
+      "lk": 4.8
+    },
+    "100043": {
+      "categoria": "LUB Tambor",
+      "capacidad": "202 Kilos",
+      "lk": 202.0
+    },
+    "106119": {
+      "categoria": "LUB Tambor",
+      "capacidad": "192 Kilos",
+      "lk": 200.0
+    },
+    "101577": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103987": {
+      "categoria": "Lub 1 L",
+      "capacidad": "39 Kilos",
+      "lk": 15.6
+    },
+    "106310": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100018": {
+      "categoria": "Anticongelante 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102980": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "106092": {
+      "categoria": "LUB Tambor",
+      "capacidad": "240 Kilos",
+      "lk": 240.0
+    },
+    "105000": {
+      "categoria": "LUB Tambor",
+      "capacidad": "175 Kilos",
+      "lk": 175.0
+    },
+    "106093": {
+      "categoria": "LUB Tambor",
+      "capacidad": "170 Kilos",
+      "lk": 170.0
+    },
+    "105990": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.676
+    },
+    "102082": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102188": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100793": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106113": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102534": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100475": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "104903": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104820": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100515": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102964": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "106137": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "101220": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "105920": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102961": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "104670": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101792": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101770": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "102538": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100446": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100480": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "100460": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102533": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "101077": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "101740": {
+      "categoria": "LUB Tambor",
+      "capacidad": "210 Litros",
+      "lk": 210.0
+    },
+    "106322": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105382": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104821": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "101864": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102202": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106010": {
+      "categoria": "LUB Tambor",
+      "capacidad": "204 Kilos",
+      "lk": 204.0
+    },
+    "105111": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5 Litros",
+      "lk": 20.0
+    },
+    "106350": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Kilos",
+      "lk": 200.0
+    },
+    "102993": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105173": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100201": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100725": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 60.0
+    },
+    "104973": {
+      "categoria": "Lub 1 L",
+      "capacidad": "380 Gramos",
+      "lk": 3.9
+    },
+    "100003": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100797": {
+      "categoria": "Grasa tambor",
+      "capacidad": "167 Kilos",
+      "lk": 167.0
+    },
+    "103097": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101195": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105801": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105647": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100640": {
+      "categoria": "Grasa balde",
+      "capacidad": "17 Kilos",
+      "lk": 17.0
+    },
+    "103172": {
+      "categoria": "Lub 4 L",
+      "capacidad": "1 Galón",
+      "lk": 15.142
+    },
+    "104662": {
+      "categoria": "Lub 1 L",
+      "capacidad": "200 ml",
+      "lk": 1.2
+    },
+    "104904": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100506": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101169": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104100": {
+      "categoria": "Lub 4 L",
+      "capacidad": "5/4 Galón",
+      "lk": 18.92
+    },
+    "105852": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105841": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100213": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "102190": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100677": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "106196": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "106202": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103985": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103810": {
+      "categoria": "LUB Tambor",
+      "capacidad": "227 Kilos",
+      "lk": 227.0
+    },
+    "105437": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102371": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "101219": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "103130": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.678
+    },
+    "100423": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101159": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105006": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103596": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102750": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100537": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101158": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102193": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104293": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "106164": {
+      "categoria": "LUB Tambor",
+      "capacidad": "204 Kilos",
+      "lk": 208.0
+    },
+    "106351": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "42 Kilos",
+      "lk": 42.0
+    },
+    "100054": {
+      "categoria": "LUB Tambor",
+      "capacidad": "199 Litros",
+      "lk": 199.0
+    },
+    "105178": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100771": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "102547": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101229": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "102166": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100067": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100434": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100218": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "100288": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "103770": {
+      "categoria": "Lub Balde",
+      "capacidad": "20 Litros",
+      "lk": 20.0
+    },
+    "102192": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "106135": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101234": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "102101": {
+      "categoria": "Lub 1 L",
+      "capacidad": "400 Gramos",
+      "lk": 4.0
+    },
+    "103986": {
+      "categoria": "Anticongelante 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105224": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105893": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102381": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100033": {
+      "categoria": "Anticongelante balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100072": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100579": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102176": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100130": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104399": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103015": {
+      "categoria": "Lub 1 L",
+      "capacidad": "368 Litros",
+      "lk": 4.416
+    },
+    "105612": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100692": {
+      "categoria": "Lub Balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "103168": {
+      "categoria": "Lub Balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "100251": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "100297": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "101051": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100062": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103661": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101175": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101223": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "54 Kilos",
+      "lk": 54.0
+    },
+    "102185": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101065": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104831": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100273": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102174": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105845": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103745": {
+      "categoria": "Lub 1 L",
+      "capacidad": "39 Kilos",
+      "lk": 2.5
+    },
+    "102175": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102142": {
+      "categoria": "Lub 1 L",
+      "capacidad": "350 ml",
+      "lk": 4.2
+    },
+    "105380": {
+      "categoria": "Lub 1 L",
+      "capacidad": "390 Gramos",
+      "lk": 3.9
+    },
+    "100764": {
+      "categoria": "Lub 1 L",
+      "capacidad": "480 Gramos",
+      "lk": 2.88
+    },
+    "105240": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105842": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100162": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103131": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104626": {
+      "categoria": "Grasa balde",
+      "capacidad": "17 Kilos",
+      "lk": 17.0
+    },
+    "105802": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100121": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100076": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103123": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104184": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102301": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1/4 Galón",
+      "lk": 5.356
+    },
+    "104405": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100061": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100427": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100422": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105800": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105241": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102200": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100418": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105436": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103100": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104316": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105242": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103609": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105820": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100281": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105623": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103040": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105127": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "103601": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102186": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "101118": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "102212": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105445": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "102187": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103245": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100263": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100485": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101795": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "101797": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100211": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104401": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104228": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "100569": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104972": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104095": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "105444": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105340": {
+      "categoria": "LUB Tambor",
+      "capacidad": "200 Litros",
+      "lk": 208.0
+    },
+    "105118": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100102": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100429": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102199": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104902": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101592": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "105762": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103600": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "104397": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104545": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103214": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100362": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100163": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100369": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100292": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104546": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100096": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104920": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "105879": {
+      "categoria": "LUB Tambor",
+      "capacidad": "180 kilos",
+      "lk": 180.0
+    },
+    "102201": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "100276": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102252": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100277": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "100546": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "104511": {
+      "categoria": "LUB Tambor",
+      "capacidad": "208 Litros",
+      "lk": 208.0
+    },
+    "102902": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "101078": {
+      "categoria": "Grasa tambor",
+      "capacidad": "181 Kilos",
+      "lk": 181.0
+    },
+    "106001": {
+      "categoria": "LUB Tambor",
+      "capacidad": "189 kilos",
+      "lk": 189.0
+    },
+    "105846": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105624": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100479": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "105497": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104720": {
+      "categoria": "Grasa cuñete",
+      "capacidad": "55 Kilos",
+      "lk": 55.0
+    },
+    "102195": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "102191": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "100224": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "104707": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100283": {
+      "categoria": "LUB Cuñete",
+      "capacidad": "60 Litros",
+      "lk": 60.0
+    },
+    "100060": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "102841": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "103041": {
+      "categoria": "LUB Bins",
+      "capacidad": "1040 Litros",
+      "lk": 1040.0
+    },
+    "104187": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "100222": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "105290": {
+      "categoria": "Lub 4 L",
+      "capacidad": "16 kilos",
+      "lk": 16.0
+    },
+    "100158": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "101860": {
+      "categoria": "Lub 1 L",
+      "capacidad": "1 Litro",
+      "lk": 12.0
+    },
+    "105850": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "101863": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "104182": {
+      "categoria": "Lub Balde",
+      "capacidad": "19 Litros",
+      "lk": 19.0
+    },
+    "103746": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    },
+    "104185": {
+      "categoria": "Lub 4 L",
+      "capacidad": "4 Litros",
+      "lk": 16.0
+    },
+    "104506": {
+      "categoria": "Grasa balde",
+      "capacidad": "16 Kilos",
+      "lk": 16.0
+    }
+  }
+}
