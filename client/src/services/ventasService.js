@@ -122,3 +122,63 @@ export const limpiarTodo = async () => {
     throw error;
   }
 };
+
+// ============ BLUMAX ============
+
+// Subir archivo Excel de Blumax
+export const uploadExcelBlumax = async (file, onUploadProgress) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await api.post('/upload/blumax', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: onUploadProgress ? (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        onUploadProgress(percentCompleted);
+      } : undefined
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error subiendo archivo Blumax:', error);
+    throw error;
+  }
+};
+
+// Obtener resumen de residuos de Blumax por clasificación
+export const getResumenResiduosBlumax = async (año = 2024, mes = 0) => {
+  try {
+    const response = await api.get(`/blumax/residuos-clasificacion?año=${año}&mes=${mes}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo resumen Blumax:', error);
+    throw error;
+  }
+};
+
+// Limpiar datos de Blumax por año
+export const limpiarBlumaxPorAño = async (año) => {
+  try {
+    const response = await api.delete('/blumax/limpiar-año', { data: { año } });
+    return response.data;
+  } catch (error) {
+    console.error('Error limpiando datos Blumax:', error);
+    throw error;
+  }
+};
+
+// ============ RESUMEN COMBINADO ============
+
+// Obtener resumen combinado de residuos (Ventas + Blumax)
+export const getResumenCombinado = async (año = 2024, mes = 0) => {
+  try {
+    const response = await api.get(`/ventas/resumen-combinado?año=${año}&mes=${mes}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo resumen combinado:', error);
+    throw error;
+  }
+};

@@ -69,7 +69,7 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <h3 style={styles.title}>Ventas Detalladas por Mes</h3>
+        <h3 style={styles.title}>LUB Detallado por Mes</h3>
         <p style={styles.description}>Productos con cálculo de residuos</p>
       </div>
 
@@ -111,7 +111,7 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
         {loading && (
           <div style={styles.loadingState}>
             <Loader2 size={24} style={styles.spinner} />
-            <span>Cargando ventas y calculando residuos...</span>
+            <span>Cargando datos y calculando residuos...</span>
           </div>
         )}
 
@@ -125,7 +125,7 @@ const VentasPorMes = ({ año = 2024, refreshTrigger }) => {
         {!loading && !error && productos.length === 0 && (
           <div style={styles.emptyState}>
             <ShoppingCart size={32} strokeWidth={1.5} />
-            <span>No hay ventas registradas para este mes</span>
+            <span>No hay datos registrados para este mes</span>
           </div>
         )}
 

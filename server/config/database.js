@@ -1,17 +1,25 @@
 const mongoose = require('mongoose');
 
+let isConnected = false;
+
 const connectDB = async () => {
+  // Reutilizar conexión existente (importante para Lambda)
+  if (isConnected && mongoose.connection.readyState === 1) {
+    console.log('MongoDB: usando conexión existente');
+    return;
+  }
+
   try {
-    console.log('🔄 Intentando conectar a MongoDB...');
-    console.log('📍 URI:', process.env.MONGODB_URI ? 'Cargado ✅' : 'NO CARGADO ❌');
-    
+    console.log('MongoDB: conectando...');
+
     const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`✅ MongoDB conectado: ${conn.connection.host}`);
-    console.log(`📊 Base de datos: ${conn.connection.name}`);
+    isConnected = true;
+    console.log(`MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`❌ Error conectando a MongoDB: ${error.message}`);
-    process.exit(1);
-  } 
+    console.error(`Error conectando a MongoDB: ${error.message}`);
+    // No usar process.exit en Lambda
+    throw error;
+  }
 };
 
 module.exports = connectDB;

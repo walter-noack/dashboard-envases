@@ -1,0 +1,141 @@
+{
+  "_comentario": "Mapeo de envases Blumax a componentes y materiales",
+  "_actualizado": "2025-01-28",
+
+  "mapeoNombres": {
+    "BIDONES": "Bídon 10 L",
+    "BIDON": "Bídon 10 L",
+    "TAMBOR": "Tambor 210 L",
+    "TAMBORES": "Tambor 210 L",
+    "BINS": "IBC 1000 L",
+    "BIN": "IBC 1000 L",
+    "IBC": "IBC 1000 L"
+  },
+
+  "envases": {
+    "Bídon 10 L": {
+      "componentes": [
+        {
+          "nombre": "Caja",
+          "cantidad": 1,
+          "pesoGr": 231,
+          "categoria": "Papel y cartón",
+          "material": "Cartón",
+          "codigo": null,
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Tapa",
+          "cantidad": 1,
+          "pesoGr": 9,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Bidón",
+          "cantidad": 1,
+          "pesoGr": 302,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Boquilla",
+          "cantidad": 1,
+          "pesoGr": 13,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        }
+      ]
+    },
+
+    "Tambor 210 L": {
+      "componentes": [
+        {
+          "nombre": "Tapa",
+          "cantidad": 2,
+          "pesoGr": 18,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Tapa Seguridad",
+          "cantidad": 2,
+          "pesoGr": 76,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Tambor",
+          "cantidad": 1,
+          "pesoGr": 10000,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Film stretch",
+          "cantidad": 1,
+          "pesoGr": 400,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        }
+      ]
+    },
+
+    "IBC 1000 L": {
+      "componentes": [
+        {
+          "nombre": "BIN",
+          "cantidad": 1,
+          "pesoGr": 5400,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Tapa",
+          "cantidad": 1,
+          "pesoGr": 231,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        },
+        {
+          "nombre": "Sello",
+          "cantidad": 1,
+          "pesoGr": 3,
+          "categoria": "Plásticos",
+          "material": "Envases de PEAD que NO contienen sustancias con grasa (2)",
+          "codigo": "2",
+          "peligrosidad": "NO PELIGROSO",
+          "domiciliario": "NO DOMICILIARIO"
+        }
+      ]
+    }
+  }
+}

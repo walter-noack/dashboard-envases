@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { uploadExcel } from '../services/ventasService';
-import { Upload, FileSpreadsheet, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { uploadExcelBlumax } from '../services/ventasService';
+import { Upload, Factory, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
-const FileUpload = ({ onUploadSuccess }) => {
+const BlumaxUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -27,15 +27,15 @@ const FileUpload = ({ onUploadSuccess }) => {
     setMessage({ type: '', text: '' });
 
     try {
-      const result = await uploadExcel(file, (progress) => {
+      const result = await uploadExcelBlumax(file, (progress) => {
         setUploadProgress(progress);
       });
       setMessage({
         type: 'success',
-        text: `${result.data.registrosInsertados} registros cargados correctamente`
+        text: `${result.data.registrosInsertados} registros Bluemax cargados`
       });
       setFile(null);
-      document.getElementById('file-input').value = '';
+      document.getElementById('blumax-file-input').value = '';
 
       if (onUploadSuccess) {
         onUploadSuccess(result);
@@ -53,18 +53,18 @@ const FileUpload = ({ onUploadSuccess }) => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <FileSpreadsheet size={20} style={styles.headerIcon} />
-        <h3 style={styles.title}>Cargar Datos LUB</h3>
+        <Factory size={20} style={styles.headerIcon} />
+        <h3 style={styles.title}>Cargar Datos Bluemax</h3>
       </div>
 
       <div style={styles.uploadArea}>
-        <label htmlFor="file-input" style={styles.dropZone}>
+        <label htmlFor="blumax-file-input" style={styles.dropZone}>
           <Upload size={18} style={styles.dropIcon} />
           <span style={styles.dropText}>
             {file ? file.name : 'Seleccionar archivo Excel'}
           </span>
           <input
-            id="file-input"
+            id="blumax-file-input"
             type="file"
             accept=".xlsx,.xls"
             onChange={handleFileChange}
@@ -89,7 +89,7 @@ const FileUpload = ({ onUploadSuccess }) => {
           ) : (
             <>
               <Upload size={18} />
-              <span>Subir archivo</span>
+              <span>Subir</span>
             </>
           )}
         </button>
@@ -139,16 +139,16 @@ const styles = {
     gap: 'var(--spacing-sm)',
     padding: 'var(--spacing-md) var(--spacing-lg)',
     borderBottom: '1px solid var(--color-border-light)',
-    backgroundColor: 'var(--color-bg)'
+    backgroundColor: '#1e3a5f'
   },
   headerIcon: {
-    color: 'var(--color-accent)'
+    color: '#60a5fa'
   },
   title: {
     margin: 0,
     fontSize: 'var(--font-size-sm)',
     fontWeight: '600',
-    color: 'var(--color-text-primary)'
+    color: 'white'
   },
   uploadArea: {
     display: 'flex',
@@ -195,7 +195,7 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     fontWeight: '500',
     color: 'white',
-    backgroundColor: 'var(--color-accent)',
+    backgroundColor: '#2563eb',
     border: 'none',
     borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
@@ -224,7 +224,7 @@ const styles = {
   },
   progressFill: {
     height: '100%',
-    backgroundColor: 'var(--color-accent)',
+    backgroundColor: '#2563eb',
     transition: 'width 0.3s ease',
     borderRadius: 'var(--radius-full)'
   },
@@ -253,4 +253,4 @@ const styles = {
   }
 };
 
-export default FileUpload;
+export default BlumaxUpload;

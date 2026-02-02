@@ -16,6 +16,9 @@ router.get('/con-residuos', ventasController.getVentasConResiduos);
 
 router.get('/residuos-clasificacion', ventasController.getResumenResiduosPorClasificacion);
 
+// GET /api/ventas/resumen-combinado - Resumen combinado Ventas + Blumax
+router.get('/resumen-combinado', ventasController.getResumenCombinado);
+
 // DELETE /api/ventas/limpiar-periodo - Limpiar ventas por período
 router.delete('/limpiar-periodo', ventasController.limpiarPorPeriodo);
 

@@ -1,0 +1,38 @@
+service: dashboard-envases-api
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: us-east-1
+  stage: ${opt:stage, 'prod'}
+  timeout: 30
+  memorySize: 512
+  environment:
+    NODE_ENV: production
+    MONGODB_URI: ${env:MONGODB_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    CLIENT_URL: ${env:CLIENT_URL}
+    AUTH_USER: ${env:AUTH_USER}
+    AUTH_PASSWORD: ${env:AUTH_PASSWORD}
+  apiGateway:
+    binaryMediaTypes:
+      - 'multipart/form-data'
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+package:
+  patterns:
+    - '!node_modules/.cache/**'
+    - '!.git/**'
+    - '!.env*'

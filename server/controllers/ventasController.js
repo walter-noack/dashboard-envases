@@ -1,4 +1,5 @@
 const Venta = require('../models/Venta');
+const Blumax = require('../models/Blumax');
 const { mapearVentaAEnvase, calcularResiduos } = require('../utils/residuosMapper');
 const Envase = require('../models/Envase');
 
@@ -250,7 +251,8 @@ exports.getResumenResiduosPorClasificacion = async (req, res) => {
 
         if (residuos && residuos.porClasificacion) {
           residuos.porClasificacion.forEach(item => {
-            const key = item.material;
+            // Usar material + peligrosidad como clave para separar PEAD peligroso vs no peligroso
+            const key = `${item.material}|${item.peligroso ? 'P' : 'NP'}`;
 
             if (!clasificacionMap[key]) {
               clasificacionMap[key] = {
@@ -372,6 +374,180 @@ exports.limpiarTodo = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error al limpiar todos los datos',
+      error: error.message
+    });
+  }
+};
+
+// Función para normalizar el nombre del material (eliminar diferencias de espacios/encoding)
+const normalizarMaterial = (material) => {
+  if (!material) return '';
+  return material
+    .trim()
+    .replace(/\s+/g, ' ')  // Normalizar espacios múltiples a uno solo
+    .normalize('NFC');      // Normalizar caracteres Unicode
+};
+
+// Obtener resumen combinado de residuos (Ventas + Blumax)
+exports.getResumenCombinado = async (req, res) => {
+  try {
+    const { año, mes } = req.query;
+
+    if (!año || mes === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requieren parámetros año y mes'
+      });
+    }
+
+    const añoInt = parseInt(año);
+    const mesInt = parseInt(mes);
+
+    // 1. Obtener residuos de Ventas
+    const filtroVentas = {
+      año: añoInt,
+      grupoLineas: { $ne: '8. Bluemax' },
+      envase: { $ne: 'GRANEL' }
+    };
+
+    if (mesInt > 0) {
+      filtroVentas.mes = mesInt;
+    }
+
+    const ventas = await Venta.find(filtroVentas);
+    const envases = await Envase.find();
+    const envasesMap = {};
+    envases.forEach(env => {
+      envasesMap[env.nombre] = env;
+    });
+
+    const clasificacionMap = {};
+
+    // Procesar ventas
+    ventas.forEach(venta => {
+      const tipoEnvase = mapearVentaAEnvase(venta);
+
+      if (tipoEnvase && envasesMap[tipoEnvase]) {
+        const residuos = calcularResiduos(venta, envasesMap[tipoEnvase]);
+
+        if (residuos && residuos.porClasificacion) {
+          residuos.porClasificacion.forEach(item => {
+            // Usar material + peligrosidad como clave para separar PEAD peligroso vs no peligroso
+            const key = `${normalizarMaterial(item.material)}|${item.peligroso ? 'P' : 'NP'}`;
+
+            if (!clasificacionMap[key]) {
+              clasificacionMap[key] = {
+                material: item.material.trim(),
+                codigo: item.codigo,
+                categoria: item.categoria,
+                pesoVentas: 0,
+                pesoBlumax: 0,
+                pesoTotal: 0,
+                peligroso: item.peligroso,
+                domiciliario: item.domiciliario
+              };
+            }
+
+            clasificacionMap[key].pesoVentas += item.pesoKg;
+          });
+        }
+      }
+    });
+
+    // 2. Obtener residuos de Blumax usando el mapeo
+    // Si se filtra por mes específico, dividir Blumax por 12 (distribución equitativa mensual)
+    const factorBlumax = mesInt > 0 ? (1 / 12) : 1;
+
+    const { calcularResiduosBlumax } = require('./blumaxController');
+    const datosBlumax = await Blumax.find({ año: añoInt });
+
+    datosBlumax.forEach(registro => {
+      const residuos = calcularResiduosBlumax(registro);
+
+      if (!residuos) return;
+
+      residuos.forEach(item => {
+        // Usar material + peligrosidad como clave para separar PEAD peligroso vs no peligroso
+        const key = `${normalizarMaterial(item.material)}|${item.peligroso ? 'P' : 'NP'}`;
+
+        if (!clasificacionMap[key]) {
+          clasificacionMap[key] = {
+            material: item.material.trim(),
+            codigo: item.codigo,
+            categoria: item.categoria,
+            pesoVentas: 0,
+            pesoBlumax: 0,
+            pesoTotal: 0,
+            peligroso: item.peligroso,
+            domiciliario: item.domiciliario
+          };
+        }
+
+        // Aplicar factor de división mensual para Blumax
+        clasificacionMap[key].pesoBlumax += item.pesoKg * factorBlumax;
+      });
+    });
+
+    // 3. Calcular totales combinados
+    const resumenClasificacion = Object.values(clasificacionMap)
+      .map(item => ({
+        ...item,
+        pesoVentas: Math.round(item.pesoVentas * 100) / 100,
+        pesoBlumax: Math.round(item.pesoBlumax * 100) / 100,
+        pesoTotal: Math.round((item.pesoVentas + item.pesoBlumax) * 100) / 100
+      }))
+      .sort((a, b) => b.pesoTotal - a.pesoTotal);
+
+    const totales = {
+      pesoTotal: 0,
+      pesoVentas: 0,
+      pesoBlumax: 0,
+      plasticos: 0,
+      papelCarton: 0,
+      metales: 0,
+      peligrosos: 0,
+      noPeligrosos: 0,
+      domiciliarios: 0,
+      noDomiciliarios: 0
+    };
+
+    resumenClasificacion.forEach(item => {
+      totales.pesoTotal += item.pesoTotal;
+      totales.pesoVentas += item.pesoVentas;
+      totales.pesoBlumax += item.pesoBlumax;
+
+      if (item.categoria === 'Plásticos') totales.plasticos += item.pesoTotal;
+      if (item.categoria === 'Papel y cartón') totales.papelCarton += item.pesoTotal;
+      if (item.categoria === 'Metales') totales.metales += item.pesoTotal;
+
+      if (item.peligroso) {
+        totales.peligrosos += item.pesoTotal;
+      } else {
+        totales.noPeligrosos += item.pesoTotal;
+      }
+
+      if (item.domiciliario === 'DOMICILIARIO') {
+        totales.domiciliarios += item.pesoTotal;
+      } else {
+        totales.noDomiciliarios += item.pesoTotal;
+      }
+    });
+
+    // Redondear totales
+    Object.keys(totales).forEach(key => {
+      totales[key] = Math.round(totales[key] * 100) / 100;
+    });
+
+    res.json({
+      success: true,
+      data: resumenClasificacion,
+      totales: totales
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al calcular resumen combinado',
       error: error.message
     });
   }
