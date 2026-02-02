@@ -56,22 +56,7 @@ npm run dev           # Desarrollo local (puerto 5173)
 npm run build         # Build producción
 ```
 
-## Variables de Entorno
 
-### Server (.env)
-```
-MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/dbname
-JWT_SECRET=tu_secret_key
-AUTH_USER=admin@copec.cl
-AUTH_PASSWORD=tu_password
-CLIENT_URL=https://tu-dominio.com
-NODE_ENV=production
-```
-
-### Client (.env)
-```
-VITE_API_URL=https://tu-api.execute-api.us-east-1.amazonaws.com/prod/api
-```
 
 ## API Endpoints
 
