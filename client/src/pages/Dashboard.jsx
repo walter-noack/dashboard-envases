@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LogOut, Calendar, Recycle, Droplets, Factory, Layers } from 'lucide-react';
+import { LogOut, Calendar, Recycle, Droplets, Factory, Layers, BarChart3, FileCheck } from 'lucide-react';
 import FileUpload from '../components/FileUpload';
 import BlumaxUpload from '../components/BlumaxUpload';
 import LimpiarDatos from '../components/LimpiarDatos';
@@ -7,11 +7,15 @@ import VentasPorMes from '../components/VentasPorMes';
 import ClasificacionResiduos from '../components/ClasificacionResiduos';
 import ClasificacionBlumax from '../components/ClasificacionBlumax';
 import ResumenCombinado from '../components/ResumenCombinado';
+import MonitoringUpload from '../components/MonitoringUpload';
+import MonitoringManualForm from '../components/MonitoringManualForm';
+import MonitoringTable from '../components/MonitoringTable';
 
 const Dashboard = ({ user, onLogout }) => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const [activeTab, setActiveTab] = useState('ventas');
+  const [selectedYear, setSelectedYear] = useState(2025);
+  const [activeModule, setActiveModule] = useState('lineaBase');
+  const [activeSubTab, setActiveSubTab] = useState('ventas');
 
   const handleUploadSuccess = (result) => {
     console.log('Upload exitoso:', result);
@@ -23,11 +27,25 @@ const Dashboard = ({ user, onLogout }) => {
     setRefreshTrigger(prev => prev + 1);
   };
 
-  const tabs = [
+  const modules = [
+    { id: 'lineaBase', label: 'Línea Base', icon: BarChart3, color: '#f97316' },
+    { id: 'monitoring', label: 'Monitoring', icon: FileCheck, color: '#059669' }
+  ];
+
+  const lineaBaseTabs = [
     { id: 'ventas', label: 'LUB', icon: Droplets },
     { id: 'blumax', label: 'Bluemax', icon: Factory },
     { id: 'resumen', label: 'Total', icon: Layers }
   ];
+
+  const currentTabs = activeModule === 'lineaBase' ? lineaBaseTabs : null;
+
+  const handleModuleChange = (moduleId) => {
+    setActiveModule(moduleId);
+    if (moduleId === 'lineaBase') {
+      setActiveSubTab('ventas');
+    }
+  };
 
   return (
     <div style={styles.container}>
@@ -67,57 +85,101 @@ const Dashboard = ({ user, onLogout }) => {
         </div>
       </header>
 
-      {/* Tabs Navigation */}
-      <nav style={styles.tabNav}>
-        <div style={styles.tabContainer}>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      {/* Module Navigation */}
+      <nav style={styles.moduleNav}>
+        <div style={styles.moduleContainer}>
+          {modules.map(module => {
+            const Icon = module.icon;
+            const isActive = activeModule === module.id;
             return (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                key={module.id}
+                onClick={() => handleModuleChange(module.id)}
                 style={{
-                  ...styles.tabButton,
-                  ...(isActive ? styles.tabButtonActive : {}),
-                  ...(tab.id === 'blumax' && isActive ? styles.tabButtonBlumaxActive : {}),
-                  ...(tab.id === 'resumen' && isActive ? styles.tabButtonResumenActive : {})
+                  ...styles.moduleButton,
+                  ...(isActive ? {
+                    backgroundColor: `${module.color}15`,
+                    color: module.color,
+                    borderColor: module.color
+                  } : {})
                 }}
               >
                 <Icon size={18} />
-                <span>{tab.label}</span>
+                <span>{module.label}</span>
               </button>
             );
           })}
         </div>
       </nav>
 
+      {/* Sub-tabs Navigation (solo para Línea Base) */}
+      {currentTabs && (
+        <nav style={styles.tabNav}>
+          <div style={styles.tabContainer}>
+            {currentTabs.map(tab => {
+              const Icon = tab.icon;
+              const isActive = activeSubTab === tab.id;
+              const moduleColor = tab.id === 'ventas' ? '#f97316' : tab.id === 'blumax' ? '#2563eb' : '#059669';
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveSubTab(tab.id)}
+                  style={{
+                    ...styles.tabButton,
+                    ...(isActive ? {
+                      color: moduleColor,
+                      borderBottomColor: moduleColor
+                    } : {})
+                  }}
+                >
+                  <Icon size={18} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+      )}
+
       <main style={styles.main}>
-        {/* Tab: Ventas */}
-        {activeTab === 'ventas' && (
+        {/* LÍNEA BASE */}
+        {activeModule === 'lineaBase' && (
           <>
-            <div style={styles.uploadSection}>
-              <FileUpload onUploadSuccess={handleUploadSuccess} />
-              <LimpiarDatos onLimpiezaExitosa={handleLimpiezaExitosa} />
-            </div>
-            <ClasificacionResiduos año={selectedYear} refreshTrigger={refreshTrigger} />
-            <VentasPorMes año={selectedYear} refreshTrigger={refreshTrigger} />
+            {activeSubTab === 'ventas' && (
+              <>
+                <div style={styles.uploadSection}>
+                  <FileUpload onUploadSuccess={handleUploadSuccess} />
+                  <LimpiarDatos onLimpiezaExitosa={handleLimpiezaExitosa} />
+                </div>
+                <ClasificacionResiduos año={selectedYear} refreshTrigger={refreshTrigger} />
+                <VentasPorMes año={selectedYear} refreshTrigger={refreshTrigger} />
+              </>
+            )}
+
+            {activeSubTab === 'blumax' && (
+              <>
+                <div style={styles.uploadSection}>
+                  <BlumaxUpload onUploadSuccess={handleUploadSuccess} />
+                </div>
+                <ClasificacionBlumax año={selectedYear} refreshTrigger={refreshTrigger} />
+              </>
+            )}
+
+            {activeSubTab === 'resumen' && (
+              <ResumenCombinado año={selectedYear} refreshTrigger={refreshTrigger} />
+            )}
           </>
         )}
 
-        {/* Tab: Blumax */}
-        {activeTab === 'blumax' && (
+        {/* MONITORING (módulo unificado) */}
+        {activeModule === 'monitoring' && (
           <>
             <div style={styles.uploadSection}>
-              <BlumaxUpload onUploadSuccess={handleUploadSuccess} />
+              <MonitoringUpload onUploadSuccess={handleUploadSuccess} />
+              <MonitoringManualForm onSuccess={handleUploadSuccess} />
             </div>
-            <ClasificacionBlumax año={selectedYear} refreshTrigger={refreshTrigger} />
+            <MonitoringTable año={selectedYear} refreshTrigger={refreshTrigger} />
           </>
-        )}
-
-        {/* Tab: Resumen */}
-        {activeTab === 'resumen' && (
-          <ResumenCombinado año={selectedYear} refreshTrigger={refreshTrigger} />
         )}
       </main>
     </div>
@@ -222,6 +284,32 @@ const styles = {
     cursor: 'pointer',
     transition: 'all var(--transition-fast)'
   },
+  moduleNav: {
+    backgroundColor: 'var(--color-surface)',
+    borderBottom: '1px solid var(--color-border)',
+    padding: 'var(--spacing-sm) 0'
+  },
+  moduleContainer: {
+    maxWidth: '1400px',
+    margin: '0 auto',
+    padding: '0 var(--spacing-lg)',
+    display: 'flex',
+    gap: 'var(--spacing-md)'
+  },
+  moduleButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '600',
+    backgroundColor: 'transparent',
+    color: 'var(--color-text-secondary)',
+    border: '2px solid transparent',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)'
+  },
   tabNav: {
     backgroundColor: 'var(--color-surface)',
     borderBottom: '1px solid var(--color-border)'
@@ -246,18 +334,6 @@ const styles = {
     borderBottom: '2px solid transparent',
     cursor: 'pointer',
     transition: 'all var(--transition-fast)'
-  },
-  tabButtonActive: {
-    color: 'var(--color-accent)',
-    borderBottomColor: 'var(--color-accent)'
-  },
-  tabButtonBlumaxActive: {
-    color: '#2563eb',
-    borderBottomColor: '#2563eb'
-  },
-  tabButtonResumenActive: {
-    color: '#059669',
-    borderBottomColor: '#059669'
   },
   main: {
     maxWidth: '1400px',

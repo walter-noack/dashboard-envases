@@ -10,6 +10,7 @@ const uploadRoutes = require('./routes/upload');
 const envasesRoutes = require('./routes/envases');
 const authRoutes = require('./routes/auth');
 const blumaxRoutes = require('./routes/blumax');
+const monitoringRoutes = require('./routes/monitoring');
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
@@ -54,6 +55,7 @@ app.use('/api/ventas', authMiddleware, ventasRoutes);
 app.use('/api/upload', authMiddleware, uploadRoutes);
 app.use('/api/envases', authMiddleware, envasesRoutes);
 app.use('/api/blumax', authMiddleware, blumaxRoutes);
+app.use('/api/monitoring', monitoringRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
