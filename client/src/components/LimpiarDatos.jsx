@@ -137,7 +137,7 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
     <div style={styles.container}>
       <div style={styles.header}>
         <Trash2 size={20} style={styles.headerIcon} />
-        <h3 style={styles.title}>Limpiar Datos</h3>
+        <h3 style={styles.title}>Limpiar Datos LUB</h3>
       </div>
 
       <div style={styles.content}>
