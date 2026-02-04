@@ -218,5 +218,172 @@ exports.limpiarTodo = async (req, res) => {
   }
 };
 
+// Limpiar datos de Blumax por período (año y opcionalmente mes)
+exports.limpiarPorPeriodo = async (req, res) => {
+  try {
+    const { año, mes } = req.body;
+
+    if (!año) {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requiere el parámetro año'
+      });
+    }
+
+    const filtro = { año: parseInt(año) };
+    if (mes) {
+      filtro.mes = parseInt(mes);
+    }
+
+    const resultado = await Blumax.deleteMany(filtro);
+
+    const mensaje = mes
+      ? `Se eliminaron ${resultado.deletedCount} registros de Blumax de ${mes}/${año}`
+      : `Se eliminaron ${resultado.deletedCount} registros de Blumax del año ${año}`;
+
+    res.json({
+      success: true,
+      message: mensaje,
+      eliminados: resultado.deletedCount
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al limpiar datos de Blumax por período',
+      error: error.message
+    });
+  }
+};
+
+// Exportar datos de Blumax en formato Excel
+exports.exportarBlumaxREP = async (req, res) => {
+  try {
+    const { año, mes } = req.query;
+    const XLSX = require('xlsx');
+
+    if (!año) {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requiere el parámetro año'
+      });
+    }
+
+    const filtro = { año: parseInt(año) };
+    if (mes) {
+      filtro.mes = parseInt(mes);
+    }
+
+    const datos = await Blumax.find(filtro).lean();
+
+    if (datos.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No hay datos para exportar'
+      });
+    }
+
+    // Calcular residuos para cada registro
+    const datosExport = [];
+    datos.forEach(registro => {
+      const residuos = calcularResiduosBlumax(registro);
+      if (residuos) {
+        residuos.forEach(r => {
+          datosExport.push({
+            'Año': registro.año,
+            'Mes': registro.mes || 'Anual',
+            'Envase': registro.envase,
+            'Unidades': registro.unidades,
+            'Material': r.material,
+            'Código': r.codigo,
+            'Categoría': r.categoria,
+            'Peso (Kg)': Math.round(r.pesoKg * 100) / 100,
+            'Peligroso': r.peligroso ? 'Sí' : 'No',
+            'Domiciliario': r.domiciliario ? 'Sí' : 'No'
+          });
+        });
+      }
+    });
+
+    // Crear workbook
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(datosExport);
+    XLSX.utils.book_append_sheet(wb, ws, 'Bluemax');
+
+    // Generar buffer
+    const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+    const nombreArchivo = mes
+      ? `Bluemax_${año}-${String(mes).padStart(2, '0')}.xlsx`
+      : `Bluemax_${año}.xlsx`;
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="${nombreArchivo}"`);
+    res.send(buffer);
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al exportar datos de Blumax',
+      error: error.message
+    });
+  }
+};
+
+// Obtener estado de meses cargados para Blumax
+exports.getEstadoMeses = async (req, res) => {
+  try {
+    const { año } = req.query;
+    const añoInt = parseInt(año) || new Date().getFullYear();
+
+    const nombresMeses = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+
+    // Obtener conteo de registros por mes
+    const estadoMeses = await Blumax.aggregate([
+      { $match: { año: añoInt, mes: { $ne: null } } },
+      {
+        $group: {
+          _id: '$mes',
+          registros: { $sum: 1 },
+          unidades: { $sum: '$unidades' }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Crear estructura con todos los meses
+    const meses = [];
+    for (let i = 1; i <= 12; i++) {
+      const mesDatos = estadoMeses.find(m => m._id === i);
+      meses.push({
+        mes: i,
+        nombre: nombresMeses[i - 1],
+        cargado: !!mesDatos,
+        registros: mesDatos?.registros || 0,
+        unidades: mesDatos?.unidades || 0
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        año: añoInt,
+        meses: meses,
+        totalCargados: meses.filter(m => m.cargado).length
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener estado de meses',
+      error: error.message
+    });
+  }
+};
+
 // Exportar función de cálculo para uso en otros controllers
 exports.calcularResiduosBlumax = calcularResiduosBlumax;

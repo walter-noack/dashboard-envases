@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { limpiarPorPeriodo, limpiarTodo, getEstadoMeses, getAñosDisponibles, exportarLineaBaseREP } from '../services/ventasService';
+import { limpiarBlumaxPorPeriodo, limpiarBlumaxTodo, getEstadoMesesBlumax, getAñosDisponiblesBlumax, exportarBlumaxREP } from '../services/ventasService';
 import { Trash2, Calendar, AlertTriangle, X, Loader2, CheckCircle, AlertCircle, Download } from 'lucide-react';
 
-const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
+const LimpiarDatosBlumax = ({ onLimpiezaExitosa, año = 2025 }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [tipoLimpieza, setTipoLimpieza] = useState(null);
   const [añoSeleccionado, setAñoSeleccionado] = useState(2024);
@@ -35,20 +35,20 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
 
   const cargarDatosExportacion = async () => {
     try {
-      // Cargar años disponibles
-      const añosRes = await getAñosDisponibles();
+      // Cargar años disponibles de Blumax
+      const añosRes = await getAñosDisponiblesBlumax();
       if (añosRes.success) {
         setAñosDisponibles(añosRes.data);
       }
 
       // Cargar meses cargados del año actual
-      const mesesRes = await getEstadoMeses(año);
+      const mesesRes = await getEstadoMesesBlumax(año);
       if (mesesRes.success) {
         const cargados = mesesRes.data.meses.filter(m => m.cargado);
         setMesesCargados(cargados);
       }
     } catch (error) {
-      console.error('Error cargando datos de exportación:', error);
+      console.error('Error cargando datos de exportación Blumax:', error);
     }
   };
 
@@ -71,9 +71,9 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
       let resultado;
 
       if (tipoLimpieza === 'todo') {
-        resultado = await limpiarTodo();
+        resultado = await limpiarBlumaxTodo();
       } else {
-        resultado = await limpiarPorPeriodo(
+        resultado = await limpiarBlumaxPorPeriodo(
           añoSeleccionado,
           mesSeleccionado ? parseInt(mesSeleccionado) : null
         );
@@ -104,7 +104,7 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
     setExporting(true);
     setMensaje({ type: '', text: '' });
     try {
-      await exportarLineaBaseREP(añoExport, mesExport);
+      await exportarBlumaxREP(añoExport, mesExport);
       const mesNombre = mesExport ? meses.find(m => m.num === mesExport)?.nombre : null;
       setMensaje({
         type: 'success',
@@ -124,20 +124,20 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
 
   const getMensajeConfirmacion = () => {
     if (tipoLimpieza === 'todo') {
-      return 'Esto eliminará TODOS los datos de ventas de la base de datos. Esta acción no se puede deshacer.';
+      return 'Esto eliminará TODOS los datos de Bluemax de la base de datos. Esta acción no se puede deshacer.';
     }
     if (mesSeleccionado) {
       const mesNombre = meses.find(m => m.num === parseInt(mesSeleccionado))?.nombre;
-      return `Esto eliminará todos los datos de ${mesNombre} ${añoSeleccionado}. Esta acción no se puede deshacer.`;
+      return `Esto eliminará todos los datos de Bluemax de ${mesNombre} ${añoSeleccionado}. Esta acción no se puede deshacer.`;
     }
-    return `Esto eliminará todos los datos del año ${añoSeleccionado}. Esta acción no se puede deshacer.`;
+    return `Esto eliminará todos los datos de Bluemax del año ${añoSeleccionado}. Esta acción no se puede deshacer.`;
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>
         <Trash2 size={20} style={styles.headerIcon} />
-        <h3 style={styles.title}>Limpiar Datos</h3>
+        <h3 style={styles.title}>Limpiar Datos Bluemax</h3>
       </div>
 
       <div style={styles.content}>
@@ -225,7 +225,7 @@ const LimpiarDatos = ({ onLimpiezaExitosa, año = 2025 }) => {
           <div style={styles.modal}>
             <div style={styles.modalHeader}>
               <h4 style={styles.modalTitle}>
-                {tipoLimpieza === 'todo' ? 'Eliminar todos los datos' : 'Eliminar por período'}
+                {tipoLimpieza === 'todo' ? 'Eliminar todos los datos Bluemax' : 'Eliminar por período'}
               </h4>
               <button onClick={cerrarModal} style={styles.closeButton} disabled={limpiando}>
                 <X size={20} />
@@ -551,4 +551,4 @@ const styles = {
   }
 };
 
-export default LimpiarDatos;
+export default LimpiarDatosBlumax;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PlusCircle, Trash2, Save, AlertCircle, CheckCircle, Loader, ClipboardEdit } from 'lucide-react';
+import { PlusCircle, Trash2, Save, AlertCircle, CheckCircle, Loader, X } from 'lucide-react';
 import { guardarRegistros } from '../services/monitoringService';
 
 const CATEGORIAS = {
@@ -11,21 +11,38 @@ const CATEGORIAS = {
 
 const DEFAULT_RUT_EMPRESA = '99520000-7';
 
-const MonitoringManualForm = ({ onSuccess }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const MonitoringManualForm = ({ isOpen, onClose, onSuccess }) => {
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
   const [exito, setExito] = useState(null);
 
   const [formData, setFormData] = useState({
     rutEmpresa: DEFAULT_RUT_EMPRESA,
+    idEstablecimientoEmpresa: '',
     rutGestor: '',
     nombreGestor: '',
+    idEstablecimientoGestor: '',
     tipoDTE: '33',
     numeroDTE: '',
     fechaDTE: new Date().toISOString().split('T')[0],
     items: [{ subCategoria: 'Papel_y_Cartón', materialidad: 'Cartón', toneladas: '' }]
   });
+
+  const resetForm = () => {
+    setFormData({
+      rutEmpresa: DEFAULT_RUT_EMPRESA,
+      idEstablecimientoEmpresa: '',
+      rutGestor: '',
+      nombreGestor: '',
+      idEstablecimientoGestor: '',
+      tipoDTE: '33',
+      numeroDTE: '',
+      fechaDTE: new Date().toISOString().split('T')[0],
+      items: [{ subCategoria: 'Papel_y_Cartón', materialidad: 'Cartón', toneladas: '' }]
+    });
+    setError(null);
+    setExito(null);
+  };
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -39,7 +56,6 @@ const MonitoringManualForm = ({ onSuccess }) => {
       items: prev.items.map((item, i) => {
         if (i !== index) return item;
         if (field === 'subCategoria') {
-          // Al cambiar categoría, resetear materialidad al primer valor
           return { ...item, [field]: value, materialidad: CATEGORIAS[value][0] };
         }
         return { ...item, [field]: value };
@@ -70,7 +86,6 @@ const MonitoringManualForm = ({ onSuccess }) => {
   };
 
   const handleSubmit = async () => {
-    // Validaciones
     if (!formData.rutGestor.trim()) {
       setError('El RUT del gestor es requerido');
       return;
@@ -100,12 +115,12 @@ const MonitoringManualForm = ({ onSuccess }) => {
       const fecha = new Date(formData.fechaDTE);
       const registros = itemsValidos.map(item => ({
         rutEmpresa: formData.rutEmpresa,
-        idEstablecimientoEmpresa: '',
+        idEstablecimientoEmpresa: formData.idEstablecimientoEmpresa,
         periodo: getMesFromDate(formData.fechaDTE),
         anio: fecha.getFullYear(),
         rutGestor: formData.rutGestor,
         nombreGestor: formData.nombreGestor,
-        idEstablecimientoGestor: '',
+        idEstablecimientoGestor: formData.idEstablecimientoGestor,
         tipoDTE: formData.tipoDTE,
         numeroDTE: formData.numeroDTE,
         fechaDTE: fecha.toISOString(),
@@ -120,19 +135,13 @@ const MonitoringManualForm = ({ onSuccess }) => {
 
       if (response.success) {
         setExito(`Se guardaron ${registros.length} registros correctamente`);
-        // Limpiar formulario
-        setFormData({
-          rutEmpresa: DEFAULT_RUT_EMPRESA,
-          rutGestor: '',
-          nombreGestor: '',
-          tipoDTE: '33',
-          numeroDTE: '',
-          fechaDTE: new Date().toISOString().split('T')[0],
-          items: [{ subCategoria: 'Papel_y_Cartón', materialidad: 'Cartón', toneladas: '' }]
-        });
+        resetForm();
         if (onSuccess) {
           onSuccess(response);
         }
+        setTimeout(() => {
+          onClose();
+        }, 1500);
       } else {
         setError(response.message || 'Error al guardar');
       }
@@ -144,28 +153,55 @@ const MonitoringManualForm = ({ onSuccess }) => {
     }
   };
 
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
   const monitoringColor = '#059669';
 
   return (
-    <div style={styles.card}>
-      <div
-        style={styles.header}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div style={{ ...styles.headerIcon, backgroundColor: `${monitoringColor}15`, color: monitoringColor }}>
-          <ClipboardEdit size={20} />
+    <div style={styles.overlay} onClick={handleClose}>
+      <div style={styles.modal} onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div style={styles.header}>
+          <h2 style={styles.title}>Ingreso Manual de Datos</h2>
+          <button onClick={handleClose} style={styles.closeButton}>
+            <X size={20} />
+          </button>
         </div>
-        <div style={{ flex: 1 }}>
-          <h3 style={styles.title}>Ingreso Manual</h3>
-          <p style={styles.subtitle}>Registrar datos sin factura PDF</p>
-        </div>
-        <button style={styles.expandButton}>
-          {isExpanded ? '−' : '+'}
-        </button>
-      </div>
 
-      {isExpanded && (
-        <div style={styles.formContainer}>
+        {/* Content */}
+        <div style={styles.content}>
+          {/* Datos de la empresa */}
+          <div style={styles.section}>
+            <h4 style={styles.sectionTitle}>Datos de la Empresa</h4>
+            <div style={styles.row}>
+              <div style={styles.field}>
+                <label style={styles.label}>RUT Empresa</label>
+                <input
+                  type="text"
+                  value={formData.rutEmpresa}
+                  onChange={(e) => handleChange('rutEmpresa', e.target.value)}
+                  placeholder="Ej: 99520000-7"
+                  style={styles.input}
+                />
+              </div>
+              <div style={styles.field}>
+                <label style={styles.label}>ID Establecimiento</label>
+                <input
+                  type="text"
+                  value={formData.idEstablecimientoEmpresa}
+                  onChange={(e) => handleChange('idEstablecimientoEmpresa', e.target.value)}
+                  placeholder="ID del establecimiento"
+                  style={styles.input}
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Datos del documento */}
           <div style={styles.section}>
             <h4 style={styles.sectionTitle}>Datos del Documento</h4>
@@ -218,6 +254,16 @@ const MonitoringManualForm = ({ onSuccess }) => {
                   style={styles.input}
                 />
               </div>
+              <div style={styles.field}>
+                <label style={styles.label}>ID Establecimiento</label>
+                <input
+                  type="text"
+                  value={formData.idEstablecimientoGestor}
+                  onChange={(e) => handleChange('idEstablecimientoGestor', e.target.value)}
+                  placeholder="ID establecimiento gestor"
+                  style={styles.input}
+                />
+              </div>
               <div style={{ ...styles.field, flex: 2 }}>
                 <label style={styles.label}>Nombre Gestor</label>
                 <input
@@ -236,7 +282,7 @@ const MonitoringManualForm = ({ onSuccess }) => {
             <div style={styles.sectionHeader}>
               <h4 style={styles.sectionTitle}>Materiales</h4>
               <button onClick={agregarItem} style={styles.addButton}>
-                <PlusCircle size={16} />
+                <PlusCircle size={14} />
                 Agregar
               </button>
             </div>
@@ -249,7 +295,7 @@ const MonitoringManualForm = ({ onSuccess }) => {
                     <select
                       value={item.subCategoria}
                       onChange={(e) => handleItemChange(index, 'subCategoria', e.target.value)}
-                      style={styles.select}
+                      style={styles.selectSmall}
                     >
                       {Object.keys(CATEGORIAS).map(cat => (
                         <option key={cat} value={cat}>{cat.replace(/_/g, ' ')}</option>
@@ -261,14 +307,14 @@ const MonitoringManualForm = ({ onSuccess }) => {
                     <select
                       value={item.materialidad}
                       onChange={(e) => handleItemChange(index, 'materialidad', e.target.value)}
-                      style={styles.select}
+                      style={styles.selectSmall}
                     >
                       {CATEGORIAS[item.subCategoria]?.map(mat => (
                         <option key={mat} value={mat}>{mat}</option>
                       ))}
                     </select>
                   </div>
-                  <div style={styles.itemField}>
+                  <div style={{ ...styles.itemField, maxWidth: '100px' }}>
                     <label style={styles.smallLabel}>Toneladas</label>
                     <input
                       type="number"
@@ -276,7 +322,7 @@ const MonitoringManualForm = ({ onSuccess }) => {
                       value={item.toneladas}
                       onChange={(e) => handleItemChange(index, 'toneladas', e.target.value)}
                       placeholder="0.000"
-                      style={styles.input}
+                      style={styles.inputSmall}
                     />
                   </div>
                   <button
@@ -284,7 +330,7 @@ const MonitoringManualForm = ({ onSuccess }) => {
                     style={styles.deleteItemButton}
                     disabled={formData.items.length <= 1}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={14} />
                   </button>
                 </div>
               ))}
@@ -305,87 +351,96 @@ const MonitoringManualForm = ({ onSuccess }) => {
               <span>{exito}</span>
             </div>
           )}
-
-          {/* Botón guardar */}
-          <div style={styles.actions}>
-            <button
-              onClick={handleSubmit}
-              disabled={guardando}
-              style={styles.saveButton}
-            >
-              {guardando ? (
-                <>
-                  <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} />
-                  Guardando...
-                </>
-              ) : (
-                <>
-                  <Save size={16} />
-                  Guardar Registro
-                </>
-              )}
-            </button>
-          </div>
         </div>
-      )}
+
+        {/* Footer */}
+        <div style={styles.footer}>
+          <button onClick={handleClose} style={styles.cancelButton}>
+            Cancelar
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={guardando}
+            style={{
+              ...styles.saveButton,
+              backgroundColor: guardando ? '#9ca3af' : monitoringColor
+            }}
+          >
+            {guardando ? (
+              <>
+                <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                Guardando...
+              </>
+            ) : (
+              <>
+                <Save size={16} />
+                Guardar Registro
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
 const styles = {
-  card: {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: 'var(--spacing-lg)'
+  },
+  modal: {
     backgroundColor: 'var(--color-surface)',
     borderRadius: 'var(--radius-lg)',
-    border: '1px solid var(--color-border)',
-    overflow: 'hidden'
+    width: '100%',
+    maxWidth: '700px',
+    maxHeight: '90vh',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
   },
   header: {
     display: 'flex',
     alignItems: 'center',
-    gap: 'var(--spacing-md)',
+    justifyContent: 'space-between',
     padding: 'var(--spacing-lg)',
-    cursor: 'pointer',
-    userSelect: 'none'
-  },
-  headerIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '40px',
-    height: '40px',
-    borderRadius: 'var(--radius-md)'
+    borderBottom: '1px solid var(--color-border)'
   },
   title: {
     margin: 0,
-    fontSize: 'var(--font-size-md)',
+    fontSize: 'var(--font-size-lg)',
     fontWeight: '600',
     color: 'var(--color-text-primary)'
   },
-  subtitle: {
-    margin: 0,
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)'
-  },
-  expandButton: {
-    width: '32px',
-    height: '32px',
+  closeButton: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '20px',
-    fontWeight: '600',
-    backgroundColor: 'var(--color-bg)',
-    border: '1px solid var(--color-border)',
+    width: '32px',
+    height: '32px',
+    padding: 0,
+    backgroundColor: 'transparent',
+    border: 'none',
     borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
-    color: 'var(--color-text-secondary)'
+    color: 'var(--color-text-muted)'
   },
-  formContainer: {
-    padding: '0 var(--spacing-lg) var(--spacing-lg)',
-    borderTop: '1px solid var(--color-border)'
+  content: {
+    flex: 1,
+    overflowY: 'auto',
+    padding: 'var(--spacing-lg)'
   },
   section: {
-    marginTop: 'var(--spacing-lg)'
+    marginBottom: 'var(--spacing-lg)'
   },
   sectionHeader: {
     display: 'flex',
@@ -406,7 +461,7 @@ const styles = {
   },
   field: {
     flex: 1,
-    minWidth: '150px'
+    minWidth: '140px'
   },
   label: {
     display: 'block',
@@ -432,6 +487,17 @@ const styles = {
     outline: 'none',
     boxSizing: 'border-box'
   },
+  inputSmall: {
+    width: '100%',
+    padding: '6px 8px',
+    fontSize: 'var(--font-size-xs)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--color-bg)',
+    color: 'var(--color-text-primary)',
+    outline: 'none',
+    boxSizing: 'border-box'
+  },
   select: {
     width: '100%',
     padding: '8px 12px',
@@ -444,11 +510,23 @@ const styles = {
     cursor: 'pointer',
     boxSizing: 'border-box'
   },
+  selectSmall: {
+    width: '100%',
+    padding: '6px 8px',
+    fontSize: 'var(--font-size-xs)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--color-bg)',
+    color: 'var(--color-text-primary)',
+    outline: 'none',
+    cursor: 'pointer',
+    boxSizing: 'border-box'
+  },
   addButton: {
     display: 'flex',
     alignItems: 'center',
     gap: '4px',
-    padding: '4px 12px',
+    padding: '4px 10px',
     fontSize: 'var(--font-size-xs)',
     fontWeight: '500',
     backgroundColor: '#059669',
@@ -460,7 +538,7 @@ const styles = {
   itemsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 'var(--spacing-sm)'
+    gap: 'var(--spacing-xs)'
   },
   itemRow: {
     display: 'flex',
@@ -473,23 +551,23 @@ const styles = {
   },
   itemField: {
     flex: 1,
-    minWidth: '100px'
+    minWidth: '80px'
   },
   deleteItemButton: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '32px',
-    height: '32px',
+    width: '28px',
+    height: '28px',
     padding: 0,
     backgroundColor: 'transparent',
     border: '1px solid #fecaca',
     borderRadius: 'var(--radius-sm)',
     cursor: 'pointer',
-    color: '#dc2626'
+    color: '#dc2626',
+    flexShrink: 0
   },
   errorBox: {
-    marginTop: 'var(--spacing-md)',
     padding: 'var(--spacing-md)',
     backgroundColor: '#fef2f2',
     border: '1px solid #fecaca',
@@ -501,7 +579,6 @@ const styles = {
     fontSize: 'var(--font-size-sm)'
   },
   successBox: {
-    marginTop: 'var(--spacing-md)',
     padding: 'var(--spacing-md)',
     backgroundColor: '#f0fdf4',
     border: '1px solid #bbf7d0',
@@ -512,10 +589,22 @@ const styles = {
     color: '#16a34a',
     fontSize: 'var(--font-size-sm)'
   },
-  actions: {
-    marginTop: 'var(--spacing-lg)',
+  footer: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-lg)',
+    borderTop: '1px solid var(--color-border)'
+  },
+  cancelButton: {
+    padding: '10px 20px',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+    color: 'var(--color-text-secondary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer'
   },
   saveButton: {
     display: 'flex',
@@ -524,7 +613,6 @@ const styles = {
     padding: '10px 20px',
     fontSize: 'var(--font-size-sm)',
     fontWeight: '500',
-    backgroundColor: '#059669',
     color: 'white',
     border: 'none',
     borderRadius: 'var(--radius-md)',

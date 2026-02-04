@@ -25,4 +25,13 @@ router.delete('/limpiar-periodo', ventasController.limpiarPorPeriodo);
 // DELETE /api/ventas/limpiar-todo - Limpiar todas las ventas
 router.delete('/limpiar-todo', ventasController.limpiarTodo);
 
+// GET /api/ventas/estado-meses - Estado de meses cargados
+router.get('/estado-meses', ventasController.getEstadoMeses);
+
+// GET /api/ventas/años-disponibles - Años disponibles
+router.get('/anos-disponibles', ventasController.getAñosDisponibles);
+
+// GET /api/ventas/exportar-rep - Exportar en formato REP
+router.get('/exportar-rep', ventasController.exportarLineaBaseREP);
+
 module.exports = router;

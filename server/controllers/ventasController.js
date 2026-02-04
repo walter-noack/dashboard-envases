@@ -2,6 +2,8 @@ const Venta = require('../models/Venta');
 const Blumax = require('../models/Blumax');
 const { mapearVentaAEnvase, calcularResiduos } = require('../utils/residuosMapper');
 const Envase = require('../models/Envase');
+const XLSX = require('xlsx');
+const path = require('path');
 
 // Obtener todas las ventas con filtros opcionales
 exports.getVentas = async (req, res) => {
@@ -552,3 +554,274 @@ exports.getResumenCombinado = async (req, res) => {
     });
   }
 };
+
+// Obtener estado de meses cargados para un año
+exports.getEstadoMeses = async (req, res) => {
+  try {
+    const { año } = req.query;
+    const añoInt = parseInt(año) || new Date().getFullYear();
+
+    // Obtener conteo de registros por mes
+    const estadoMeses = await Venta.aggregate([
+      { $match: { año: añoInt } },
+      {
+        $group: {
+          _id: '$mes',
+          registros: { $sum: 1 },
+          unidades: { $sum: '$unidades' }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Crear estructura con todos los meses
+    const meses = [];
+    for (let i = 1; i <= 12; i++) {
+      const mesDatos = estadoMeses.find(m => m._id === i);
+      meses.push({
+        mes: i,
+        nombre: getNombreMes(i),
+        cargado: !!mesDatos,
+        registros: mesDatos?.registros || 0,
+        unidades: mesDatos?.unidades || 0
+      });
+    }
+
+    // Calcular mes sugerido (con desfase de 2 meses)
+    const hoy = new Date();
+    const mesActual = hoy.getMonth() + 1; // 1-12
+    const añoActual = hoy.getFullYear();
+
+    let mesSugerido, añoSugerido;
+    if (mesActual <= 2) {
+      // En enero o febrero, sugerir noviembre o diciembre del año anterior
+      mesSugerido = mesActual + 10; // Ene(1)->Nov(11), Feb(2)->Dic(12)
+      añoSugerido = añoActual - 1;
+    } else {
+      // Resto del año, restar 2 meses
+      mesSugerido = mesActual - 2;
+      añoSugerido = añoActual;
+    }
+
+    res.json({
+      success: true,
+      data: {
+        año: añoInt,
+        meses,
+        totalRegistros: estadoMeses.reduce((acc, m) => acc + m.registros, 0),
+        mesesCargados: estadoMeses.length,
+        sugerencia: {
+          mes: mesSugerido,
+          año: añoSugerido,
+          nombre: getNombreMes(mesSugerido),
+          descripcion: `Estamos en ${getNombreMes(mesActual)} ${añoActual} → Cargar ${getNombreMes(mesSugerido)} ${añoSugerido}`
+        }
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener estado de meses',
+      error: error.message
+    });
+  }
+};
+
+// Obtener años disponibles
+exports.getAñosDisponibles = async (req, res) => {
+  try {
+    const años = await Venta.distinct('año');
+    const añoActual = new Date().getFullYear();
+
+    // Asegurar que el año actual y anterior estén disponibles
+    if (!años.includes(añoActual)) años.push(añoActual);
+    if (!años.includes(añoActual - 1)) años.push(añoActual - 1);
+
+    res.json({
+      success: true,
+      data: años.sort((a, b) => b - a) // Ordenar descendente
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener años disponibles',
+      error: error.message
+    });
+  }
+};
+
+// Exportar línea base en formato REP
+exports.exportarLineaBaseREP = async (req, res) => {
+  try {
+    const { año, mes } = req.query;
+    const añoInt = parseInt(año) || new Date().getFullYear();
+    const mesInt = mes ? parseInt(mes) : null;
+
+    // Obtener datos de residuos
+    const filtroVentas = {
+      año: añoInt,
+      grupoLineas: { $ne: '8. Bluemax' },
+      envase: { $ne: 'GRANEL' }
+    };
+
+    if (mesInt) {
+      filtroVentas.mes = mesInt;
+    }
+
+    const ventas = await Venta.find(filtroVentas);
+    const envases = await Envase.find();
+    const envasesMap = {};
+    envases.forEach(env => {
+      envasesMap[env.nombre] = env;
+    });
+
+    // Calcular residuos por clasificación
+    const clasificacionMap = {};
+
+    ventas.forEach(venta => {
+      const tipoEnvase = mapearVentaAEnvase(venta);
+
+      if (tipoEnvase && envasesMap[tipoEnvase]) {
+        const residuos = calcularResiduos(venta, envasesMap[tipoEnvase]);
+
+        if (residuos && residuos.porClasificacion) {
+          residuos.porClasificacion.forEach(item => {
+            const key = `${item.material}|${item.peligroso ? 'P' : 'NP'}|${item.domiciliario}`;
+
+            if (!clasificacionMap[key]) {
+              clasificacionMap[key] = {
+                material: item.material,
+                categoria: item.categoria,
+                pesoKg: 0,
+                peligroso: item.peligroso,
+                domiciliario: item.domiciliario
+              };
+            }
+
+            clasificacionMap[key].pesoKg += item.pesoKg;
+          });
+        }
+      }
+    });
+
+    // Convertir a toneladas y organizar por categorías REP
+    const datosREP = Object.values(clasificacionMap).map(item => ({
+      ...item,
+      pesoTon: item.pesoKg / 1000
+    }));
+
+    // Generar Excel con formato REP
+    const wb = XLSX.utils.book_new();
+
+    // Crear hoja con estructura oficial
+    const wsData = [
+      ['Nombre Productor:', null, 'Copec S.A.', null, null, null, null, null, 'ID RUT de empresa que reporta', 5453597],
+      ['Responsable:', null, 'Gilda Gutiérrez Garbarino', null, null, null, null, null, 'RUT empresa', '99.520.000-7'],
+      [null, null, null, null, null, null, null, null, 'Representante Legal', 'Francisco Labbé Bascuñán'],
+      [],
+      ['CATEGORIA DOMICILIARIA', null, null, null, null, null, 'CATEGORIA NO DOMICILIARIA'],
+      ['SUB CATEGORIA', null, 'MATERIAL', 'NO PELIGROSO (TONELADAS)', 'PELIGROSOS (TONELADAS)', null, 'SUB CATEGORIA', null, 'MATERIAL', 'NO PELIGROSO (TONELADAS)', 'PELIGROSOS (TONELADAS)']
+    ];
+
+    // Mapeo de materiales REP
+    const materialesREP = [
+      { subcat: 'METALES', material: 'Hojalata' },
+      { subcat: 'PLÁSTICOS', material: 'Envases de PEAD que NO contienen sustancias con grasa (2)', tipo: 'Rígido' },
+      { subcat: null, material: 'Envases de PEAD que contienen sustancias con grasa (2)', tipo: 'Rígido' },
+      { subcat: null, material: 'PVC (3)', tipo: 'Rígido' },
+      { subcat: null, material: 'Envases de PP que NO contienen sustancias con grasa (5)', tipo: 'Rígido' },
+      { subcat: null, material: 'Envases de PP que contienen sustancias con grasa (5)', tipo: 'Rígido' },
+      { subcat: 'PAPELES Y CARTONES', material: 'Cartón' }
+    ];
+
+    // Función para buscar valor en datosREP
+    const buscarValor = (material, peligroso, domiciliario) => {
+      const item = datosREP.find(d =>
+        d.material.toLowerCase().includes(material.toLowerCase()) &&
+        d.peligroso === peligroso &&
+        d.domiciliario === domiciliario
+      );
+      return item ? Math.round(item.pesoTon * 1000) / 1000 : 0;
+    };
+
+    // Agregar filas de materiales
+    materialesREP.forEach(mat => {
+      const domNoPel = buscarValor(mat.material, false, 'DOMICILIARIO');
+      const domPel = buscarValor(mat.material, true, 'DOMICILIARIO');
+      const noDomNoPel = buscarValor(mat.material, false, 'NO DOMICILIARIO');
+      const noDomPel = buscarValor(mat.material, true, 'NO DOMICILIARIO');
+
+      wsData.push([
+        mat.subcat || null,
+        mat.tipo || null,
+        mat.material,
+        domNoPel,
+        domPel,
+        null,
+        mat.subcat || null,
+        mat.tipo || null,
+        mat.material,
+        noDomNoPel,
+        noDomPel
+      ]);
+    });
+
+    // Agregar hoja de resumen detallado
+    const wsResumen = [
+      ['RESUMEN DETALLADO DE RESIDUOS'],
+      ['Período:', mesInt ? `${getNombreMes(mesInt)} ${añoInt}` : `Año ${añoInt}`],
+      [],
+      ['Material', 'Categoría', 'Domiciliario', 'Peligroso', 'Peso (kg)', 'Peso (ton)']
+    ];
+
+    datosREP.forEach(item => {
+      wsResumen.push([
+        item.material,
+        item.categoria,
+        item.domiciliario,
+        item.peligroso ? 'SÍ' : 'NO',
+        Math.round(item.pesoKg * 100) / 100,
+        Math.round(item.pesoTon * 1000) / 1000
+      ]);
+    });
+
+    // Agregar totales
+    const totalKg = datosREP.reduce((acc, item) => acc + item.pesoKg, 0);
+    wsResumen.push([]);
+    wsResumen.push(['TOTAL', null, null, null, Math.round(totalKg * 100) / 100, Math.round(totalKg / 1000 * 1000) / 1000]);
+
+    const ws1 = XLSX.utils.aoa_to_sheet(wsData);
+    const ws2 = XLSX.utils.aoa_to_sheet(wsResumen);
+
+    XLSX.utils.book_append_sheet(wb, ws1, 'LB');
+    XLSX.utils.book_append_sheet(wb, ws2, 'Resumen');
+
+    // Generar buffer
+    const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+    // Nombre del archivo
+    const nombreArchivo = mesInt
+      ? `LineaBase_COPEC_${añoInt}-${String(mesInt).padStart(2, '0')}.xlsx`
+      : `LineaBase_COPEC_${añoInt}.xlsx`;
+
+    res.setHeader('Content-Disposition', `attachment; filename="${nombreArchivo}"`);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.send(buffer);
+
+  } catch (error) {
+    console.error('Error exportando línea base:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al exportar línea base',
+      error: error.message
+    });
+  }
+};
+
+// Función auxiliar para nombre de mes
+function getNombreMes(mes) {
+  const nombres = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  return nombres[mes] || '';
+}

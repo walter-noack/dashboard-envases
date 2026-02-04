@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getResumenCombinado } from '../services/ventasService';
+import { getResumenCombinado, exportarLineaBaseREP, exportarBlumaxREP, getAñosDisponibles } from '../services/ventasService';
 import {
   Scale,
   AlertTriangle,
@@ -11,7 +11,8 @@ import {
   Loader2,
   Layers,
   Home,
-  Building2
+  Building2,
+  Download
 } from 'lucide-react';
 
 const formatNumber = (num, decimals = 2) => {
@@ -22,13 +23,16 @@ const formatNumber = (num, decimals = 2) => {
   });
 };
 
-const ResumenCombinado = ({ año = 2024, refreshTrigger }) => {
+const ResumenCombinado = ({ año: añoProp = 2024, refreshTrigger }) => {
+  const [añoSeleccionado, setAñoSeleccionado] = useState(añoProp);
+  const [añosDisponibles, setAñosDisponibles] = useState([]);
   const [mesSeleccionado, setMesSeleccionado] = useState(0);
   const [clasificaciones, setClasificaciones] = useState([]);
   const [totales, setTotales] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [unidad, setUnidad] = useState('kg');
+  const [exporting, setExporting] = useState(null); // 'lub', 'blumax', or null
 
   const convertirUnidad = (valorKg) => {
     if (valorKg === null || valorKg === undefined) return null;
@@ -126,16 +130,41 @@ const ResumenCombinado = ({ año = 2024, refreshTrigger }) => {
     { num: 12, nombre: 'Diciembre' }
   ];
 
+  // Cargar años disponibles
+  useEffect(() => {
+    const cargarAños = async () => {
+      try {
+        const response = await getAñosDisponibles();
+        if (response.success && response.data.length > 0) {
+          setAñosDisponibles(response.data);
+        } else {
+          const currentYear = new Date().getFullYear();
+          setAñosDisponibles([currentYear - 1, currentYear, currentYear + 1]);
+        }
+      } catch (error) {
+        console.error('Error cargando años:', error);
+        const currentYear = new Date().getFullYear();
+        setAñosDisponibles([currentYear - 1, currentYear, currentYear + 1]);
+      }
+    };
+    cargarAños();
+  }, []);
+
+  // Actualizar año seleccionado cuando cambia el prop
+  useEffect(() => {
+    setAñoSeleccionado(añoProp);
+  }, [añoProp]);
+
   useEffect(() => {
     fetchResumen();
-  }, [año, mesSeleccionado, refreshTrigger]);
+  }, [añoSeleccionado, mesSeleccionado, refreshTrigger]);
 
   const fetchResumen = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await getResumenCombinado(año, mesSeleccionado);
+      const response = await getResumenCombinado(añoSeleccionado, mesSeleccionado);
       setClasificaciones(response.data);
       setTotales(response.totales);
     } catch (err) {
@@ -143,6 +172,28 @@ const ResumenCombinado = ({ año = 2024, refreshTrigger }) => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleExportarLUB = async () => {
+    setExporting('lub');
+    try {
+      await exportarLineaBaseREP(añoSeleccionado, mesSeleccionado > 0 ? mesSeleccionado : null);
+    } catch (error) {
+      console.error('Error exportando LUB:', error);
+    } finally {
+      setExporting(null);
+    }
+  };
+
+  const handleExportarBlumax = async () => {
+    setExporting('blumax');
+    try {
+      await exportarBlumaxREP(añoSeleccionado, mesSeleccionado > 0 ? mesSeleccionado : null);
+    } catch (error) {
+      console.error('Error exportando Blumax:', error);
+    } finally {
+      setExporting(null);
     }
   };
 
@@ -160,7 +211,25 @@ const ResumenCombinado = ({ año = 2024, refreshTrigger }) => {
         <div style={styles.filterGroup}>
           <label style={styles.filterLabel}>
             <Calendar size={14} />
-            <span>Período</span>
+            <span>Año</span>
+          </label>
+          <select
+            value={añoSeleccionado}
+            onChange={(e) => setAñoSeleccionado(parseInt(e.target.value))}
+            style={styles.select}
+          >
+            {añosDisponibles.map(año => (
+              <option key={año} value={año}>
+                {año}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div style={styles.filterGroup}>
+          <label style={styles.filterLabel}>
+            <Calendar size={14} />
+            <span>Mes</span>
           </label>
           <select
             value={mesSeleccionado}
@@ -198,6 +267,39 @@ const ResumenCombinado = ({ año = 2024, refreshTrigger }) => {
               onClick={() => setUnidad('ton')}
             >
               ton
+            </button>
+          </div>
+        </div>
+
+        <div style={styles.filterGroupExport}>
+          <label style={styles.filterLabel}>
+            <Download size={14} />
+            <span>Exportar</span>
+          </label>
+          <div style={styles.exportButtons}>
+            <button
+              onClick={handleExportarLUB}
+              disabled={exporting !== null || loading}
+              style={{...styles.exportButton, ...styles.exportButtonLUB}}
+            >
+              {exporting === 'lub' ? (
+                <Loader2 size={14} style={styles.spinner} />
+              ) : (
+                <Download size={14} />
+              )}
+              <span>LUB</span>
+            </button>
+            <button
+              onClick={handleExportarBlumax}
+              disabled={exporting !== null || loading}
+              style={{...styles.exportButton, ...styles.exportButtonBlumax}}
+            >
+              {exporting === 'blumax' ? (
+                <Loader2 size={14} style={styles.spinner} />
+              ) : (
+                <Download size={14} />
+              )}
+              <span>Bluemax</span>
             </button>
           </div>
         </div>
@@ -429,6 +531,36 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 'var(--spacing-sm)'
+  },
+  filterGroupExport: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--spacing-sm)',
+    marginLeft: 'auto'
+  },
+  exportButtons: {
+    display: 'flex',
+    gap: 'var(--spacing-sm)'
+  },
+  exportButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-xs)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)'
+  },
+  exportButtonLUB: {
+    backgroundColor: '#f97316',
+    color: 'white'
+  },
+  exportButtonBlumax: {
+    backgroundColor: '#2563eb',
+    color: 'white'
   },
   filterLabel: {
     display: 'flex',

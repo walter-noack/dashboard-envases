@@ -1,21 +1,48 @@
-import { useState } from 'react';
-import { LogOut, Calendar, Recycle, Droplets, Factory, Layers, BarChart3, FileCheck } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { LogOut, Calendar, Recycle, Droplets, Factory, Layers, BarChart3, FileCheck, PieChart } from 'lucide-react';
 import FileUpload from '../components/FileUpload';
 import BlumaxUpload from '../components/BlumaxUpload';
 import LimpiarDatos from '../components/LimpiarDatos';
+import LimpiarDatosBlumax from '../components/LimpiarDatosBlumax';
 import VentasPorMes from '../components/VentasPorMes';
 import ClasificacionResiduos from '../components/ClasificacionResiduos';
 import ClasificacionBlumax from '../components/ClasificacionBlumax';
 import ResumenCombinado from '../components/ResumenCombinado';
 import MonitoringUpload from '../components/MonitoringUpload';
-import MonitoringManualForm from '../components/MonitoringManualForm';
 import MonitoringTable from '../components/MonitoringTable';
+import DashboardStats from '../components/DashboardStats';
+import { getAñosDisponibles } from '../services/ventasService';
 
 const Dashboard = ({ user, onLogout }) => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [selectedYear, setSelectedYear] = useState(2025);
-  const [activeModule, setActiveModule] = useState('lineaBase');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [añosDisponibles, setAñosDisponibles] = useState([]);
+  const [activeModule, setActiveModule] = useState('estadisticas');
   const [activeSubTab, setActiveSubTab] = useState('ventas');
+
+  // Cargar años disponibles al iniciar
+  useEffect(() => {
+    const cargarAños = async () => {
+      try {
+        const response = await getAñosDisponibles();
+        if (response.success && response.data.length > 0) {
+          setAñosDisponibles(response.data);
+          // Seleccionar el año más reciente
+          const añoMasReciente = Math.max(...response.data);
+          setSelectedYear(añoMasReciente);
+        } else {
+          // Si no hay datos, usar año actual
+          const currentYear = new Date().getFullYear();
+          setAñosDisponibles([currentYear - 1, currentYear, currentYear + 1]);
+        }
+      } catch (error) {
+        console.error('Error cargando años:', error);
+        const currentYear = new Date().getFullYear();
+        setAñosDisponibles([currentYear - 1, currentYear, currentYear + 1]);
+      }
+    };
+    cargarAños();
+  }, []);
 
   const handleUploadSuccess = (result) => {
     console.log('Upload exitoso:', result);
@@ -28,6 +55,7 @@ const Dashboard = ({ user, onLogout }) => {
   };
 
   const modules = [
+    { id: 'estadisticas', label: 'Estadísticas', icon: PieChart, color: '#8b5cf6' },
     { id: 'lineaBase', label: 'Línea Base', icon: BarChart3, color: '#f97316' },
     { id: 'monitoring', label: 'Monitoring', icon: FileCheck, color: '#059669' }
   ];
@@ -69,8 +97,13 @@ const Dashboard = ({ user, onLogout }) => {
                 onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                 style={styles.select}
               >
-                <option value={2024}>2024</option>
-                <option value={2025}>2025</option>
+                {añosDisponibles.length > 0 ? (
+                  añosDisponibles.map(año => (
+                    <option key={año} value={año}>{año}</option>
+                  ))
+                ) : (
+                  <option value={selectedYear}>{selectedYear}</option>
+                )}
               </select>
             </div>
 
@@ -142,14 +175,19 @@ const Dashboard = ({ user, onLogout }) => {
       )}
 
       <main style={styles.main}>
+        {/* ESTADÍSTICAS */}
+        {activeModule === 'estadisticas' && (
+          <DashboardStats año={selectedYear} />
+        )}
+
         {/* LÍNEA BASE */}
         {activeModule === 'lineaBase' && (
           <>
             {activeSubTab === 'ventas' && (
               <>
                 <div style={styles.uploadSection}>
-                  <FileUpload onUploadSuccess={handleUploadSuccess} />
-                  <LimpiarDatos onLimpiezaExitosa={handleLimpiezaExitosa} />
+                  <FileUpload onUploadSuccess={handleUploadSuccess} año={selectedYear} />
+                  <LimpiarDatos onLimpiezaExitosa={handleLimpiezaExitosa} año={selectedYear} />
                 </div>
                 <ClasificacionResiduos año={selectedYear} refreshTrigger={refreshTrigger} />
                 <VentasPorMes año={selectedYear} refreshTrigger={refreshTrigger} />
@@ -159,7 +197,8 @@ const Dashboard = ({ user, onLogout }) => {
             {activeSubTab === 'blumax' && (
               <>
                 <div style={styles.uploadSection}>
-                  <BlumaxUpload onUploadSuccess={handleUploadSuccess} />
+                  <BlumaxUpload onUploadSuccess={handleUploadSuccess} año={selectedYear} />
+                  <LimpiarDatosBlumax onLimpiezaExitosa={handleLimpiezaExitosa} año={selectedYear} />
                 </div>
                 <ClasificacionBlumax año={selectedYear} refreshTrigger={refreshTrigger} />
               </>
@@ -174,10 +213,7 @@ const Dashboard = ({ user, onLogout }) => {
         {/* MONITORING (módulo unificado) */}
         {activeModule === 'monitoring' && (
           <>
-            <div style={styles.uploadSection}>
-              <MonitoringUpload onUploadSuccess={handleUploadSuccess} />
-              <MonitoringManualForm onSuccess={handleUploadSuccess} />
-            </div>
+            <MonitoringUpload onUploadSuccess={handleUploadSuccess} />
             <MonitoringTable año={selectedYear} refreshTrigger={refreshTrigger} />
           </>
         )}

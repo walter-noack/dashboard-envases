@@ -11,6 +11,7 @@ const envasesRoutes = require('./routes/envases');
 const authRoutes = require('./routes/auth');
 const blumaxRoutes = require('./routes/blumax');
 const monitoringRoutes = require('./routes/monitoring');
+const statsRoutes = require('./routes/stats');
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
@@ -50,12 +51,17 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas públicas (sin autenticación)
 app.use('/api/auth', authRoutes);
 
+// Endpoints de diagnóstico público
+app.get('/api/stats/diagnostico', require('./controllers/statsController').getDiagnostico);
+app.get('/api/stats/test-linea-base', require('./controllers/statsController').getLineaBaseResumen);
+
 // Rutas protegidas (requieren autenticación)
 app.use('/api/ventas', authMiddleware, ventasRoutes);
 app.use('/api/upload', authMiddleware, uploadRoutes);
 app.use('/api/envases', authMiddleware, envasesRoutes);
 app.use('/api/blumax', authMiddleware, blumaxRoutes);
 app.use('/api/monitoring', monitoringRoutes);
+app.use('/api/stats', statsRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {

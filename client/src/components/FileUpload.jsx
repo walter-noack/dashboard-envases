@@ -1,12 +1,55 @@
-import { useState } from 'react';
-import { uploadExcel } from '../services/ventasService';
-import { Upload, FileSpreadsheet, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { uploadExcel, uploadExcelMensual, getEstadoMeses } from '../services/ventasService';
+import {
+  Upload,
+  FileSpreadsheet,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  X
+} from 'lucide-react';
 
-const FileUpload = ({ onUploadSuccess }) => {
+const FileUpload = ({ onUploadSuccess, año = 2025 }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [tipoCarga, setTipoCarga] = useState('anual'); // 'anual' o 'mensual'
+  const [mesDestino, setMesDestino] = useState(1);
+  const [añoDestino, setAñoDestino] = useState(año);
+  const [estadoMeses, setEstadoMeses] = useState(null);
+  const [confirmacion, setConfirmacion] = useState(null); // Para confirmar sobreescritura
+
+  const meses = [
+    { num: 1, nombre: 'Enero' },
+    { num: 2, nombre: 'Febrero' },
+    { num: 3, nombre: 'Marzo' },
+    { num: 4, nombre: 'Abril' },
+    { num: 5, nombre: 'Mayo' },
+    { num: 6, nombre: 'Junio' },
+    { num: 7, nombre: 'Julio' },
+    { num: 8, nombre: 'Agosto' },
+    { num: 9, nombre: 'Septiembre' },
+    { num: 10, nombre: 'Octubre' },
+    { num: 11, nombre: 'Noviembre' },
+    { num: 12, nombre: 'Diciembre' }
+  ];
+
+  useEffect(() => {
+    setAñoDestino(año);
+    cargarEstadoMeses(año);
+  }, [año]);
+
+  const cargarEstadoMeses = async (añoParam) => {
+    try {
+      const response = await getEstadoMeses(añoParam);
+      if (response.success) {
+        setEstadoMeses(response.data.meses);
+      }
+    } catch (error) {
+      console.error('Error cargando estado de meses:', error);
+    }
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -16,26 +59,62 @@ const FileUpload = ({ onUploadSuccess }) => {
     }
   };
 
-  const handleUpload = async () => {
+  const verificarYSubir = () => {
     if (!file) {
       setMessage({ type: 'error', text: 'Por favor selecciona un archivo' });
       return;
     }
 
+    // Si es carga mensual, verificar si el mes ya tiene datos
+    if (tipoCarga === 'mensual' && estadoMeses) {
+      const mesInfo = estadoMeses.find(m => m.mes === mesDestino);
+      if (mesInfo?.cargado) {
+        const mesNombre = meses.find(m => m.num === mesDestino)?.nombre;
+        setConfirmacion({
+          mes: mesNombre,
+          año: añoDestino,
+          registros: mesInfo.registros
+        });
+        return;
+      }
+    }
+
+    // Si no hay datos previos, subir directamente
+    ejecutarUpload();
+  };
+
+  const ejecutarUpload = async () => {
+    setConfirmacion(null);
     setUploading(true);
     setUploadProgress(0);
     setMessage({ type: '', text: '' });
 
     try {
-      const result = await uploadExcel(file, (progress) => {
-        setUploadProgress(progress);
-      });
+      let result;
+
+      if (tipoCarga === 'mensual') {
+        result = await uploadExcelMensual(file, añoDestino, mesDestino, (progress) => {
+          setUploadProgress(progress);
+        });
+      } else {
+        result = await uploadExcel(file, (progress) => {
+          setUploadProgress(progress);
+        });
+      }
+
+      const mesNombre = tipoCarga === 'mensual' ? meses.find(m => m.num === mesDestino)?.nombre : '';
       setMessage({
         type: 'success',
-        text: `${result.data.registrosInsertados} registros cargados correctamente`
+        text: tipoCarga === 'mensual'
+          ? `${result.data.registrosInsertados} registros cargados para ${mesNombre} ${añoDestino}`
+          : `${result.data.registrosInsertados} registros cargados correctamente`
       });
+
       setFile(null);
-      document.getElementById('file-input').value = '';
+      document.getElementById('file-input-lub').value = '';
+
+      // Recargar estado de meses
+      cargarEstadoMeses(añoDestino);
 
       if (onUploadSuccess) {
         onUploadSuccess(result);
@@ -50,6 +129,10 @@ const FileUpload = ({ onUploadSuccess }) => {
     }
   };
 
+  const handleTipoCargaChange = (tipo) => {
+    setTipoCarga(tipo);
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.header}>
@@ -57,14 +140,113 @@ const FileUpload = ({ onUploadSuccess }) => {
         <h3 style={styles.title}>Cargar Datos LUB</h3>
       </div>
 
+      {/* Selector de tipo de carga */}
+      <div style={styles.tipoSelector}>
+        <button
+          onClick={() => handleTipoCargaChange('anual')}
+          style={{
+            ...styles.tipoButton,
+            ...(tipoCarga === 'anual' ? styles.tipoButtonActive : {})
+          }}
+        >
+          Carga Anual
+        </button>
+        <button
+          onClick={() => handleTipoCargaChange('mensual')}
+          style={{
+            ...styles.tipoButton,
+            ...(tipoCarga === 'mensual' ? styles.tipoButtonActive : {})
+          }}
+        >
+          Carga Mensual
+        </button>
+      </div>
+
+      {/* Selectores de período para carga mensual */}
+      {tipoCarga === 'mensual' && (
+        <div style={styles.periodoSection}>
+          <div style={styles.periodoSelectors}>
+            <div style={styles.selectorGroup}>
+              <label style={styles.selectorLabel}>Año destino</label>
+              <select
+                value={añoDestino}
+                onChange={(e) => {
+                  const nuevoAño = parseInt(e.target.value);
+                  setAñoDestino(nuevoAño);
+                  cargarEstadoMeses(nuevoAño);
+                }}
+                style={styles.select}
+              >
+                {[año - 1, año, año + 1].map(a => (
+                  <option key={a} value={a}>{a}</option>
+                ))}
+              </select>
+            </div>
+            <div style={styles.selectorGroup}>
+              <label style={styles.selectorLabel}>Mes destino</label>
+              <select
+                value={mesDestino}
+                onChange={(e) => setMesDestino(parseInt(e.target.value))}
+                style={styles.select}
+              >
+                {meses.map(mes => (
+                  <option key={mes.num} value={mes.num}>
+                    {mes.nombre} {estadoMeses?.find(m => m.mes === mes.num)?.cargado ? '✓' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación para sobreescribir */}
+      {confirmacion && (
+        <div style={styles.confirmacionOverlay}>
+          <div style={styles.confirmacionBox}>
+            <div style={styles.confirmacionHeader}>
+              <AlertCircle size={20} color="#f59e0b" />
+              <span>Confirmar sobreescritura</span>
+              <button
+                onClick={() => setConfirmacion(null)}
+                style={styles.closeButton}
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <p style={styles.confirmacionText}>
+              <strong>{confirmacion.mes} {confirmacion.año}</strong> ya tiene{' '}
+              <strong>{confirmacion.registros.toLocaleString('es-CL')}</strong> registros cargados.
+              <br />
+              ¿Desea sobreescribir la información?
+            </p>
+            <div style={styles.confirmacionButtons}>
+              <button
+                onClick={() => setConfirmacion(null)}
+                style={styles.cancelButton}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={ejecutarUpload}
+                style={styles.confirmButton}
+              >
+                Sobreescribir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Área de upload */}
       <div style={styles.uploadArea}>
-        <label htmlFor="file-input" style={styles.dropZone}>
+        <label htmlFor="file-input-lub" style={styles.dropZone}>
           <Upload size={18} style={styles.dropIcon} />
           <span style={styles.dropText}>
             {file ? file.name : 'Seleccionar archivo Excel'}
           </span>
           <input
-            id="file-input"
+            id="file-input-lub"
             type="file"
             accept=".xlsx,.xls"
             onChange={handleFileChange}
@@ -74,7 +256,7 @@ const FileUpload = ({ onUploadSuccess }) => {
         </label>
 
         <button
-          onClick={handleUpload}
+          onClick={verificarYSubir}
           disabled={!file || uploading}
           style={{
             ...styles.button,
@@ -89,7 +271,7 @@ const FileUpload = ({ onUploadSuccess }) => {
           ) : (
             <>
               <Upload size={18} />
-              <span>Subir archivo</span>
+              <span>Subir</span>
             </>
           )}
         </button>
@@ -131,7 +313,8 @@ const styles = {
     backgroundColor: 'var(--color-surface)',
     borderRadius: 'var(--radius-lg)',
     border: '1px solid var(--color-border)',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative'
   },
   header: {
     display: 'flex',
@@ -149,6 +332,61 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     fontWeight: '600',
     color: 'var(--color-text-primary)'
+  },
+  tipoSelector: {
+    display: 'flex',
+    gap: '2px',
+    padding: 'var(--spacing-sm) var(--spacing-lg)',
+    backgroundColor: 'var(--color-bg)'
+  },
+  tipoButton: {
+    flex: 1,
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    border: '1px solid var(--color-border)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-secondary)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)',
+    borderRadius: 'var(--radius-md)'
+  },
+  tipoButtonActive: {
+    backgroundColor: 'var(--color-accent)',
+    color: 'white',
+    borderColor: 'var(--color-accent)'
+  },
+  periodoSection: {
+    padding: 'var(--spacing-md) var(--spacing-lg)',
+    borderBottom: '1px solid var(--color-border-light)',
+    backgroundColor: 'var(--color-bg)'
+  },
+  periodoSelectors: {
+    display: 'flex',
+    gap: 'var(--spacing-md)'
+  },
+  selectorGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--spacing-xs)'
+  },
+  selectorLabel: {
+    fontSize: 'var(--font-size-xs)',
+    fontWeight: '500',
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
+  },
+  select: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-surface)',
+    color: 'var(--color-text-primary)',
+    cursor: 'pointer',
+    outline: 'none',
+    minWidth: '120px'
   },
   uploadArea: {
     display: 'flex',
@@ -250,6 +488,79 @@ const styles = {
   messageError: {
     backgroundColor: 'var(--color-danger-light)',
     color: 'var(--color-danger)'
+  },
+  // Estilos para el modal de confirmación
+  confirmacionOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+    borderRadius: 'var(--radius-lg)'
+  },
+  confirmacionBox: {
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    padding: 'var(--spacing-lg)',
+    margin: 'var(--spacing-md)',
+    maxWidth: '320px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+  },
+  confirmacionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    marginBottom: 'var(--spacing-md)',
+    fontWeight: '600',
+    color: 'var(--color-text-primary)'
+  },
+  closeButton: {
+    marginLeft: 'auto',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--color-text-muted)',
+    padding: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  confirmacionText: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.5,
+    margin: 0,
+    marginBottom: 'var(--spacing-lg)'
+  },
+  confirmacionButtons: {
+    display: 'flex',
+    gap: 'var(--spacing-sm)',
+    justifyContent: 'flex-end'
+  },
+  cancelButton: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'var(--color-bg)',
+    color: 'var(--color-text-secondary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer'
+  },
+  confirmButton: {
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: '#f59e0b',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer'
   }
 };
 

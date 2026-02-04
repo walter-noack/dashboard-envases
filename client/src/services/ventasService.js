@@ -170,6 +170,106 @@ export const limpiarBlumaxPorAño = async (año) => {
   }
 };
 
+// Limpiar datos de Blumax por período (año y mes)
+export const limpiarBlumaxPorPeriodo = async (año, mes = null) => {
+  try {
+    const body = { año };
+    if (mes) body.mes = mes;
+    const response = await api.delete('/blumax/limpiar-periodo', { data: body });
+    return response.data;
+  } catch (error) {
+    console.error('Error limpiando datos Blumax por período:', error);
+    throw error;
+  }
+};
+
+// Limpiar todos los datos de Blumax
+export const limpiarBlumaxTodo = async () => {
+  try {
+    const response = await api.delete('/blumax/limpiar-todo');
+    return response.data;
+  } catch (error) {
+    console.error('Error limpiando todos los datos Blumax:', error);
+    throw error;
+  }
+};
+
+// Obtener años disponibles de Blumax
+export const getAñosDisponiblesBlumax = async () => {
+  try {
+    const response = await api.get('/blumax/años');
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo años disponibles Blumax:', error);
+    throw error;
+  }
+};
+
+// Exportar Blumax en formato REP
+export const exportarBlumaxREP = async (año, mes = null) => {
+  try {
+    const params = mes ? `año=${año}&mes=${mes}` : `año=${año}`;
+    const response = await api.get(`/blumax/exportar-rep?${params}`, {
+      responseType: 'blob'
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+
+    const nombreArchivo = mes
+      ? `Bluemax_${año}-${String(mes).padStart(2, '0')}.xlsx`
+      : `Bluemax_${año}.xlsx`;
+
+    link.setAttribute('download', nombreArchivo);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    return { success: true, message: 'Archivo descargado correctamente' };
+  } catch (error) {
+    console.error('Error exportando Blumax:', error);
+    throw error;
+  }
+};
+
+// Subir archivo Excel de Blumax mensual
+export const uploadExcelBlumaxMensual = async (file, año, mes, onUploadProgress) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('anio', año);
+    formData.append('mes', mes);
+
+    const response = await api.post('/upload/blumax-mensual', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: onUploadProgress ? (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        onUploadProgress(percentCompleted);
+      } : undefined
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error subiendo archivo Blumax mensual:', error);
+    throw error;
+  }
+};
+
+// Obtener estado de meses cargados para Blumax
+export const getEstadoMesesBlumax = async (año) => {
+  try {
+    const response = await api.get(`/blumax/estado-meses?año=${año}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo estado de meses Blumax:', error);
+    throw error;
+  }
+};
+
 // ============ RESUMEN COMBINADO ============
 
 // Obtener resumen combinado de residuos (Ventas + Blumax)
@@ -179,6 +279,85 @@ export const getResumenCombinado = async (año = 2024, mes = 0) => {
     return response.data;
   } catch (error) {
     console.error('Error obteniendo resumen combinado:', error);
+    throw error;
+  }
+};
+
+// ============ LÍNEA BASE - CARGA MENSUAL Y ESTADO ============
+
+// Subir archivo Excel de ventas mensual
+export const uploadExcelMensual = async (file, año, mes, onUploadProgress) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('anio', año);
+    formData.append('mes', mes);
+
+    const response = await api.post('/upload/mensual', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: onUploadProgress ? (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        onUploadProgress(percentCompleted);
+      } : undefined
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error subiendo archivo mensual:', error);
+    throw error;
+  }
+};
+
+// Obtener estado de meses cargados
+export const getEstadoMeses = async (año) => {
+  try {
+    const response = await api.get(`/ventas/estado-meses?año=${año}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo estado de meses:', error);
+    throw error;
+  }
+};
+
+// Obtener años disponibles
+export const getAñosDisponibles = async () => {
+  try {
+    const response = await api.get('/ventas/anos-disponibles');
+    return response.data;
+  } catch (error) {
+    console.error('Error obteniendo años disponibles:', error);
+    throw error;
+  }
+};
+
+// Exportar línea base en formato REP
+export const exportarLineaBaseREP = async (año, mes = null) => {
+  try {
+    const params = mes ? `año=${año}&mes=${mes}` : `año=${año}`;
+    const response = await api.get(`/ventas/exportar-rep?${params}`, {
+      responseType: 'blob'
+    });
+
+    // Crear enlace de descarga
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+
+    const nombreArchivo = mes
+      ? `LineaBase_COPEC_${año}-${String(mes).padStart(2, '0')}.xlsx`
+      : `LineaBase_COPEC_${año}.xlsx`;
+
+    link.setAttribute('download', nombreArchivo);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    return { success: true, message: 'Archivo descargado correctamente' };
+  } catch (error) {
+    console.error('Error exportando línea base:', error);
     throw error;
   }
 };

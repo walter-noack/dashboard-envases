@@ -1,13 +1,15 @@
 import { useState, useRef } from 'react';
-import { Upload, FileText, CheckCircle, AlertCircle, Loader, X, File } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Loader, X, File, ClipboardEdit } from 'lucide-react';
 import { parsePDF } from '../services/monitoringService';
 import MonitoringEditModal from './MonitoringEditModal';
+import MonitoringManualForm from './MonitoringManualForm';
 
 const MonitoringUpload = ({ onUploadSuccess }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [archivos, setArchivos] = useState([]); // Lista de archivos con estado
+  const [archivos, setArchivos] = useState([]);
   const [archivoActualIndex, setArchivoActualIndex] = useState(-1);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showManualModal, setShowManualModal] = useState(false);
   const [datosParaEditar, setDatosParaEditar] = useState(null);
   const fileInputRef = useRef(null);
   const processingRef = useRef(false);
@@ -45,7 +47,7 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     const nuevosArchivos = files.map(file => ({
       file,
       nombre: file.name,
-      estado: 'pendiente', // pendiente, procesando, editando, completado, error
+      estado: 'pendiente',
       error: null,
       datosExtraidos: null
     }));
@@ -62,7 +64,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     processingRef.current = true;
     setArchivoActualIndex(indexPendiente);
 
-    // Marcar como procesando
     setArchivos(prev => prev.map((a, i) =>
       i === indexPendiente ? { ...a, estado: 'procesando' } : a
     ));
@@ -71,7 +72,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
       const response = await parsePDF(archivos[indexPendiente].file, 'LUB');
 
       if (response.success) {
-        // Marcar como editando y abrir modal
         setArchivos(prev => prev.map((a, i) =>
           i === indexPendiente ? {
             ...a,
@@ -93,7 +93,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
           i === indexPendiente ? { ...a, estado: 'error', error: response.message } : a
         ));
         processingRef.current = false;
-        // Procesar siguiente automáticamente
         setTimeout(() => procesarSiguienteArchivo(), 100);
       }
     } catch (err) {
@@ -110,7 +109,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     }
   };
 
-  // Iniciar procesamiento cuando hay archivos pendientes
   const iniciarProcesamiento = () => {
     if (!processingRef.current && archivos.some(a => a.estado === 'pendiente')) {
       procesarSiguienteArchivo();
@@ -121,7 +119,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     setShowEditModal(false);
     setDatosParaEditar(null);
 
-    // Marcar como completado
     setArchivos(prev => prev.map((a, i) =>
       i === archivoActualIndex ? { ...a, estado: 'completado' } : a
     ));
@@ -131,7 +128,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     }
 
     processingRef.current = false;
-    // Procesar siguiente archivo
     setTimeout(() => procesarSiguienteArchivo(), 100);
   };
 
@@ -139,13 +135,18 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
     setShowEditModal(false);
     setDatosParaEditar(null);
 
-    // Marcar como cancelado (lo dejamos como error para que sea visible)
     setArchivos(prev => prev.map((a, i) =>
       i === archivoActualIndex ? { ...a, estado: 'error', error: 'Cancelado por usuario' } : a
     ));
 
     processingRef.current = false;
     setTimeout(() => procesarSiguienteArchivo(), 100);
+  };
+
+  const handleManualSuccess = (response) => {
+    if (onUploadSuccess) {
+      onUploadSuccess(response);
+    }
   };
 
   const removerArchivo = (index) => {
@@ -158,7 +159,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
 
   const monitoringColor = '#059669';
 
-  // Calcular progreso
   const totalArchivos = archivos.length;
   const completados = archivos.filter(a => a.estado === 'completado').length;
   const errores = archivos.filter(a => a.estado === 'error').length;
@@ -174,9 +174,16 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
             <FileText size={20} />
           </div>
           <div style={{ flex: 1 }}>
-            <h3 style={styles.title}>Cargar Facturas PDF</h3>
-            <p style={styles.subtitle}>Arrastra múltiples archivos o selecciónalos</p>
+            <h3 style={styles.title}>Cargar Datos de Monitoring</h3>
+            <p style={styles.subtitle}>Facturas PDF o ingreso manual</p>
           </div>
+          <button
+            onClick={() => setShowManualModal(true)}
+            style={styles.manualButton}
+          >
+            <ClipboardEdit size={16} />
+            Ingreso Manual
+          </button>
         </div>
 
         <div
@@ -206,7 +213,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
           <p style={styles.dropzoneHint}>Puedes seleccionar múltiples archivos</p>
         </div>
 
-        {/* Lista de archivos */}
         {archivos.length > 0 && (
           <div style={styles.fileList}>
             <div style={styles.fileListHeader}>
@@ -227,7 +233,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
               </div>
             </div>
 
-            {/* Barra de progreso */}
             {totalArchivos > 0 && (
               <div style={styles.progressContainer}>
                 <div style={styles.progressBar}>
@@ -243,7 +248,6 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
               </div>
             )}
 
-            {/* Lista de archivos */}
             <div style={styles.fileItems}>
               {archivos.map((archivo, index) => (
                 <div key={index} style={styles.fileItem}>
@@ -299,6 +303,12 @@ const MonitoringUpload = ({ onUploadSuccess }) => {
           onSuccess={handleEditSuccess}
         />
       )}
+
+      <MonitoringManualForm
+        isOpen={showManualModal}
+        onClose={() => setShowManualModal(false)}
+        onSuccess={handleManualSuccess}
+      />
     </>
   );
 };
@@ -334,6 +344,21 @@ const styles = {
     margin: 0,
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)'
+  },
+  manualButton: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 14px',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    backgroundColor: 'var(--color-bg)',
+    color: 'var(--color-text-primary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)',
+    whiteSpace: 'nowrap'
   },
   dropzone: {
     border: '2px dashed var(--color-border)',

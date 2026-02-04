@@ -53,6 +53,54 @@ exports.procesarExcelVentas = async (filePath) => {
   }
 };
 
+// Parsear archivo Excel de ventas MENSUAL y guardar en MongoDB
+// Reemplaza solo los datos del mes específico
+exports.procesarExcelVentasMensual = async (filePath, añoDestino, mesDestino) => {
+  try {
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    const data = XLSX.utils.sheet_to_json(worksheet);
+
+    console.log(`📊 Procesando ${data.length} registros para ${mesDestino}/${añoDestino}...`);
+
+    // Mapear datos al formato del modelo, forzando año y mes destino
+    const ventas = data.map(row => ({
+      año: añoDestino,
+      mes: mesDestino,
+      canal: row['Canal'] || row['canal'],
+      grupoLineas: row['GrupoLineas'] || row['grupoLineas'],
+      material: row['Material'] || row['material'],
+      materialNombre: row['MaterialNombre'] || row['materialNombre'],
+      oficina: row['Oficina'] || row['oficina'],
+      envase: row['Envase'] || row['envase'],
+      volumen: row['Vol'] || row['vol'] || row['Volumen'] || 0,
+      unidades: row['Unidades'] || row['unidades'] || 0
+    }));
+
+    // Eliminar solo los datos del mes específico
+    await Venta.deleteMany({ año: añoDestino, mes: mesDestino });
+    console.log(`🗑️  Datos de ${mesDestino}/${añoDestino} eliminados`);
+
+    // Insertar nuevos datos
+    const resultado = await Venta.insertMany(ventas);
+
+    console.log(`✅ ${resultado.length} registros insertados para ${mesDestino}/${añoDestino}`);
+
+    return {
+      success: true,
+      registrosInsertados: resultado.length,
+      año: añoDestino,
+      mes: mesDestino
+    };
+
+  } catch (error) {
+    console.error('Error procesando Excel mensual:', error);
+    throw error;
+  }
+};
+
 // Parsear archivo Excel de Blumax y guardar en MongoDB
 // Formato esperado: Año | Envase | Unidades
 exports.procesarExcelBlumax = async (filePath) => {
@@ -99,6 +147,52 @@ exports.procesarExcelBlumax = async (filePath) => {
 
   } catch (error) {
     console.error('Error procesando Excel Blumax:', error);
+    throw error;
+  }
+};
+
+// Parsear archivo Excel de Blumax MENSUAL y guardar en MongoDB
+// Formato esperado: Envase | Unidades (año y mes se reciben como parámetros)
+exports.procesarExcelBlumaxMensual = async (filePath, añoDestino, mesDestino) => {
+  try {
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    const data = XLSX.utils.sheet_to_json(worksheet);
+
+    console.log(`📊 Procesando Blumax ${data.length} registros para ${mesDestino}/${añoDestino}...`);
+
+    const registros = data.map(row => ({
+      año: añoDestino,
+      mes: mesDestino,
+      envase: (row['Envase'] || row['envase'] || '').toString().toUpperCase().trim(),
+      unidades: parseFloat(row['Unidades'] || row['unidades']) || 0
+    })).filter(r => r.envase && r.unidades > 0);
+
+    if (registros.length === 0) {
+      throw new Error('No se encontraron registros válidos. Formato esperado: Envase, Unidades');
+    }
+
+    // Eliminar solo los datos del mes específico
+    await Blumax.deleteMany({ año: añoDestino, mes: mesDestino });
+    console.log(`🗑️  Datos Blumax de ${mesDestino}/${añoDestino} eliminados`);
+
+    // Insertar nuevos registros
+    const resultado = await Blumax.insertMany(registros);
+
+    console.log(`✅ ${resultado.length} registros Blumax insertados para ${mesDestino}/${añoDestino}`);
+
+    return {
+      success: true,
+      registrosInsertados: resultado.length,
+      año: añoDestino,
+      mes: mesDestino,
+      envases: [...new Set(registros.map(r => r.envase))]
+    };
+
+  } catch (error) {
+    console.error('Error procesando Excel Blumax mensual:', error);
     throw error;
   }
 };

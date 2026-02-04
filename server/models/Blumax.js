@@ -5,6 +5,11 @@ const blumaxSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  mes: {
+    type: Number,
+    required: false, // Opcional para compatibilidad con datos anteriores
+    default: null
+  },
   envase: {
     type: String,
     required: true
@@ -18,6 +23,6 @@ const blumaxSchema = new mongoose.Schema({
   timestamps: true
 });
 
-blumaxSchema.index({ año: 1, envase: 1 });
+blumaxSchema.index({ año: 1, mes: 1, envase: 1 });
 
 module.exports = mongoose.model('Blumax', blumaxSchema);
