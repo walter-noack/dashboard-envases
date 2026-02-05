@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LogOut, Calendar, Recycle, Droplets, Factory, Layers, BarChart3, FileCheck, PieChart } from 'lucide-react';
+import { LogOut, Calendar, Recycle, Droplets, Factory, Layers, BarChart3, FileCheck, PieChart, FileText } from 'lucide-react';
 import FileUpload from '../components/FileUpload';
 import BlumaxUpload from '../components/BlumaxUpload';
 import LimpiarDatos from '../components/LimpiarDatos';
@@ -11,6 +11,7 @@ import ResumenCombinado from '../components/ResumenCombinado';
 import MonitoringUpload from '../components/MonitoringUpload';
 import MonitoringTable from '../components/MonitoringTable';
 import DashboardStats from '../components/DashboardStats';
+import FichasTecnicas from '../components/FichasTecnicas';
 import { getAñosDisponibles } from '../services/ventasService';
 
 const Dashboard = ({ user, onLogout }) => {
@@ -57,7 +58,8 @@ const Dashboard = ({ user, onLogout }) => {
   const modules = [
     { id: 'estadisticas', label: 'Estadísticas', icon: PieChart, color: '#8b5cf6' },
     { id: 'lineaBase', label: 'Línea Base', icon: BarChart3, color: '#f97316' },
-    { id: 'monitoring', label: 'Monitoring', icon: FileCheck, color: '#059669' }
+    { id: 'monitoring', label: 'Monitoring', icon: FileCheck, color: '#059669' },
+    { id: 'fichas', label: 'Fichas Técnicas', icon: FileText, color: '#7c3aed' }
   ];
 
   const lineaBaseTabs = [
@@ -90,23 +92,6 @@ const Dashboard = ({ user, onLogout }) => {
           </div>
 
           <div style={styles.headerRight}>
-            <div style={styles.yearSelector}>
-              <Calendar size={16} style={styles.yearIcon} />
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                style={styles.select}
-              >
-                {añosDisponibles.length > 0 ? (
-                  añosDisponibles.map(año => (
-                    <option key={año} value={año}>{año}</option>
-                  ))
-                ) : (
-                  <option value={selectedYear}>{selectedYear}</option>
-                )}
-              </select>
-            </div>
-
             <div style={styles.userSection}>
               <span style={styles.userEmail}>{user?.email}</span>
               <button onClick={onLogout} style={styles.logoutButton}>
@@ -121,27 +106,49 @@ const Dashboard = ({ user, onLogout }) => {
       {/* Module Navigation */}
       <nav style={styles.moduleNav}>
         <div style={styles.moduleContainer}>
-          {modules.map(module => {
-            const Icon = module.icon;
-            const isActive = activeModule === module.id;
-            return (
-              <button
-                key={module.id}
-                onClick={() => handleModuleChange(module.id)}
-                style={{
-                  ...styles.moduleButton,
-                  ...(isActive ? {
-                    backgroundColor: `${module.color}15`,
-                    color: module.color,
-                    borderColor: module.color
-                  } : {})
-                }}
+          <div style={styles.moduleButtons}>
+            {modules.map(module => {
+              const Icon = module.icon;
+              const isActive = activeModule === module.id;
+              return (
+                <button
+                  key={module.id}
+                  onClick={() => handleModuleChange(module.id)}
+                  style={{
+                    ...styles.moduleButton,
+                    ...(isActive ? {
+                      backgroundColor: `${module.color}15`,
+                      color: module.color,
+                      borderColor: module.color
+                    } : {})
+                  }}
+                >
+                  <Icon size={18} />
+                  <span>{module.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Selector de año - solo para Estadísticas y Línea Base */}
+          {(activeModule === 'estadisticas' || activeModule === 'lineaBase') && (
+            <div style={styles.yearSelectorNav}>
+              <Calendar size={16} style={styles.yearIcon} />
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                style={styles.selectNav}
               >
-                <Icon size={18} />
-                <span>{module.label}</span>
-              </button>
-            );
-          })}
+                {añosDisponibles.length > 0 ? (
+                  añosDisponibles.map(año => (
+                    <option key={año} value={año}>{año}</option>
+                  ))
+                ) : (
+                  <option value={selectedYear}>{selectedYear}</option>
+                )}
+              </select>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -216,6 +223,11 @@ const Dashboard = ({ user, onLogout }) => {
             <MonitoringUpload onUploadSuccess={handleUploadSuccess} />
             <MonitoringTable año={selectedYear} refreshTrigger={refreshTrigger} />
           </>
+        )}
+
+        {/* FICHAS TÉCNICAS */}
+        {activeModule === 'fichas' && (
+          <FichasTecnicas />
         )}
       </main>
     </div>
@@ -330,7 +342,31 @@ const styles = {
     margin: '0 auto',
     padding: '0 var(--spacing-lg)',
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  moduleButtons: {
+    display: 'flex',
     gap: 'var(--spacing-md)'
+  },
+  yearSelectorNav: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)',
+    padding: 'var(--spacing-sm) var(--spacing-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-border)'
+  },
+  selectNav: {
+    padding: '4px 8px',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '500',
+    border: 'none',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+    color: 'var(--color-text-primary)',
+    outline: 'none'
   },
   moduleButton: {
     display: 'flex',

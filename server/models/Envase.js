@@ -1,5 +1,63 @@
 const mongoose = require('mongoose');
 
+// Esquema para dimensiones con tolerancias
+const dimensionSchema = new mongoose.Schema({
+  valor: Number,
+  tolerancia: Number
+}, { _id: false });
+
+// Esquema para pesos de componentes del envase
+const pesoComponenteSchema = new mongoose.Schema({
+  nombre: String,
+  peso: dimensionSchema
+}, { _id: false });
+
+// Esquema para especificaciones técnicas del envase
+const especificacionSchema = new mongoose.Schema({
+  // Información general
+  codigoProveedor: String,
+  proveedor: String,
+  descripcion: String,
+
+  // Dimensiones (en mm)
+  dimensiones: {
+    altura: dimensionSchema,
+    diametro: dimensionSchema,
+    ancho: dimensionSchema,
+    largo: dimensionSchema
+  },
+
+  // Peso del envase (en gramos)
+  pesoEnvase: {
+    total: dimensionSchema,
+    componentes: [pesoComponenteSchema]
+  },
+
+  // Capacidad (en litros)
+  capacidadEnvase: {
+    nominal: Number,
+    rebalse: Number
+  },
+
+  // Material y composición
+  materialPrincipal: String,
+  composicionDetallada: String,
+
+  // Información de uso
+  vidaUtil: String,
+  condicionesAlmacenaje: String,
+  usoPrevisto: String,
+
+  // Archivos
+  imagenTecnica: String,
+  pdfOriginal: String,
+
+  // Control
+  version: String,
+  fechaEspecificacion: Date
+}, { _id: false });
+
+// Esquema para componentes de residuos
 const componenteSchema = new mongoose.Schema({
   nombre: {
     type: String,
@@ -44,6 +102,7 @@ const envaseSchema = new mongoose.Schema({
     index: true
   },
   componentes: [componenteSchema],
+  especificaciones: especificacionSchema,
   unidadesVendidas: Number,
   businessUnit: String
 }, {
