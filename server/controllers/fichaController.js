@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const { generarFichaPDF } = require('../utils/pdfGenerator');
 const archiver = require('archiver');
+const s3Service = require('../services/s3Service');
 
 // Obtener todos los SKUs únicos de ventas con estado de ficha
 exports.getSKUsDisponibles = async (req, res) => {
@@ -110,6 +111,8 @@ exports.getFichaBySKU = async (req, res) => {
       nombreComercial: ficha?.nombreComercial || ventaInfo.materialNombre,
       descripcion: ficha?.descripcion || '',
       imagen: ficha?.imagen || null,
+      imagenProducto: ficha?.imagenProducto || null,
+      imagenEnvase: ficha?.imagenEnvase || null,
       categoria,
       capacidad: mapeoInfo?.capacidad || null,
       tipoEnvase: categoria,
@@ -205,10 +208,11 @@ exports.upsertFicha = async (req, res) => {
   }
 };
 
-// Subir imagen de producto
+// Subir imagen de producto a S3 (legacy - mantener por compatibilidad)
 exports.uploadImagen = async (req, res) => {
   try {
     const { sku } = req.params;
+    const { tipo } = req.query; // 'producto' o 'envase'
 
     if (!req.file) {
       return res.status(400).json({
@@ -217,12 +221,41 @@ exports.uploadImagen = async (req, res) => {
       });
     }
 
-    // Guardar referencia a la imagen en la ficha
-    const imagenPath = `/uploads/fichas/${req.file.filename}`;
+    // Verificar que S3 está configurado
+    if (!s3Service.isConfigured()) {
+      return res.status(500).json({
+        success: false,
+        message: 'El servicio de almacenamiento S3 no está configurado'
+      });
+    }
 
+    // Determinar qué campo actualizar
+    const campoImagen = tipo === 'envase' ? 'imagenEnvase' : 'imagenProducto';
+    const carpetaS3 = tipo === 'envase' ? 'envases' : 'productos';
+
+    // Obtener la ficha existente
+    const fichaExistente = await FichaProducto.findOne({ sku });
+    const imagenAnterior = fichaExistente?.[campoImagen];
+
+    // Subir imagen a S3
+    const imagenUrl = await s3Service.uploadImage(
+      req.file.buffer,
+      `${sku}/${carpetaS3}`,
+      req.file.mimetype
+    );
+
+    // Preparar datos de actualización
+    const updateData = { [campoImagen]: imagenUrl };
+
+    // Si es imagen de producto, también actualizar el campo legacy 'imagen'
+    if (tipo !== 'envase') {
+      updateData.imagen = imagenUrl;
+    }
+
+    // Actualizar ficha con la nueva URL
     const ficha = await FichaProducto.findOneAndUpdate(
       { sku },
-      { imagen: imagenPath },
+      updateData,
       { new: true }
     );
 
@@ -236,24 +269,30 @@ exports.uploadImagen = async (req, res) => {
         nombreComercial: ventaInfo?.materialNombre || sku,
         categoria: mapeoInfo?.categoria || ventaInfo?.envase || 'Sin categoría',
         capacidad: mapeoInfo?.capacidad,
-        imagen: imagenPath
+        [campoImagen]: imagenUrl,
+        imagen: tipo !== 'envase' ? imagenUrl : null
       });
       await nuevaFicha.save();
 
       return res.json({
         success: true,
-        message: 'Imagen subida y ficha creada',
-        data: { imagen: imagenPath }
+        message: `Imagen de ${tipo || 'producto'} subida a S3 y ficha creada`,
+        data: { [campoImagen]: imagenUrl }
       });
+    }
+
+    // Eliminar imagen anterior de S3 si existía
+    if (imagenAnterior) {
+      await s3Service.deleteImage(imagenAnterior);
     }
 
     res.json({
       success: true,
-      message: 'Imagen subida exitosamente',
-      data: { imagen: imagenPath }
+      message: `Imagen de ${tipo || 'producto'} subida a S3 exitosamente`,
+      data: { [campoImagen]: imagenUrl }
     });
   } catch (error) {
-    console.error('Error subiendo imagen:', error);
+    console.error('Error subiendo imagen a S3:', error);
     res.status(500).json({
       success: false,
       message: 'Error subiendo imagen',
@@ -276,11 +315,17 @@ exports.deleteFicha = async (req, res) => {
       });
     }
 
-    // Si tenía imagen, eliminarla
+    // Si tenía imagen, eliminarla de S3
     if (ficha.imagen) {
-      const imagePath = path.join(__dirname, '../../client/public', ficha.imagen);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+      // Si es URL de S3, eliminar de S3
+      if (ficha.imagen.includes('s3.') && ficha.imagen.includes('amazonaws.com')) {
+        await s3Service.deleteImage(ficha.imagen);
+      } else {
+        // Compatibilidad: si es path local antiguo, intentar eliminar del filesystem
+        const imagePath = path.join(__dirname, '../../client/public', ficha.imagen);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
       }
     }
 
@@ -376,7 +421,7 @@ exports.generarPDF = async (req, res) => {
       sku,
       nombreComercial: ficha?.nombreComercial || ventaInfo.materialNombre,
       categoria,
-      capacidad: mapeoInfo?.capacidad || null,
+      capacidad: mapeoInfo?.capacidad || ficha?.capacidad || null,
       tipoEnvase: categoria,
       componentes,
       resumen: {
@@ -384,7 +429,11 @@ exports.generarPDF = async (req, res) => {
         esPeligroso,
         domiciliario
       },
-      imagenPath: ficha?.imagen ? path.join(__dirname, '../../client/public', ficha.imagen) : null,
+      // Imágenes de S3
+      imagenProducto: ficha?.imagenProducto || null,
+      imagenEnvase: ficha?.imagenEnvase || null,
+      // Fallback a imagen local legacy
+      imagenPath: ficha?.imagen && !ficha.imagen.includes('s3.') ? path.join(__dirname, '../../client/public', ficha.imagen) : null,
       // Agregar especificaciones técnicas del envase si existen
       especificacionesEnvase: envase?.especificaciones || null
     };

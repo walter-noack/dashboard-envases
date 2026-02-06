@@ -15,8 +15,19 @@ const fichaProductoSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  // Campo legacy - mantener por compatibilidad
   imagen: {
-    type: String, // URL o path relativo
+    type: String,
+    default: null
+  },
+  // Imagen del producto (foto del lubricante, agua, etc.)
+  imagenProducto: {
+    type: String, // URL de S3
+    default: null
+  },
+  // Imagen del envase (botella, balde, bin, etc.)
+  imagenEnvase: {
+    type: String, // URL de S3
     default: null
   },
   // Datos del producto (pueden venir de mapeoSKU o ingresarse manualmente)

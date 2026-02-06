@@ -2,25 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fichaController = require('../controllers/fichaController');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
-// Configurar multer para subir imágenes
-const uploadDir = path.join(__dirname, '../../client/public/uploads/fichas');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, `producto-${req.params.sku}-${uniqueSuffix}${ext}`);
-  }
-});
+// Configurar multer con memoryStorage para S3
+// El archivo queda en memoria (buffer) y se sube directamente a S3
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];

@@ -150,14 +150,14 @@ const FichasTecnicas = () => {
     setSelectedForBatch(visibleSKUs);
   };
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e, tipo = 'producto') => {
     const file = e.target.files[0];
     if (!file) return;
 
     try {
-      const response = await uploadImagen(selectedSKU, file);
+      const response = await uploadImagen(selectedSKU, file, tipo);
       if (response.success) {
-        setMensaje({ type: 'success', text: 'Imagen subida' });
+        setMensaje({ type: 'success', text: `Imagen de ${tipo} subida` });
         verDetalle(selectedSKU);
         cargarSKUs();
       }
@@ -395,28 +395,65 @@ const FichasTecnicas = () => {
                   </div>
                 </div>
 
-                {/* Imagen */}
-                <div style={styles.imagenSection}>
-                  {fichaDetalle.imagen ? (
-                    <img src={fichaDetalle.imagen} alt="Producto" style={styles.productoImg} />
-                  ) : (
-                    <div style={styles.imgPlaceholder}>
-                      <Package size={32} strokeWidth={1} />
-                      <span>Sin imagen</span>
-                    </div>
-                  )}
-                  {editMode && (
-                    <label style={styles.uploadLabel}>
-                      <Upload size={14} />
-                      <span>Subir imagen</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        style={{ display: 'none' }}
+                {/* Imágenes: Producto y Envase */}
+                <div style={styles.imagenesContainer}>
+                  {/* Imagen de Producto */}
+                  <div style={styles.imagenBox}>
+                    <span style={styles.imagenLabel}>Producto</span>
+                    {fichaDetalle.imagenProducto || fichaDetalle.imagen ? (
+                      <img
+                        src={fichaDetalle.imagenProducto || fichaDetalle.imagen}
+                        alt="Producto"
+                        style={styles.productoImg}
                       />
-                    </label>
-                  )}
+                    ) : (
+                      <div style={styles.imgPlaceholder}>
+                        <Package size={32} strokeWidth={1} />
+                        <span>Sin imagen</span>
+                      </div>
+                    )}
+                    {editMode && (
+                      <label style={styles.uploadLabel}>
+                        <Upload size={14} />
+                        <span>Subir</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(e, 'producto')}
+                          style={{ display: 'none' }}
+                        />
+                      </label>
+                    )}
+                  </div>
+
+                  {/* Imagen de Envase */}
+                  <div style={styles.imagenBox}>
+                    <span style={styles.imagenLabel}>Envase</span>
+                    {fichaDetalle.imagenEnvase ? (
+                      <img
+                        src={fichaDetalle.imagenEnvase}
+                        alt="Envase"
+                        style={styles.productoImg}
+                      />
+                    ) : (
+                      <div style={styles.imgPlaceholder}>
+                        <Package size={32} strokeWidth={1} />
+                        <span>Sin imagen</span>
+                      </div>
+                    )}
+                    {editMode && (
+                      <label style={styles.uploadLabel}>
+                        <Upload size={14} />
+                        <span>Subir</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(e, 'envase')}
+                          style={{ display: 'none' }}
+                        />
+                      </label>
+                    )}
+                  </div>
                 </div>
 
                 {/* Composición de residuos */}
@@ -952,11 +989,33 @@ const styles = {
     marginBottom: 'var(--spacing-lg)',
     textAlign: 'center'
   },
+  imagenesContainer: {
+    display: 'flex',
+    gap: 'var(--spacing-lg)',
+    justifyContent: 'center',
+    marginBottom: 'var(--spacing-lg)',
+    flexWrap: 'wrap'
+  },
+  imagenBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'var(--spacing-sm)'
+  },
+  imagenLabel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: '600',
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px'
+  },
   productoImg: {
-    maxWidth: '200px',
-    maxHeight: '200px',
+    maxWidth: '180px',
+    maxHeight: '180px',
     borderRadius: 'var(--radius-md)',
-    border: '1px solid var(--color-border-light)'
+    border: '1px solid var(--color-border-light)',
+    objectFit: 'contain',
+    backgroundColor: 'white'
   },
   imgPlaceholder: {
     display: 'flex',

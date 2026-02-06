@@ -104,13 +104,14 @@ export const descargarPDFLote = async (skus) => {
   }
 };
 
-// Subir imagen de producto
-export const uploadImagen = async (sku, file, onUploadProgress) => {
+// Subir imagen de producto o envase
+// tipo: 'producto' o 'envase'
+export const uploadImagen = async (sku, file, tipo = 'producto', onUploadProgress) => {
   try {
     const formData = new FormData();
     formData.append('imagen', file);
 
-    const response = await api.post(`/fichas/${sku}/imagen`, formData, {
+    const response = await api.post(`/fichas/${sku}/imagen?tipo=${tipo}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
