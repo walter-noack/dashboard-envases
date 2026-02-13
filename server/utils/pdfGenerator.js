@@ -3,7 +3,20 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
-const sharp = require('sharp');
+
+// Sharp se carga de forma diferida para evitar errores en Lambda cold start
+let sharp = null;
+const getSharp = () => {
+  if (!sharp) {
+    try {
+      sharp = require('sharp');
+    } catch (e) {
+      console.warn('Sharp no disponible, las imágenes WebP no serán convertidas:', e.message);
+      sharp = null;
+    }
+  }
+  return sharp;
+};
 
 const LOGO_PATH = path.join(__dirname, '../../client/public/logocopec.png');
 
@@ -44,7 +57,10 @@ const descargarImagen = (url) => {
           // Detectar si es WebP y convertir a PNG
           if (url.toLowerCase().includes('.webp') ||
               response.headers['content-type']?.includes('webp')) {
-            buffer = await sharp(buffer).png().toBuffer();
+            const sharpLib = getSharp();
+            if (sharpLib) {
+              buffer = await sharpLib(buffer).png().toBuffer();
+            }
           }
 
           resolve(buffer);
@@ -77,7 +93,10 @@ const generarFichaPDF = async (fichaData) => {
     try {
       let buffer = fs.readFileSync(fichaData.imagenPath);
       if (fichaData.imagenPath.toLowerCase().includes('.webp')) {
-        buffer = await sharp(buffer).png().toBuffer();
+        const sharpLib = getSharp();
+        if (sharpLib) {
+          buffer = await sharpLib(buffer).png().toBuffer();
+        }
       }
       imagenProductoBuffer = buffer;
     } catch (e) {

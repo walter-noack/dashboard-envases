@@ -1,11 +1,13 @@
 const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
 // Crear cliente S3
+// Usa S3_ACCESS_KEY_ID en producción (Lambda) para evitar conflicto con AWS CLI
+// Fallback a AWS_ACCESS_KEY_ID para desarrollo local
 const s3Client = new S3Client({
   region: process.env.AWS_S3_REGION || 'us-east-1',
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    accessKeyId: process.env.S3_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY
   }
 });
 
@@ -61,7 +63,9 @@ async function deleteImage(url) {
  * @returns {boolean}
  */
 function isConfigured() {
-  return !!(BUCKET && process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY);
+  const accessKey = process.env.S3_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
+  const secretKey = process.env.S3_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
+  return !!(BUCKET && accessKey && secretKey);
 }
 
 module.exports = {
